@@ -1,0 +1,95 @@
+{
+    "clangd.checkUpdates": true,
+    "clangd.semanticHighlighting": true,
+    "cmake.cmakePath": {
+      "type": "string",
+      "default": "cmake",
+      "description": "The path to CMake generator executable"
+    },
+    "explorer.keyMappingMode": "none",
+    "explorer.openAction.strategy": "split",
+    "explorer.file.column.indent.indentLine": true,
+    "explorer.file.showHiddenFiles": false,
+    "explorer.icon.enableNerdfont": true,
+    "explorer.file.column.git.showIgnored": true,
+    "explorer.keyMappings": {
+	"<space>": "toggleSelection",
+	"m": "actionMenu",
+
+	"k": "nodeNext",
+	"i": "nodePrev",
+	"j": "expand",
+	"l": "collapse",
+	"e": ["expanded?", "collapse", "expand"],
+	"o": ["expandable?", "expand", "open"],
+	"gj": "expandRecursive",
+	"gl": "collapseRecursive",
+	"gi": "expandablePrev",
+	"gk": "expandableNext",
+
+	"<cr>": ["expandable?", "cd", "open"],
+
+	"s": "open:split",
+	"S": "open:vsplit",
+	"t": "open:tab",
+	"I": "gotoParent",
+
+	"yp": "copyFilepath",
+	"yn": "copyFilename",
+	"yf": "copyFile",
+	"c": "cutFile",
+	"p": "pasteFile",
+	"d": "delete",
+	"D": "deleteForever",
+
+	"af": "addFile",
+	"ad": "addDirectory",
+	"r": "rename",
+
+	"h": "toggleHidden",
+	"R": "refresh",
+
+	"?": "help",
+	"q": "quit",
+	"<esc>": "esc",
+	"x": "systemExecute",
+	"gd": "listDrive",
+
+	"f": "search",
+	"F": "searchRecursive",
+
+	"gf": "gotoSource:file",
+	"gb": "gotoSource:buffer",
+
+	"[[": "sourcePrev",
+	"]]": "sourceNext",
+
+	"[d": "diagnosticPrev",
+	"]d": "diagnosticNext",
+
+	"[c": "gitPrev",
+	"]c": "gitNext",
+	"<<": "gitStage",
+	">>": "gitUnstage"
+    },
+    "template.email": {
+      "type": "string",
+      "default": null,
+      "description": "If null, will use the value from `git config --global user.email`"
+    },
+    "template.username": {
+      "type": "string",
+      "default": null,
+      "description": "If null, will use the value from `git config --global user.username`"
+    },
+    "template.license": {
+	"type": "string",
+	"default": "MIT",
+	"description": "License of source files"
+    },
+    "template.templatesDirectory": {
+	"type": "string",
+	"default": null,
+	"description": "Directory of template files"
+    }
+}
