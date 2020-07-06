@@ -136,14 +136,8 @@ noremap <LEADER>K <C-w>J
 noremap <LEADER>s :%s///g<left><left><left>
 " switch upper or lower
 noremap <LEADER>u ~h
-" open a terminal
-noremap <LEADER>T :set splitbelow<CR>:term<CR>
 " cute font
 noremap <LEADER>fr :r !figlet<SPACE>
-" lazygit
-noremap <LEADER>gi :terminal lazygit<CR>
-" oldfile
-" noremap <LEADER>o :browse oldfile<CR>
 " go to next buffer
 noremap <LEADER>bn :bnext<CR>
 " go to previous buffer
@@ -259,6 +253,26 @@ noremap <F6> :AsyncTask file-build<CR>
 noremap <F7> :call FileRun()<CR>
 noremap <LEADER><F6> :AsyncTask project-build<CR>
 noremap <LEADER><F7> :AsyncTask project-run<CR>
+
+" make task run on floaterm
+function! s:runner_proc(opts)
+  let curr_bufnr = floaterm#curr()
+  if has_key(a:opts, 'silent') && a:opts.silent == 1
+    FloatermHide!
+  endif
+  let cmd = 'cd ' . shellescape(getcwd())
+  call floaterm#terminal#send(curr_bufnr, [cmd])
+  call floaterm#terminal#send(curr_bufnr, [a:opts.cmd])
+  stopinsert
+  if &filetype == 'floaterm' && g:floaterm_autoinsert
+    call floaterm#util#startinsert()
+  endif
+endfunction
+
+let g:asyncrun_runner = get(g:, 'asyncrun_runner', {})
+let g:asyncrun_runner.floaterm = function('s:runner_proc')
+let g:asynctasks_term_pos = 'floaterm'
+
 " Compile function
 func! FileRun()
 	exec "w"
@@ -288,9 +302,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'francoiscabrol/ranger.vim'
-" nvim need this for ranger.vim
-Plug 'rbgrouleff/bclose.vim'
 Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python --enable-go'}
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'dhruvasagar/vim-table-mode'
@@ -307,6 +318,7 @@ Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'lervag/vimtex', { 'for': 'tex' }
 Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'voldikss/vim-floaterm'
 
 " themes
 Plug 'joshdick/onedark.vim'
@@ -364,6 +376,8 @@ inoremap <silent><expr> <Tab>
       \ coc#refresh()
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+" common operation
+noremap <LEADER>c :CocComand<CR>
 " coc-clangd
 noremap gh :CocCommand clangd.switchSourceHeader<CR>
 " coc-explorer
@@ -448,13 +462,6 @@ let g:UltiSnipsJumpForwardTrigger="<C-d>"
 let g:UltiSnipsJumpBackwardTrigger="<C-a>"
 let g:UltiSnipsSnippetDirectories = [$HOME.'.config/nvim/Ultisnips/', $HOME.'.config/nvim/plugged/vim-snippets/UltiSnips/']
 let g:UltiSnipsEditSplit="horizontal"
-
-" ranger
-noremap <LEADER>w :RangerNewTab<CR>
-" add this line if you use NERDTree
-let g:NERDTreeHijackNetrw = 0
-" open ranger when vim open a directory
-let g:ranger_replace_netrw = 1
 
 " vimspector
 nnoremap <F3> :VimspectorReset<CR>
@@ -603,6 +610,12 @@ let g:asyncrun_rootmarks = ['.git', '.svn', '.root', '.project', '.hg']
 let g:vimtex_mappings_enabled = 0
 let g:vimtex_cache_root = '~/.cache/nvim/vimtex'
 let g:vimtex_view_method = 'zathura'
+
+" floaterm
+let g:floaterm_keymap_toggle = '<F1>'
+" lazygit
+noremap <LEADER>gi :FloatermNew lazygit<CR>
+noremap <LEADER>R :FloatermNer ranger<CR>
 
 unmap <TAB>
 
