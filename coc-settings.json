@@ -1,11 +1,50 @@
 {
+    "coc.preferences.hoverTarget": "float",
+    "coc.preferences.snippets.enable": true,
+    "coc.preferences.snippetStatusText": "Ⓢ ",
+    "coc.preferences.colorSupport": true,
+    "coc.preferences.enableFloatHighlight": true,
+    "coc.preferences.extensionUpdateCheck": "daily",
+    "suggest.noselect": false,
+    "suggest.autoTrigger": "always",
+    "suggest.triggerAfterInsertEnter": true,
+    "suggest.minTriggerInputLength": 1,
+    "suggest.enablePreview": true,
+    "suggest.snippetIndicator": "",
+    "suggest.timeout": 5000,
+    "suggest.echodocSupport": true,
+    "suggest.floatEnable": true,
+    "suggest.completionItemKindLabels": {
+		    "class": "\uf0e8",
+		    "color": "\ue22b",
+		    "constant": "\uf8fe",
+		    "default": "\uf29c",
+		    "enum": "\uf435",
+		    "enumMember": "\uf02b",
+		    "event": "\ufacd",
+		    "field": "\uf93d",
+		    "file": "\uf723",
+		    "folder": "\uf115",
+		    "function": "\u0192",
+		    "interface": "\uf417",
+		    "keyword": "\uf1de",
+		    "method": "\uf6a6",
+		    "module": "\uf40d",
+		    "operator": "\uf915",
+		    "property": "\ue624",
+		    "reference": "\ufa46",
+		    "snippet": "\ue60b",
+		    "struct": "\ufb44",
+		    "text": "\ue612",
+		    "typeParameter": "\uf728",
+		    "unit": "\uf475",
+		    "value": "\uf89f",
+		    "variable": "\ue71b"
+	    },
     "clangd.checkUpdates": true,
     "clangd.semanticHighlighting": true,
-    "cmake.cmakePath": {
-      "type": "string",
-      "default": "cmake",
-      "description": "The path to CMake generator executable"
-    },
+    "python.jediEnabled": false,
+    "python.autoComplete.addBrackets": true,
     "explorer.keyMappingMode": "none",
     "explorer.openAction.strategy": "split",
     "explorer.file.column.indent.indentLine": true,
@@ -71,25 +110,5 @@
 	"]c": "gitNext",
 	"<<": "gitStage",
 	">>": "gitUnstage"
-    },
-    "template.email": {
-      "type": "string",
-      "default": null,
-      "description": "If null, will use the value from `git config --global user.email`"
-    },
-    "template.username": {
-      "type": "string",
-      "default": null,
-      "description": "If null, will use the value from `git config --global user.username`"
-    },
-    "template.license": {
-	"type": "string",
-	"default": "MIT",
-	"description": "License of source files"
-    },
-    "template.templatesDirectory": {
-	"type": "string",
-	"default": null,
-	"description": "Directory of template files"
     }
 }

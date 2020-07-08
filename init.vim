@@ -351,6 +351,7 @@ endif
 
 " coc.nvim
 let g:coc_global_extensions = [
+    \ 'coc-json',
     \ 'coc-clangd',
     \ 'coc-cmake',
     \ 'coc-python',
@@ -378,6 +379,18 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 " common operation
 noremap <LEADER>c :CocComand<CR>
+nmap gn <Plug>(coc-diagnostic-next)
+nmap gd <Plug>(coc-definition)
+nmap gD <Plug>(coc-declaration)
+nmap gi <Plug>(coc-implementation)
+nmap gt <Plug>(coc-type-definition)
+nmap gr <Plug>(coc-references)
+nmap gR <Plug>(coc-rename)
+nmap gl <Plug>(coc-openlink)
+nmap goi <Plug>(coc-funcobj-i)
+nmap goa <Plug>(coc-funcobj-a)
+let g:coc_snippet_next = '<C-k>'
+let g:coc_snippet_prev = '<C-i>'
 " coc-clangd
 noremap gh :CocCommand clangd.switchSourceHeader<CR>
 " coc-explorer
@@ -385,7 +398,7 @@ noremap <LEADER>n :CocCommand explorer<CR>
 " coc-highlight
 autocmd CursorHold * silent call CocActionAsync('highlight')
 " coc-yank
-nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+nnoremap <silent> <LEADER>y  :CocList -A --normal yank<CR>
 
 " rainbow
 let g:rainbow_active = 1
