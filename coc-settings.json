@@ -45,6 +45,13 @@
     "clangd.semanticHighlighting": true,
     "python.jediEnabled": false,
     "python.autoComplete.addBrackets": true,
+    "yaml.format.enable": true,
+    "snippets.ultisnips.directories": [
+	    "~/.config/nvim/Ultisnips/",
+	    "~/.config/nvim/plugged/vim-snippets/UltiSnips/"
+    ],
+    "yank.highlight.duration": 100,
+    "yank.enableCompletion": false,
     "explorer.keyMappingMode": "none",
     "explorer.openAction.strategy": "split",
     "explorer.file.column.indent.indentLine": true,

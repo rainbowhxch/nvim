@@ -275,16 +275,16 @@ let g:asynctasks_term_pos = 'floaterm'
 
 " Compile function
 func! FileRun()
-	exec "w"
-	if &filetype == 'markdown'
-	    exec "MarkdownPreview"
-	elseif &filetype == 'tex'
-	    silent! exec "VimtexStop"
-	    silent! exec "VimtexCompile"
-	else
-	    set splitbelow
-	    exec "AsyncTask file-run"
-	endif
+    exec "w"
+    if &filetype == 'markdown'
+	exec "MarkdownPreview"
+    elseif &filetype == 'tex'
+	silent! exec "VimtexStop"
+	silent! exec "VimtexCompile"
+    else
+	set splitbelow
+	exec "AsyncTask file-run"
+    endif
 endfunc
 
 call plug#begin('~/.config/nvim/plugged')
@@ -312,7 +312,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'easymotion/vim-easymotion'
 Plug 'mg979/vim-xtabline'
 Plug 'junegunn/goyo.vim'
-Plug 'mhinz/vim-signify'
+Plug 'airblade/vim-gitgutter'
 Plug 'lambdalisue/suda.vim'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
@@ -345,22 +345,33 @@ let g:onedark_terminal_italics = 1
 " let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#whitespace#enabled = 0
 if !exists('g:airline_symbols')
   let g:airline_symbol = {}
 endif
+function! s:update_git_status()
+	      let g:airline_section_b = "%{get(g:,'coc_git_status','')}"
+endfunction
+let g:airline_section_b = "%{get(g:,'coc_git_status','')}"
+autocmd User CocGitStatusChange call s:update_git_status()
 
 " coc.nvim
 let g:coc_global_extensions = [
+    \ 'coc-html',
     \ 'coc-json',
+    \ 'coc-xml',
+    \ 'coc-yaml',
     \ 'coc-clangd',
     \ 'coc-cmake',
     \ 'coc-python',
     \ 'coc-pyright',
     \ 'coc-vimlsp',
     \ 'coc-sh',
-    \ 'coc-html',
-    \ 'coc-markdownlint',
+    \ 'coc-vimtex',
     \ 'coc-sql',
+    \ 'coc-git',
+    \ 'coc-snippets',
+    \ 'coc-template',
     \ 'coc-explorer',
     \ 'coc-floaterm',
     \ 'coc-highlight',
@@ -371,14 +382,14 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
-inoremap <silent><expr> <Tab>
+inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 " common operation
-noremap <LEADER>c :CocComand<CR>
+noremap <LEADER>cc :CocCommand<CR>
 nmap gn <Plug>(coc-diagnostic-next)
 nmap gd <Plug>(coc-definition)
 nmap gD <Plug>(coc-declaration)
@@ -389,10 +400,24 @@ nmap gR <Plug>(coc-rename)
 nmap gl <Plug>(coc-openlink)
 nmap goi <Plug>(coc-funcobj-i)
 nmap goa <Plug>(coc-funcobj-a)
-let g:coc_snippet_next = '<C-k>'
-let g:coc_snippet_prev = '<C-i>'
+nnoremap <silent> g; :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 " coc-clangd
 noremap gh :CocCommand clangd.switchSourceHeader<CR>
+" coc-snippets
+imap <C-d> <Plug>(coc-snippets-expand)
+vmap <C-l> <Plug>(coc-snippets-select)
+let g:coc_snippet_prev = '<c-j>'
+let g:coc_snippet_next = '<c-l>'
+imap <C-l> <Plug>(coc-snippets-expand-jump)
+" coc-template
+nmap <LEADER>tp <Plug>(coc-template)
 " coc-explorer
 noremap <LEADER>n :CocCommand explorer<CR>
 " coc-highlight
@@ -471,8 +496,8 @@ noremap <LEADER>fM :Maps<CR>
 
 " ultisnips
 let g:UltiSnipsExpandTrigger="<C-d>"
-let g:UltiSnipsJumpForwardTrigger="<C-d>"
-let g:UltiSnipsJumpBackwardTrigger="<C-a>"
+let g:UltiSnipsJumpForwardTrigger="<C-j>"
+let g:UltiSnipsJumpBackwardTrigger="<C-l>"
 let g:UltiSnipsSnippetDirectories = [$HOME.'.config/nvim/Ultisnips/', $HOME.'.config/nvim/plugged/vim-snippets/UltiSnips/']
 let g:UltiSnipsEditSplit="horizontal"
 
@@ -486,14 +511,14 @@ nnoremap <F10> :call vimspector#StepOver()<CR>
 nnoremap <F11> :call vimspector#StepInto()<CR>
 nnoremap <F12> :call vimspector#StepOut()<CR>
 function! s:read_template_into_buffer(template)
-	" has to be a function to avoid the extra space fzf#run insers otherwise
-	execute '0r ~/.vim/vimspector_json_templation/'.a:template
+    " has to be a function to avoid the extra space fzf#run insers otherwise
+    execute '0r ~/.vim/vimspector_json_templation/'.a:template
 endfunction
 command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
-			\   'source': 'ls -1 ~/.vim/vimspector_json_templation',
-			\   'down': 20,
-			\   'sink': function('<sid>read_template_into_buffer')
-			\ })
+    \   'source': 'ls -1 ~/.vim/vimspector_json_templation',
+    \   'down': 20,
+    \   'sink': function('<sid>read_template_into_buffer')
+    \ })
 noremap <leader>vs :tabe .vimspector.json<CR>:LoadVimSpectorJsonTemplate<CR>
 sign define vimspectorBP text=🔴 texthl=Normal
 sign define vimspectorBPDisabled text=🔵 texthl=Normal
@@ -541,7 +566,7 @@ let g:SignatureMap = {
     \ 'ToggleMarkAtLine'   :  "h.",
     \ 'PurgeMarksAtLine'   :  "h-",
     \ 'DeleteMark'         :  "dh",
-    \ 'PurgeMarks'         :  "h<Space>",
+    \ 'PurgeMarks'         :  "h<SPACE>",
     \ 'PurgeMarkers'       :  "h<BS>",
     \ 'GotoNextLineAlpha'  :  "']",
     \ 'GotoPrevLineAlpha'  :  "'[",
@@ -606,6 +631,13 @@ let g:xtabline_settings.icons = {
   \'flag': '🏁',
   \}
 
+" gitgutter
+let g:gitgutter_map_keys = 0
+nmap <LEADER>hn <Plug>(GitGutterNextHunk)
+nmap <LEADER>hp <Plug>(GitGutterPrevHunk)
+nmap <LEADER>hs <Plug>(GitGutterStageHunk)
+nmap <LEADER>hu <Plug>(GitGutterUndoHunk)
+
 " Goyo
 nnoremap <LEADER>gy :Goyo<CR>
 let g:goyo_width = '80'
@@ -626,6 +658,7 @@ let g:vimtex_view_method = 'zathura'
 
 " floaterm
 let g:floaterm_keymap_toggle = '<F1>'
+
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>
 noremap <LEADER>R :FloatermNer ranger<CR>
