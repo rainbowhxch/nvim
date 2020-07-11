@@ -322,9 +322,9 @@ Plug 'voldikss/vim-floaterm'
 
 " themes
 Plug 'joshdick/onedark.vim'
-" Plug 'arcticicestudio/nord-vim'
-" Plug 'dracula/vim', { 'as': 'dracula' }
-" Plug 'connorholyday/vim-snazzy'
+Plug 'arcticicestudio/nord-vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'connorholyday/vim-snazzy'
 
 " keep on last position
 Plug 'ryanoasis/vim-devicons'
@@ -333,7 +333,7 @@ call plug#end()
 
 " vim colorscheme
 colorscheme onedark
-"onedark
+" onedark
 let g:onedark_terminal_italics = 1
 
 " nord
