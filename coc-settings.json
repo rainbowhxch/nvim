@@ -5,7 +5,7 @@
     "coc.preferences.colorSupport": true,
     "coc.preferences.enableFloatHighlight": true,
     "coc.preferences.extensionUpdateCheck": "daily",
-    "suggest.noselect": true,
+    "suggest.noselect": false,
     "suggest.autoTrigger": "always",
     "suggest.triggerAfterInsertEnter": true,
     "suggest.minTriggerInputLength": 1,

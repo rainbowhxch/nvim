@@ -383,9 +383,9 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ coc#refresh()
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 " common operation
@@ -512,10 +512,10 @@ nnoremap <F11> :call vimspector#StepInto()<CR>
 nnoremap <F12> :call vimspector#StepOut()<CR>
 function! s:read_template_into_buffer(template)
     " has to be a function to avoid the extra space fzf#run insers otherwise
-    execute '0r ~/.vim/vimspector_json_templation/'.a:template
+    execute '0r ~/.config/nvim/vimspector_json_templation/'.a:template
 endfunction
 command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
-    \   'source': 'ls -1 ~/.vim/vimspector_json_templation',
+    \   'source': 'ls -1 ~/.config/nvim/vimspector_json_templation',
     \   'down': 20,
     \   'sink': function('<sid>read_template_into_buffer')
     \ })
