@@ -5,6 +5,7 @@
     "coc.preferences.colorSupport": true,
     "coc.preferences.enableFloatHighlight": true,
     "coc.preferences.extensionUpdateCheck": "daily",
+    "coc.source.vimtex.enable": true,
     "suggest.noselect": false,
     "suggest.autoTrigger": "always",
     "suggest.triggerAfterInsertEnter": true,
