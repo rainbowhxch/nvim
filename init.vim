@@ -50,7 +50,7 @@ set ignorecase
 set smartcase
 set whichwrap=b,s
 set shiftwidth=4
-set tabstop=8
+set tabstop=4
 set softtabstop=4
 set list
 set listchars=tab:▸\ ,trail:▫
@@ -195,29 +195,40 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'lervag/vimtex', { 'for': 'tex' }
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'voldikss/vim-floaterm'
-Plug 'metakirby5/codi.vim'
 Plug 'wellle/targets.vim'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'andymass/vim-matchup'
+Plug 'osyo-manga/vim-anzu'
+Plug 'wakatime/vim-wakatime'
 
 " themes
 Plug 'joshdick/onedark.vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'connorholyday/vim-snazzy'
-
-" keep on last position
-Plug 'ryanoasis/vim-devicons'
+Plug 'arzg/vim-colors-xcode'
 
 call plug#end()
 
 " vim colorscheme
 colorscheme onedark
+
 " onedark
 let g:onedark_terminal_italics = 1
 
 " nord
-" let g:nord_italic = 1
-" let g:nord_italic_comments = 1
-" let g:nord_underline = 1
+let g:nord_italic = 1
+let g:nord_italic_comments = 1
+let g:nord_underline = 1
+
+" xcode
+" get italic comments
+augroup vim-colors-xcode
+    autocmd!
+augroup END
+
+autocmd vim-colors-xcode ColorScheme * hi Comment        cterm=italic gui=italic
+autocmd vim-colors-xcode ColorScheme * hi SpecialComment cterm=italic gui=italic
 
 " airline
 " let g:airline_powerline_fonts = 1
@@ -277,8 +288,6 @@ nmap gt <Plug>(coc-type-definition)
 nmap gr <Plug>(coc-references)
 nmap gR <Plug>(coc-rename)
 nmap gl <Plug>(coc-openlink)
-nmap goi <Plug>(coc-funcobj-i)
-nmap goa <Plug>(coc-funcobj-a)
 nnoremap <silent> g; :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -540,9 +549,20 @@ let g:floaterm_keymap_toggle = '<F1>'
 let g:targets_aiAI = 'amAM'
 let g:targets_mapped_aiAI = 'aiAI'
 
+" vim-anzu
+nmap n <Plug>(anzu-n-with-echo)
+nmap N <Plug>(anzu-N-with-echo)
+nmap * <Plug>(anzu-star-with-echo)
+nmap # <Plug>(anzu-sharp-with-echo)
+
+" vim-matchup
+let g:matchup_mappings_enabled = 0
+nmap % <plug>(matchup-%)
+nmap goa v<plug>(matchup-%)
+
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>
-noremap <LEADER>R :FloatermNer ranger<CR>
+noremap <LEADER>R :FloatermNew ranger<CR>
 
 """""""""""""""""""""""""""""""""""""""""
 "  some mappings about common operation "

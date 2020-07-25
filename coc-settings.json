@@ -53,6 +53,7 @@
 	    "~/.config/nvim/Ultisnips/",
 	    "~/.config/nvim/plugged/vim-snippets/UltiSnips/"
     ],
+	"xml.java.home": "/usr/lib/jvm/java-14-openjdk",
     "yank.highlight.duration": 100,
     "yank.enableCompletion": false,
     "explorer.keyMappingMode": "none",
