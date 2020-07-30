@@ -46,7 +46,7 @@
 	    },
     "clangd.checkUpdates": true,
     "clangd.semanticHighlighting": true,
-    "python.jediEnabled": false,
+    "python.jediEnabled": true,
     "python.autoComplete.addBrackets": true,
     "yaml.format.enable": true,
     "snippets.ultisnips.directories": [

@@ -50,12 +50,13 @@ set ignorecase
 set smartcase
 set whichwrap=b,s
 set shiftwidth=4
-set tabstop=4
+set tabstop=8
 set softtabstop=4
 set list
 set listchars=tab:▸\ ,trail:▫
 set scrolloff=6
-set cindent
+set autoindent
+set smartindent
 set backspace=indent,eol,start
 set foldmethod=indent
 set foldlevel=99
@@ -66,12 +67,9 @@ set laststatus=2
 set updatetime=100
 set updatecount=100
 set autochdir
-set nolangremap
 set indentexpr=
-set ttyfast
 set lazyredraw
 set virtualedit=block
-set completeopt=menuone
 set termguicolors
 set noshowmode
 " shutdown the error bell
@@ -116,6 +114,8 @@ let &t_ut = ''
 " set vim-specific sequences for RGB colors
 " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+let &t_TI = "\<Esc>[>4;2m"
+let &t_TE = "\<Esc>[>4;m"
 
 " go back the last line where you quit vim
 autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
@@ -199,7 +199,6 @@ Plug 'wellle/targets.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andymass/vim-matchup'
 Plug 'osyo-manga/vim-anzu'
-Plug 'wakatime/vim-wakatime'
 
 " themes
 Plug 'joshdick/onedark.vim'
@@ -207,11 +206,13 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'connorholyday/vim-snazzy'
 Plug 'arzg/vim-colors-xcode'
+Plug 'ayu-theme/ayu-vim'
+Plug 'morhetz/gruvbox'
 
 call plug#end()
 
-" vim colorscheme
-colorscheme onedark
+" ayu
+let ayucolor = "mirage"
 
 " onedark
 let g:onedark_terminal_italics = 1
@@ -222,13 +223,18 @@ let g:nord_italic_comments = 1
 let g:nord_underline = 1
 
 " xcode
-" get italic comments
 augroup vim-colors-xcode
     autocmd!
 augroup END
 
 autocmd vim-colors-xcode ColorScheme * hi Comment        cterm=italic gui=italic
 autocmd vim-colors-xcode ColorScheme * hi SpecialComment cterm=italic gui=italic
+
+" gruvbox
+let g:gruvbox_italic=1
+
+" vim colorscheme
+colorscheme gruvbox
 
 " airline
 " let g:airline_powerline_fonts = 1
@@ -279,7 +285,7 @@ inoremap <silent><expr> <TAB>
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 " common operation
-noremap <LEADER>cc :CocCommand<CR>
+noremap <LEADER>cd :CocCommand<CR>
 nmap gn <Plug>(coc-diagnostic-next)
 nmap gd <Plug>(coc-definition)
 nmap gD <Plug>(coc-declaration)
@@ -308,8 +314,6 @@ imap <C-l> <Plug>(coc-snippets-expand-jump)
 nmap <LEADER>tp <Plug>(coc-template)
 " coc-explorer
 noremap <LEADER>n :CocCommand explorer<CR>
-" coc-highlight
-autocmd CursorHold * silent call CocActionAsync('highlight')
 " coc-yank
 nnoremap <silent> <LEADER>y  :CocList -A --normal yank<CR>
 
@@ -540,6 +544,7 @@ let g:asyncrun_rootmarks = ['.git', '.svn', '.root', '.project', '.hg']
 " vimtex
 let g:vimtex_mappings_enabled = 0
 let g:vimtex_cache_root = s:vim_cachedir. 'vimtex'
+let g:vimtex_quickfix_latexlog = {'default' : 0}
 let g:vimtex_view_method = 'zathura'
 
 " floaterm
@@ -557,6 +562,7 @@ nmap # <Plug>(anzu-sharp-with-echo)
 
 " vim-matchup
 let g:matchup_mappings_enabled = 0
+let g:matchup_override_vimtex = 1
 nmap % <plug>(matchup-%)
 nmap goa v<plug>(matchup-%)
 
@@ -706,12 +712,6 @@ noremap <F6> :AsyncTask file-build<CR>
 noremap <F7> :call FileRun()<CR>
 noremap <LEADER><F6> :AsyncTask project-build<CR>
 noremap <LEADER><F7> :AsyncTask project-run<CR>
-
-
-"""""""""""""""""""""""""""
-"    unmap some keymap    "
-"""""""""""""""""""""""""""
-unmap <TAB>
 
 """""""""""""""""""""""""""""""
 "    auto executed commands   "
