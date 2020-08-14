@@ -56,6 +56,9 @@
 	"xml.java.home": "/usr/lib/jvm/java-14-openjdk",
     "yank.highlight.duration": 100,
     "yank.enableCompletion": false,
+    "translator.engines": [
+    	"youdao"
+    ],
     "explorer.keyMappingMode": "none",
     "explorer.openAction.strategy": "split",
     "explorer.file.column.indent.indentLine": true,

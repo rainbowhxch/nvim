@@ -199,6 +199,9 @@ Plug 'wellle/targets.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andymass/vim-matchup'
 Plug 'osyo-manga/vim-anzu'
+Plug 'tpope/vim-repeat'
+" Plug 'brooth/far.vim'
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 
 " themes
 Plug 'joshdick/onedark.vim'
@@ -208,6 +211,7 @@ Plug 'connorholyday/vim-snazzy'
 Plug 'arzg/vim-colors-xcode'
 Plug 'ayu-theme/ayu-vim'
 Plug 'morhetz/gruvbox'
+Plug 'nerdypepper/agila.vim'
 
 call plug#end()
 
@@ -234,7 +238,7 @@ autocmd vim-colors-xcode ColorScheme * hi SpecialComment cterm=italic gui=italic
 let g:gruvbox_italic=1
 
 " vim colorscheme
-colorscheme gruvbox
+colorscheme agila
 
 " airline
 " let g:airline_powerline_fonts = 1
@@ -272,6 +276,7 @@ let g:coc_global_extensions = [
     \ 'coc-highlight',
     \ 'coc-yank',
     \ 'coc-calc',
+    \ 'coc-translator',
     \ 'coc-tasks']
 "" use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
@@ -316,6 +321,9 @@ nmap <LEADER>tp <Plug>(coc-template)
 noremap <LEADER>n :CocCommand explorer<CR>
 " coc-yank
 nnoremap <silent> <LEADER>y  :CocList -A --normal yank<CR>
+" coc-translator
+nmap <LEADER>ts <Plug>(coc-translator-p)
+vmap <LEADER>ts <Plug>(coc-translator-pv)
 
 " rainbow
 let g:rainbow_active = 1
@@ -565,6 +573,9 @@ let g:matchup_mappings_enabled = 0
 let g:matchup_override_vimtex = 1
 nmap % <plug>(matchup-%)
 nmap goa v<plug>(matchup-%)
+
+" vim-which-key
+nnoremap <silent> <LEADER> :WhichKey '<SPACE>'<CR>
 
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>
