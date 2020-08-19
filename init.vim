@@ -50,7 +50,7 @@ set ignorecase
 set smartcase
 set whichwrap=b,s
 set shiftwidth=4
-set tabstop=8
+set tabstop=4
 set softtabstop=4
 set list
 set listchars=tab:▸\ ,trail:▫
@@ -176,6 +176,7 @@ Plug 'mhinz/vim-startify'
 Plug 'preservim/nerdcommenter'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'antoinemadec/coc-fzf'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python --enable-go'}
@@ -200,7 +201,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andymass/vim-matchup'
 Plug 'osyo-manga/vim-anzu'
 Plug 'tpope/vim-repeat'
-" Plug 'brooth/far.vim'
+Plug 'brooth/far.vim'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 
 " themes
@@ -238,7 +239,7 @@ autocmd vim-colors-xcode ColorScheme * hi SpecialComment cterm=italic gui=italic
 let g:gruvbox_italic=1
 
 " vim colorscheme
-colorscheme agila
+colorscheme gruvbox
 
 " airline
 " let g:airline_powerline_fonts = 1
@@ -277,6 +278,7 @@ let g:coc_global_extensions = [
     \ 'coc-yank',
     \ 'coc-calc',
     \ 'coc-translator',
+	\ 'coc-lists',
     \ 'coc-tasks']
 "" use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
@@ -324,6 +326,9 @@ nnoremap <silent> <LEADER>y  :CocList -A --normal yank<CR>
 " coc-translator
 nmap <LEADER>ts <Plug>(coc-translator-p)
 vmap <LEADER>ts <Plug>(coc-translator-pv)
+
+" fzf&coc.nvim
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
 " rainbow
 let g:rainbow_active = 1
@@ -466,18 +471,18 @@ let g:SignatureMap = {
     \ 'DeleteMark'         :  "dh",
     \ 'PurgeMarks'         :  "h<SPACE>",
     \ 'PurgeMarkers'       :  "h<BS>",
-    \ 'GotoNextLineAlpha'  :  "']",
-    \ 'GotoPrevLineAlpha'  :  "'[",
-    \ 'GotoNextSpotAlpha'  :  "`]",
-    \ 'GotoPrevSpotAlpha'  :  "`[",
-    \ 'GotoNextLineByPos'  :  "]'",
-    \ 'GotoPrevLineByPos'  :  "['",
-    \ 'GotoNextSpotByPos'  :  "]`",
-    \ 'GotoPrevSpotByPos'  :  "[`",
+    \ 'GotoNextLineAlpha'  :  "",
+    \ 'GotoPrevLineAlpha'  :  "",
+    \ 'GotoNextSpotAlpha'  :  "",
+    \ 'GotoPrevSpotAlpha'  :  "",
+    \ 'GotoNextLineByPos'  :  "",
+    \ 'GotoPrevLineByPos'  :  "",
+    \ 'GotoNextSpotByPos'  :  "",
+    \ 'GotoPrevSpotByPos'  :  "",
     \ 'GotoNextMarker'     :  "]-",
     \ 'GotoPrevMarker'     :  "[-",
-    \ 'GotoNextMarkerAny'  :  "]=",
-    \ 'GotoPrevMarkerAny'  :  "[=",
+    \ 'GotoNextMarkerAny'  :  "",
+    \ 'GotoPrevMarkerAny'  :  "",
     \ 'ListBufferMarks'    :  "h/",
     \ 'ListBufferMarkers'  :  "h?"
     \ }
@@ -504,7 +509,7 @@ let g:xtabline_settings = {}
 let g:xtabline_settings.enable_mappings = 0
 let g:xtabline_settings.enable_persistance = 0
 let g:xtabline_settings.last_open_first = 1
-let g:xtabline_settings.tabline_modes = ['tabs', 'buffers']
+let g:xtabline_settings.tabline_modes = ['buffers', 'tabs']
 autocmd vimenter * :XTabTheme tomorrow
 let g:xtabline_settings.indicators = {
   \ 'modified': '[+]',
@@ -531,6 +536,7 @@ let g:xtabline_settings.icons = {
 
 " gitgutter
 let g:gitgutter_map_keys = 0
+let g:gitgutter_signs = 0
 nmap <LEADER>hn <Plug>(GitGutterNextHunk)
 nmap <LEADER>hp <Plug>(GitGutterPrevHunk)
 nmap <LEADER>hs <Plug>(GitGutterStageHunk)
@@ -576,6 +582,38 @@ nmap goa v<plug>(matchup-%)
 
 " vim-which-key
 nnoremap <silent> <LEADER> :WhichKey '<SPACE>'<CR>
+
+" far.vim
+nnoremap ss :Farp
+let g:far#default_mappings = 1
+let g:far#enable_undo = 1
+let g:far#mapping = {
+	\ "exclude" : "",
+	\ "include" : "",
+	\ "toggle_exclude" : "",
+	\ "exclude_all" : "",
+	\ "include_all" : "",
+	\ "toggle_exclude_all" : "",
+	\ "expand" : "",
+	\ "collapse" : "",
+	\ "toggle_expand" : "",
+	\ "expand_all" : "",
+	\ "collapse_all" : "",
+	\ "toggle_expand_all" : "",
+	\ "stoggle_exclude" : "e",
+	\ "stoggle_exclude_all" : "E",
+	\ "jump_to_source" : "<CR>",
+	\ "open_preview" : "p",
+	\ "close_preview" : "P",
+	\ "preview_scroll_up" : "<C-i>",
+	\ "preview_scroll_down" : "<C-k>",
+	\ "stoggle_expand" : "za",
+	\ "stoggle_expand_all" : "zA",
+	\ "replace_do" : "r",
+	\ "replace_undo" : "u",
+	\ "replace_undo_all" : "U",
+	\ "quit" : "q"
+	\ }
 
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>
@@ -653,9 +691,11 @@ noremap gk gj
 noremap gi gk
 
 " move current line up
-noremap <C-i> :move -2<CR>
+nnoremap <C-i> :<c-u>move -2<CR>
+xnoremap <C-i> :move -2<CR>gv
 " move current line down
-noremap <C-k> :move +1<CR>
+nnoremap <C-k> :<c-u>move +1<CR>
+xnoremap <C-k> :move '>+1<CR>gv
 " move cusor to head of current line
 noremap <C-j> 0
 " move cusor to end of current line
@@ -725,6 +765,28 @@ noremap <LEADER><F6> :AsyncTask project-build<CR>
 noremap <LEADER><F7> :AsyncTask project-run<CR>
 
 """""""""""""""""""""""""""""""
+"  colors for some conditions "
+"""""""""""""""""""""""""""""""
+highlight Normal guibg=NONE ctermbg=NONE
+highlight SignColumn guibg=NONE ctermbg=NONE
+highlight LineNr guibg=NONE ctermbg=NONE
+highlight VertSplit guibg=NONE ctermbg=NONE
+highlight CocGitAddedSign ctermfg=142 guifg=#b8bb26 guibg=NONE ctermbg=NONE
+highlight CocGitChangedSign ctermfg=108 guifg=#8ec07c guibg=NONE ctermbg=NONE
+highlight CocGitRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
+highlight CocGitTopRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
+highlight CocGitChangeRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
+
+highlight link SignatureMarkText GruvboxPurple
+highlight link SignatureMarkerText GruvboxBlue
+
+highlight Visual guibg=#252b33 ctermbg=NONE
+
+"""""""""""""""""""""""""""""""
 "    auto executed commands   "
 """""""""""""""""""""""""""""""
 exec "nohlsearch"
+
+"""""""""""""""""""""""""""""""""""""""""""""""
+"    some config put here to avoid conflict   "
+"""""""""""""""""""""""""""""""""""""""""""""""
