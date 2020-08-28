@@ -584,7 +584,7 @@ nmap goa v<plug>(matchup-%)
 nnoremap <silent> <LEADER> :WhichKey '<SPACE>'<CR>
 
 " far.vim
-nnoremap ss :Farp
+nnoremap ss :Farp<CR>
 let g:far#default_mappings = 1
 let g:far#enable_undo = 1
 let g:far#mapping = {
