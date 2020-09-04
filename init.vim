@@ -203,6 +203,7 @@ Plug 'osyo-manga/vim-anzu'
 Plug 'tpope/vim-repeat'
 Plug 'brooth/far.vim'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+Plug 'pechorin/any-jump.vim'
 
 " themes
 Plug 'joshdick/onedark.vim'
@@ -614,6 +615,10 @@ let g:far#mapping = {
 	\ "replace_undo_all" : "U",
 	\ "quit" : "q"
 	\ }
+
+" any-jump.vim
+let g:any_jump_disable_default_keybindings = 1
+noremap gj :AnyJump<CR>
 
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>
