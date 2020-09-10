@@ -310,6 +310,8 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+" coc-highlight
+autocmd CursorHold * silent call CocActionAsync('highlight')
 " coc-clangd
 noremap gh :CocCommand clangd.switchSourceHeader<CR>
 " coc-snippets
@@ -781,6 +783,7 @@ highlight CocGitChangedSign ctermfg=108 guifg=#8ec07c guibg=NONE ctermbg=NONE
 highlight CocGitRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
 highlight CocGitTopRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
 highlight CocGitChangeRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
+highlight CocHighlightText ctermfg=142 guifg=#623f4f guibg=#dddd77 ctermbg=NONE
 
 highlight link SignatureMarkText GruvboxPurple
 highlight link SignatureMarkerText GruvboxBlue
