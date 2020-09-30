@@ -4,7 +4,7 @@
 " | |  | | |_| | |\  |\ V /| | | | | | | | | (__
 " |_|  |_|\__, |_| \_| \_/ |_|_| |_| |_|_|  \___|
 "         |___/
-"           * Originated by Rainbow Chen *
+"       * Originated by Rainbow Chen *
 
 """""""""""""""""""""""""""""""
 "    some initial commands    "
@@ -165,11 +165,15 @@ endfunc
 
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'vim-airline/vim-airline'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'vim-airline/vim-airline'
+Plug 'liuchengxu/eleline.vim'
 Plug 'tpope/vim-surround'
 Plug 'luochen1990/rainbow'
 Plug 'jiangmiao/auto-pairs'
+Plug 'mg979/vim-xtabline'
+Plug 'ojroques/vim-scrollstatus'
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'terryma/vim-multiple-cursors'
 Plug 'mhinz/vim-startify'
@@ -187,7 +191,6 @@ Plug 'Chiel92/vim-autoformat'
 Plug 'liuchengxu/vista.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'easymotion/vim-easymotion'
-Plug 'mg979/vim-xtabline'
 Plug 'junegunn/goyo.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'lambdalisue/suda.vim'
@@ -196,7 +199,6 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'lervag/vimtex', { 'for': 'tex' }
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'voldikss/vim-floaterm'
-Plug 'wellle/targets.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andymass/vim-matchup'
 Plug 'osyo-manga/vim-anzu'
@@ -239,6 +241,8 @@ autocmd vim-colors-xcode ColorScheme * hi SpecialComment cterm=italic gui=italic
 " gruvbox
 let g:gruvbox_italic=1
 
+" mellow
+
 " vim colorscheme
 colorscheme gruvbox
 
@@ -255,6 +259,12 @@ function! s:update_git_status()
 endfunction
 let g:airline_section_b = "%{get(g:,'coc_git_status','')}"
 autocmd User CocGitStatusChange call s:update_git_status()
+" vim-scrollstatus
+let g:airline_section_x = '%{ScrollStatus()}'
+let g:scrollstatus_size = 22
+
+" eleline.vim
+let g:eleline_powerline_fonts = 1
 
 " coc.nvim
 let g:coc_global_extensions = [
@@ -567,10 +577,6 @@ let g:vimtex_view_method = 'zathura'
 " floaterm
 let g:floaterm_keymap_toggle = '<F1>'
 
-" targets.vim
-let g:targets_aiAI = 'amAM'
-let g:targets_mapped_aiAI = 'aiAI'
-
 " vim-anzu
 nmap n <Plug>(anzu-n-with-echo)
 nmap N <Plug>(anzu-N-with-echo)
@@ -677,10 +683,8 @@ nnoremap = nzz
 nnoremap < <<
 nnoremap > >>
 " go into insert mode
-nnoremap m i
-vnoremap m i
-nnoremap M I
-vnoremap M I
+noremap m i
+noremap M I
 " mark
 noremap h m
 " movement
@@ -688,10 +692,8 @@ noremap j h
 noremap J b
 noremap k j
 noremap K 5j
-nnoremap i k
-vnoremap i k
-nnoremap I 5k
-vnoremap I 5k
+noremap i k
+noremap I 5k
 noremap L w
 " visual movement
 noremap gk gj
