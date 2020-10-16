@@ -10,8 +10,8 @@
 "    some initial commands    "
 """""""""""""""""""""""""""""""
 " Auto load plugs for the first time uses
-if empty(glob($HOME.'/.config/nvim/autoload/plug.vim'))
-    silent !curl -fLo $HOME."/.config/nvim/autoload/plug.vim" --create-dirs
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
@@ -52,6 +52,7 @@ set whichwrap=b,s
 set shiftwidth=4
 set tabstop=4
 set softtabstop=4
+set expandtab
 set list
 set listchars=tab:▸\ ,trail:▫
 set scrolloff=6
@@ -206,6 +207,8 @@ Plug 'tpope/vim-repeat'
 Plug 'brooth/far.vim'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 Plug 'pechorin/any-jump.vim'
+Plug 'dkarter/bullets.vim'
+Plug 'nvim-treesitter/nvim-treesitter'
 
 " themes
 Plug 'joshdick/onedark.vim'
@@ -216,6 +219,7 @@ Plug 'arzg/vim-colors-xcode'
 Plug 'ayu-theme/ayu-vim'
 Plug 'morhetz/gruvbox'
 Plug 'nerdypepper/agila.vim'
+Plug 'sainnhe/forest-night'
 
 call plug#end()
 
@@ -241,7 +245,9 @@ autocmd vim-colors-xcode ColorScheme * hi SpecialComment cterm=italic gui=italic
 " gruvbox
 let g:gruvbox_italic=1
 
-" mellow
+" forest
+let g:forest_night_enable_italic = 1
+let g:forest_night_disable_italic_comment = 1
 
 " vim colorscheme
 colorscheme gruvbox
@@ -259,12 +265,16 @@ function! s:update_git_status()
 endfunction
 let g:airline_section_b = "%{get(g:,'coc_git_status','')}"
 autocmd User CocGitStatusChange call s:update_git_status()
+
 " vim-scrollstatus
 let g:airline_section_x = '%{ScrollStatus()}'
-let g:scrollstatus_size = 22
+let g:scrollstatus_size = 18
 
 " eleline.vim
 let g:eleline_powerline_fonts = 1
+
+" auto-pairs.vim
+let g:AutoPairs = {'(':')', '[':']', '{':'}', '<':'>', "'":"'", '"':'"', "`":"`", '```':'```', '"""':'"""', "'''":"'''"}
 
 " coc.nvim
 let g:coc_global_extensions = [
@@ -627,6 +637,23 @@ let g:far#mapping = {
 " any-jump.vim
 let g:any_jump_disable_default_keybindings = 1
 noremap gj :AnyJump<CR>
+
+" Bullets.vim
+let g:bullets_enabled_file_types = [
+    \ 'markdown'
+    \]
+let g:bullets_enable_in_empty_buffers = 0
+
+" nvim-treesitter
+" lua <<EOF
+" require'nvim-treesitter.configs'.setup {
+  " ensure_installed = "all",     -- one of "all", "language", or a list of languages
+  " highlight = {
+    " enable = true,              -- false will disable the whole extension
+    " disable = {},  -- list of language that will be disabled
+  " },
+" }
+" EOF
 
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>

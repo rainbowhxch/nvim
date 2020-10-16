@@ -85,7 +85,6 @@
 	"s": "open:split",
 	"S": "open:vsplit",
 	"t": "open:tab",
-	"I": "gotoParent",
 
 	"yp": "copyFilepath",
 	"yn": "copyFilename",
