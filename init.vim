@@ -273,9 +273,6 @@ let g:scrollstatus_size = 18
 " eleline.vim
 let g:eleline_powerline_fonts = 1
 
-" auto-pairs.vim
-let g:AutoPairs = {'(':')', '[':']', '{':'}', '<':'>', "'":"'", '"':'"', "`":"`", '```':'```', '"""':'"""', "'''":"'''"}
-
 " coc.nvim
 let g:coc_global_extensions = [
     \ 'coc-html',
