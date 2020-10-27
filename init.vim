@@ -112,9 +112,6 @@ let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 " let vim with terminal be better
 let &t_ut = ''
-" set vim-specific sequences for RGB colors
-" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 let &t_TI = "\<Esc>[>4;2m"
 let &t_TE = "\<Esc>[>4;m"
 
@@ -172,12 +169,10 @@ Plug 'tpope/vim-surround'
 Plug 'luochen1990/rainbow'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mg979/vim-xtabline'
-Plug 'ojroques/vim-scrollstatus'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'terryma/vim-multiple-cursors'
-Plug 'mhinz/vim-startify'
 Plug 'preservim/nerdcommenter'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -207,7 +202,6 @@ Plug 'tpope/vim-repeat'
 Plug 'brooth/far.vim'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 Plug 'pechorin/any-jump.vim'
-Plug 'dkarter/bullets.vim'
 Plug 'nvim-treesitter/nvim-treesitter'
 
 " themes
@@ -266,12 +260,14 @@ endfunction
 let g:airline_section_b = "%{get(g:,'coc_git_status','')}"
 autocmd User CocGitStatusChange call s:update_git_status()
 
-" vim-scrollstatus
-let g:airline_section_x = '%{ScrollStatus()}'
-let g:scrollstatus_size = 18
-
 " eleline.vim
 let g:eleline_powerline_fonts = 1
+
+" auto-pairs
+let g:AutoPairsShortcutToggle = ''
+let g:AutoPairsShortcutFastWrap = '<C-a>'
+let g:AutoPairsShortcutJump = '<C-h>'
+let g:AutoPairsMapCh = 0
 
 " coc.nvim
 let g:coc_global_extensions = [
@@ -298,7 +294,7 @@ let g:coc_global_extensions = [
     \ 'coc-translator',
 	\ 'coc-lists',
     \ 'coc-tasks']
-"" use <tab> for trigger completion and navigate to the next complete item
+"" use <tab> for trigger completion
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
@@ -308,7 +304,7 @@ inoremap <silent><expr> <TAB>
     \ <SID>check_back_space() ? "\<TAB>" :
     \ coc#refresh()
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
 " common operation
 noremap <LEADER>cd :CocCommand<CR>
 nmap gn <Plug>(coc-diagnostic-next)
@@ -366,16 +362,20 @@ let g:multi_cursor_use_default_mapping=0
 " Default mapping
 let g:multi_cursor_start_word_key      = '<C-n>'
 let g:multi_cursor_select_all_word_key = 'g<C-n>'
-let g:multi_cursor_start_key           = 'g<A-n>'
-let g:multi_cursor_select_all_key      = 'g<A-n>'
 let g:multi_cursor_next_key            = '<C-n>'
 let g:multi_cursor_prev_key            = '<C-p>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<ESC>'
 
 " nerdcommenter
+let g:NERDCreateDefaultMappings = 0
 let g:NERDSpaceDelims = 1
 let g:NERDTrimTrailingWhitespace = 1
+nmap <LEADER>ca <plug>NERDCommenterAppend
+nmap <Leader>cc <plug>NERDCommenterToggle
+vmap <Leader>cc <plug>NERDCommenterToggle
+nmap <Leader>cm <plug>NERDCommenterSexy
+vmap <Leader>cm <plug>NERDCommenterSexy
 
 " markdown
 let g:mkdp_auto_start = 0
@@ -419,7 +419,7 @@ noremap <LEADER>fM :Maps<CR>
 " ultisnips
 let g:UltiSnipsExpandTrigger="<C-d>"
 let g:UltiSnipsJumpForwardTrigger="<C-j>"
-let g:UltiSnipsJumpBackwardTrigger="<C-l>"
+let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 let g:UltiSnipsSnippetDirectories = [$HOME.'.config/nvim/Ultisnips/',
 				    \$HOME.'.config/nvim/plugged/vim-snippets/UltiSnips/']
 let g:UltiSnipsEditSplit="horizontal"
@@ -443,11 +443,12 @@ command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
     \   'sink': function('<sid>read_template_into_buffer')
     \ })
 noremap <leader>vs :tabe .vimspector.json<CR>:LoadVimSpectorJsonTemplate<CR>
-sign define vimspectorBP text=🔴 texthl=Normal
-sign define vimspectorBPDisabled text=🔵 texthl=Normal
-sign define vimspectorPC text=🔶 texthl=SpellBad
+sign define vimspectorBP text=🔸 texthl=Normal
+sign define vimspectorBPDisabled text=🔹 texthl=Normal
+sign define vimspectorPC text=🔴 texthl=SpellBad
 
 " vim-markdown-toc
+noremap <LEADER>tg :GenTocGFM<CR>
 let g:vmt_auto_update_on_save = 1
 let g:vmt_dont_insert_fence = 0
 let g:vmt_cycle_list_item_markers = 1
@@ -456,8 +457,7 @@ let g:vmt_fence_text = 'TOC'
 let g:vmt_fence_closing_text = '/TOC'
 
 " vim-table-mode
-noremap <LEADER>tm :TableModeToggle<CR>
-let g:table_mode_relign_map = '<LEADER>tr'
+let g:table_mode_corner = '|'
 
 " vim-easy-align
 nmap ga <Plug>(EasyAlign)
@@ -634,12 +634,6 @@ let g:far#mapping = {
 " any-jump.vim
 let g:any_jump_disable_default_keybindings = 1
 noremap gj :AnyJump<CR>
-
-" Bullets.vim
-let g:bullets_enabled_file_types = [
-    \ 'markdown'
-    \]
-let g:bullets_enable_in_empty_buffers = 0
 
 " nvim-treesitter
 " lua <<EOF
