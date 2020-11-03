@@ -164,11 +164,11 @@ endfunc
 call plug#begin('~/.config/nvim/plugged')
 
 " Plug 'vim-airline/vim-airline'
-Plug 'liuchengxu/eleline.vim'
+" Plug 'liuchengxu/eleline.vim'
 Plug 'tpope/vim-surround'
 Plug 'luochen1990/rainbow'
 Plug 'jiangmiao/auto-pairs'
-Plug 'mg979/vim-xtabline'
+" Plug 'mg979/vim-xtabline'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
@@ -530,7 +530,7 @@ let g:xtabline_settings.enable_mappings = 0
 let g:xtabline_settings.enable_persistance = 0
 let g:xtabline_settings.last_open_first = 1
 let g:xtabline_settings.tabline_modes = ['buffers', 'tabs']
-autocmd vimenter * :XTabTheme tomorrow
+" autocmd vimenter * :XTabTheme tomorrow
 let g:xtabline_settings.indicators = {
   \ 'modified': '[+]',
   \ 'pinned': '[📌]',
