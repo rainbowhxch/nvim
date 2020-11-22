@@ -129,7 +129,7 @@ let g:mapleader=" "
 "   something about plugins   "
 """""""""""""""""""""""""""""""
 " make task run on floaterm
-function! s:runner_proc(opts)
+function! s:run_floaterm(opts)
   let curr_bufnr = floaterm#curr()
   if has_key(a:opts, 'silent') && a:opts.silent == 1
     FloatermHide!
@@ -137,14 +137,12 @@ function! s:runner_proc(opts)
   let cmd = 'cd ' . shellescape(getcwd())
   call floaterm#terminal#send(curr_bufnr, [cmd])
   call floaterm#terminal#send(curr_bufnr, [a:opts.cmd])
+  " Back to the normal mode
   stopinsert
-  if &filetype == 'floaterm' && g:floaterm_autoinsert
-    call floaterm#util#startinsert()
-  endif
 endfunction
 
 let g:asyncrun_runner = get(g:, 'asyncrun_runner', {})
-let g:asyncrun_runner.floaterm = function('s:runner_proc')
+let g:asyncrun_runner.floaterm = function('s:run_floaterm')
 let g:asynctasks_term_pos = 'floaterm'
 
 " Compile function
@@ -168,6 +166,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'
 Plug 'luochen1990/rainbow'
 Plug 'jiangmiao/auto-pairs'
+Plug 'Yggdroot/indentLine'
 " Plug 'mg979/vim-xtabline'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -188,7 +187,6 @@ Plug 'liuchengxu/vista.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/goyo.vim'
-Plug 'airblade/vim-gitgutter'
 Plug 'lambdalisue/suda.vim'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
@@ -198,11 +196,12 @@ Plug 'voldikss/vim-floaterm'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andymass/vim-matchup'
 Plug 'osyo-manga/vim-anzu'
-Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-repeat'
 Plug 'brooth/far.vim'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 Plug 'pechorin/any-jump.vim'
 Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'drmikehenry/vim-headerguard'
 
 " themes
 Plug 'joshdick/onedark.vim'
@@ -214,8 +213,14 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'morhetz/gruvbox'
 Plug 'nerdypepper/agila.vim'
 Plug 'sainnhe/forest-night'
+Plug 'mhartington/oceanic-next'
+Plug 'rakr/vim-one'
 
 call plug#end()
+
+" oceanic-next
+let g:oceanic_next_terminal_bold = 1
+let g:oceanic_next_terminal_italic = 1
 
 " ayu
 let ayucolor = "mirage"
@@ -243,8 +248,11 @@ let g:gruvbox_italic=1
 let g:forest_night_enable_italic = 1
 let g:forest_night_disable_italic_comment = 1
 
+" vim-one
+let g:one_allow_italics = 1 " I love italic for comments
+
 " vim colorscheme
-colorscheme gruvbox
+colorscheme one
 
 " airline
 " let g:airline_powerline_fonts = 1
@@ -265,24 +273,18 @@ let g:eleline_powerline_fonts = 1
 
 " auto-pairs
 let g:AutoPairsShortcutToggle = ''
+let g:AutoPairsMapCh = ''
+let g:AutoPairCenterLine = 0
 let g:AutoPairsShortcutFastWrap = '<C-a>'
 let g:AutoPairsShortcutJump = '<C-h>'
-let g:AutoPairsMapCh = 0
+let g:AutoPairsBS = '<BS>'
 
 " coc.nvim
 let g:coc_global_extensions = [
-    \ 'coc-html',
-    \ 'coc-json',
-    \ 'coc-xml',
-    \ 'coc-yaml',
-    \ 'coc-clangd',
-    \ 'coc-cmake',
-    \ 'coc-python',
-    \ 'coc-pyright',
-    \ 'coc-vimlsp',
-    \ 'coc-sh',
-    \ 'coc-vimtex',
-    \ 'coc-sql',
+    \ 'coc-emoji',
+	\ 'coc-lists',
+	\ 'coc-actions',
+    \ 'coc-tasks',
     \ 'coc-git',
     \ 'coc-snippets',
     \ 'coc-template',
@@ -292,21 +294,39 @@ let g:coc_global_extensions = [
     \ 'coc-yank',
     \ 'coc-calc',
     \ 'coc-translator',
-	\ 'coc-lists',
-    \ 'coc-tasks']
+    \ 'coc-html',
+    \ 'coc-json',
+    \ 'coc-xml',
+    \ 'coc-yaml',
+    \ 'coc-clangd',
+    \ 'coc-cmake',
+    \ 'coc-python',
+    \ 'coc-vimlsp',
+    \ 'coc-sh',
+    \ 'coc-vimtex',
+    \ 'coc-sql']
 "" use <tab> for trigger completion
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
+nn <silent> H :call CocActionAsync('doHover')<cr>
+au CursorHold * sil call CocActionAsync('highlight')
+au CursorHoldI * sil call CocActionAsync('showSignatureHelp')
 inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-G>u\<CR>"
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 " common operation
-noremap <LEADER>cd :CocCommand<CR>
+noremap <LEADER>cd :CocFzfList commands<CR>
 nmap gn <Plug>(coc-diagnostic-next)
 nmap gd <Plug>(coc-definition)
 nmap gD <Plug>(coc-declaration)
@@ -314,34 +334,48 @@ nmap gi <Plug>(coc-implementation)
 nmap gt <Plug>(coc-type-definition)
 nmap gr <Plug>(coc-references)
 nmap gR <Plug>(coc-rename)
+nmap gL <Plug>(coc-refactor)
 nmap gl <Plug>(coc-openlink)
 nnoremap <silent> g; :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
   else
-    call CocAction('doHover')
+    execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
+" multiple cursors
+nmap <silent> <C-m> <Plug>(coc-cursors-word)
+xmap <silent> <C-m> <Plug>(coc-cursors-range)
 " coc-highlight
 autocmd CursorHold * silent call CocActionAsync('highlight')
 " coc-clangd
 noremap gh :CocCommand clangd.switchSourceHeader<CR>
 " coc-snippets
 imap <C-d> <Plug>(coc-snippets-expand)
-vmap <C-j> <Plug>(coc-snippets-select)
-let g:coc_snippet_prev = '<c-k>'
-let g:coc_snippet_next = '<c-j>'
-imap <C-l> <Plug>(coc-snippets-expand-jump)
+vmap <C-d> <Plug>(coc-snippets-select)
+let g:coc_snippet_next = '<C-j>'
+let g:coc_snippet_prev = '<C-k>'
+function! s:edit_snippets()
+    execute 'edit '. $HOME. '/.config/nvim/UltiSnips/'. &filetype. '.snippets'
+endfunction
+noremap <silent> gs :call <SID>edit_snippets()<CR>
 " coc-template
 nmap <LEADER>tp <Plug>(coc-template)
 " coc-explorer
 noremap <LEADER>n :CocCommand explorer<CR>
 " coc-yank
-nnoremap <silent> <LEADER>y  :CocList -A --normal yank<CR>
+nnoremap <silent> <LEADER>y  :CocFzfList yank<CR>
 " coc-translator
 nmap <LEADER>ts <Plug>(coc-translator-p)
 vmap <LEADER>ts <Plug>(coc-translator-pv)
+" coc-git
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+nmap [c <Plug>(coc-git-prevconflict)
+nmap ]c <Plug>(coc-git-nextconflict)
 
 " fzf&coc.nvim
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
@@ -364,7 +398,7 @@ let g:multi_cursor_start_word_key      = '<C-n>'
 let g:multi_cursor_select_all_word_key = 'g<C-n>'
 let g:multi_cursor_next_key            = '<C-n>'
 let g:multi_cursor_prev_key            = '<C-p>'
-let g:multi_cursor_skip_key            = '<C-x>'
+let g:multi_cursor_skip_key            = '<C-s>'
 let g:multi_cursor_quit_key            = '<ESC>'
 
 " nerdcommenter
@@ -374,8 +408,8 @@ let g:NERDTrimTrailingWhitespace = 1
 nmap <LEADER>ca <plug>NERDCommenterAppend
 nmap <Leader>cc <plug>NERDCommenterToggle
 vmap <Leader>cc <plug>NERDCommenterToggle
-nmap <Leader>cm <plug>NERDCommenterSexy
-vmap <Leader>cm <plug>NERDCommenterSexy
+nmap <Leader>cm <plug>NERDCommenterMinimal
+vmap <Leader>cm <plug>NERDCommenterMinimal
 
 " markdown
 let g:mkdp_auto_start = 0
@@ -413,15 +447,15 @@ noremap <LEADER>ft :Tags<CR>
 noremap <LEADER>fm :Marks<CR>
 noremap <LEADER>fw :Windows<CR>
 noremap <LEADER>fh :History<CR>
-noremap <LEADER>fs :Snippets<CR>
+noremap <LEADER>fs :CocFzfList snippets<CR>
 noremap <LEADER>fM :Maps<CR>
 
 " ultisnips
-let g:UltiSnipsExpandTrigger="<C-d>"
-let g:UltiSnipsJumpForwardTrigger="<C-j>"
-let g:UltiSnipsJumpBackwardTrigger="<C-k>"
-let g:UltiSnipsSnippetDirectories = [$HOME.'.config/nvim/Ultisnips/',
-				    \$HOME.'.config/nvim/plugged/vim-snippets/UltiSnips/']
+let g:UltiSnipsExpandTrigger="<C-,>"
+let g:UltiSnipsJumpForwardTrigger="<C-,>"
+let g:UltiSnipsJumpBackwardTrigger="<C-,>"
+let g:UltiSnipsSnippetDirectories = [$HOME.'/.config/nvim/Ultisnips/',
+				    \$HOME.'/.config/nvim/plugged/vim-snippets/UltiSnips/']
 let g:UltiSnipsEditSplit="horizontal"
 
 " vimspector
@@ -512,7 +546,7 @@ let g:SignatureMap = {
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1
-" <Leader>f{char} to move to {char}
+"/f{char} to move to {char}
 vmap /f <Plug>(easymotion-bd-f)
 nmap /f <Plug>(easymotion-overwin-f)
 " s{char}{char} to move to {char}{char}
@@ -554,14 +588,6 @@ let g:xtabline_settings.icons = {
   \'flag': '🏁',
   \}
 
-" gitgutter
-let g:gitgutter_map_keys = 0
-let g:gitgutter_signs = 0
-nmap <LEADER>hn <Plug>(GitGutterNextHunk)
-nmap <LEADER>hp <Plug>(GitGutterPrevHunk)
-nmap <LEADER>hs <Plug>(GitGutterStageHunk)
-nmap <LEADER>hu <Plug>(GitGutterUndoHunk)
-
 " Goyo
 nnoremap <LEADER>gy :Goyo<CR>
 let g:goyo_width = '80'
@@ -591,10 +617,11 @@ nmap * <Plug>(anzu-star-with-echo)
 nmap # <Plug>(anzu-sharp-with-echo)
 
 " vim-matchup
-let g:matchup_mappings_enabled = 0
+let g:matchup_mappings_enabled = 1
+let g:matchup_text_obj_enabled = 0
 let g:matchup_override_vimtex = 1
-nmap % <plug>(matchup-%)
-nmap goa v<plug>(matchup-%)
+xmap a% <plug>(matchup-%)
+xmap m% <plug>(matchup-%)
 
 " vim-which-key
 nnoremap <silent> <LEADER> :WhichKey '<SPACE>'<CR>
@@ -635,16 +662,11 @@ let g:far#mapping = {
 let g:any_jump_disable_default_keybindings = 1
 noremap gj :AnyJump<CR>
 
-" nvim-treesitter
-" lua <<EOF
-" require'nvim-treesitter.configs'.setup {
-  " ensure_installed = "all",     -- one of "all", "language", or a list of languages
-  " highlight = {
-    " enable = true,              -- false will disable the whole extension
-    " disable = {},  -- list of language that will be disabled
-  " },
-" }
-" EOF
+" vim-headerguard.vim
+noremap <LEADER>ah :HeaderguardAdd<CR>
+
+" indentLine
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>
@@ -805,10 +827,7 @@ highlight CocGitTopRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
 highlight CocGitChangeRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
 highlight CocHighlightText ctermfg=142 guifg=#623f4f guibg=#dddd77 ctermbg=NONE
 
-highlight link SignatureMarkText GruvboxPurple
-highlight link SignatureMarkerText GruvboxBlue
-
-highlight Visual guibg=#252b33 ctermbg=NONE
+highlight StatusLine cterm=reverse ctermfg=239 ctermbg=NONE gui=reverse guifg=#aea0ac guibg=NONE
 
 """""""""""""""""""""""""""""""
 "    auto executed commands   "

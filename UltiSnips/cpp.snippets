@@ -1,0 +1,50 @@
+snippet class "Class" b
+class ${1} ${2: :parent}
+{
+public:
+	${1}();
+private:
+	${0}
+};
+endsnippet
+
+snippet struct "Struct" b
+struct ${1} {
+	${0}
+}
+endsnippet
+
+snippet def "#define" b
+#define ${1:macro}
+endsnippet
+
+snippet ig "include guard" b
+#ifndef ${1:macro}
+#define ${1}
+
+${0}
+
+#endif /* #ifndef ${1} */
+endsnippet
+
+snippet func "normal function" b
+${1:void} ${2:funcname}(${3:args})
+{
+	${0}
+}
+endsnippet
+
+snippet tempfunc "template function" b
+template <typename ${1:T}>
+${1:void} ${2:funcname}(${3:args})
+{
+	${0}
+}
+endsnippet
+
+snippet classfunc "normal function" b
+${1:void} ${2:class}::${3:func}
+{
+	${0}
+}
+endsnippet

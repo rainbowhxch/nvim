@@ -1,1 +1,1 @@
-imap <C-c> /*<space><space>*/<ESC>F<space>m
+inoremap <C-c> /*<space><space>*/<ESC>F<space>i
