@@ -1,3 +1,5 @@
+extends c
+
 snippet class "Class" b
 class ${1} ${2: :parent}
 {
@@ -8,33 +10,7 @@ private:
 };
 endsnippet
 
-snippet struct "Struct" b
-struct ${1} {
-	${0}
-}
-endsnippet
-
-snippet def "#define" b
-#define ${1:macro}
-endsnippet
-
-snippet ig "include guard" b
-#ifndef ${1:macro}
-#define ${1}
-
-${0}
-
-#endif /* #ifndef ${1} */
-endsnippet
-
-snippet func "normal function" b
-${1:void} ${2:funcname}(${3:args})
-{
-	${0}
-}
-endsnippet
-
-snippet tempfunc "template function" b
+snippet tf "template function" b
 template <typename ${1:T}>
 ${1:void} ${2:funcname}(${3:args})
 {
@@ -42,9 +18,23 @@ ${1:void} ${2:funcname}(${3:args})
 }
 endsnippet
 
-snippet classfunc "normal function" b
+snippet cf "class function" b
 ${1:void} ${2:class}::${3:func}
 {
 	${0}
 }
+endsnippet
+
+snippet ui "using xxx:xxx" b
+using std::${0:vector};
+endsnippet
+
+snippet fe "for each" b
+for (${1:const auto &i} : ${2:array}) {
+	${0}
+}
+endsnippet
+
+snippet v "vector" b
+vector<${1:int}> ${0};
 endsnippet

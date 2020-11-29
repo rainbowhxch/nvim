@@ -55,7 +55,8 @@ set softtabstop=4
 set expandtab
 set list
 set listchars=tab:▸\ ,trail:▫
-set scrolloff=6
+set iskeyword-=_
+set scrolloff=16
 set autoindent
 set smartindent
 set backspace=indent,eol,start
@@ -149,13 +150,13 @@ let g:asynctasks_term_pos = 'floaterm'
 func! FileRun()
     exec "w"
     if &filetype == 'markdown'
-	exec "MarkdownPreview"
+        exec "MarkdownPreview"
     elseif &filetype == 'tex'
-	silent! exec "VimtexStop"
-	silent! exec "VimtexCompile"
+        silent! exec "VimtexStop"
+        silent! exec "VimtexCompile"
     else
-	set splitbelow
-	exec "AsyncTask file-run"
+        set splitbelow
+        exec "AsyncTask file-run"
     endif
 endfunc
 
@@ -166,7 +167,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'
 Plug 'luochen1990/rainbow'
 Plug 'jiangmiao/auto-pairs'
-Plug 'Yggdroot/indentLine'
+Plug 'sheerun/vim-polyglot'
 " Plug 'mg979/vim-xtabline'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -190,18 +191,19 @@ Plug 'junegunn/goyo.vim'
 Plug 'lambdalisue/suda.vim'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
-Plug 'lervag/vimtex', { 'for': 'tex' }
+Plug 'lervag/vimtex'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'voldikss/vim-floaterm'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andymass/vim-matchup'
 Plug 'osyo-manga/vim-anzu'
-" Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-repeat'
 Plug 'brooth/far.vim'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 Plug 'pechorin/any-jump.vim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'drmikehenry/vim-headerguard'
+Plug 'mbbill/undotree'
 
 " themes
 Plug 'joshdick/onedark.vim'
@@ -215,6 +217,7 @@ Plug 'nerdypepper/agila.vim'
 Plug 'sainnhe/forest-night'
 Plug 'mhartington/oceanic-next'
 Plug 'rakr/vim-one'
+Plug 'ajmwagar/vim-deus'
 
 call plug#end()
 
@@ -252,7 +255,7 @@ let g:forest_night_disable_italic_comment = 1
 let g:one_allow_italics = 1 " I love italic for comments
 
 " vim colorscheme
-colorscheme one
+colorscheme gruvbox
 
 " airline
 " let g:airline_powerline_fonts = 1
@@ -273,11 +276,9 @@ let g:eleline_powerline_fonts = 1
 
 " auto-pairs
 let g:AutoPairsShortcutToggle = ''
-let g:AutoPairsMapCh = ''
-let g:AutoPairCenterLine = 0
+let g:AutoPairsMapCh = 0
 let g:AutoPairsShortcutFastWrap = '<C-a>'
 let g:AutoPairsShortcutJump = '<C-h>'
-let g:AutoPairsBS = '<BS>'
 
 " coc.nvim
 let g:coc_global_extensions = [
@@ -310,9 +311,6 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
-nn <silent> H :call CocActionAsync('doHover')<cr>
-au CursorHold * sil call CocActionAsync('highlight')
-au CursorHoldI * sil call CocActionAsync('showSignatureHelp')
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -354,12 +352,12 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " coc-clangd
 noremap gh :CocCommand clangd.switchSourceHeader<CR>
 " coc-snippets
-imap <C-d> <Plug>(coc-snippets-expand)
-vmap <C-d> <Plug>(coc-snippets-select)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+vmap <C-j> <Plug>(coc-snippets-select)
 let g:coc_snippet_next = '<C-j>'
 let g:coc_snippet_prev = '<C-k>'
 function! s:edit_snippets()
-    execute 'edit '. $HOME. '/.config/nvim/UltiSnips/'. &filetype. '.snippets'
+    execute 'tabedit '. $HOME. '/.config/nvim/UltiSnips/'. &filetype. '.snippets'
 endfunction
 noremap <silent> gs :call <SID>edit_snippets()<CR>
 " coc-template
@@ -604,8 +602,42 @@ let g:asyncrun_rootmarks = ['.git', '.svn', '.root', '.project', '.hg']
 " vimtex
 let g:vimtex_mappings_enabled = 0
 let g:vimtex_cache_root = s:vim_cachedir. 'vimtex'
-let g:vimtex_quickfix_latexlog = {'default' : 0}
+let g:tex_flavor = 'latex'
+let g:vimtex_toc_enabled = 0
+let g:vimtex_quickfix_autoclose_after_keystrokes = 1
+let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_view_method = 'zathura'
+let g:vimtex_compiler_latexmk = {
+    \ 'build_dir' : 'build',
+    \ 'callback' : 1,
+    \ 'continuous' : 1,
+    \ 'executable' : 'latexmk',
+    \ 'hooks' : [],
+    \ 'options' : [
+    \   '-verbose',
+    \   '-file-line-error',
+    \   '-synctex=1',
+    \   '-interaction=nonstopmode',
+    \ ],
+    \}
+let g:vimtex_compiler_latexmk_engines = {
+    \ '_'                : '-pdf',
+    \ 'pdflatex'         : '-pdf',
+    \ 'dvipdfex'         : '-pdfdvi',
+    \ 'lualatex'         : '-lualatex',
+    \ 'xelatex'          : '-xelatex',
+    \ 'context (pdftex)' : '-pdf -pdflatex=texexec',
+    \ 'context (luatex)' : '-pdf -pdflatex=context',
+    \ 'context (xetex)'  : '-pdf -pdflatex=''texexec --xtx''',
+    \}
+let g:vimtex_doc_handlers = ['MyHandler']
+function! MyHandler(context)
+    call vimtex#doc#make_selection(a:context)
+    if !empty(a:context.selected)
+        execute '!texdoc' a:context.selected '&'
+    endif
+    return 1
+endfunction
 
 " floaterm
 let g:floaterm_keymap_toggle = '<F1>'
@@ -665,8 +697,12 @@ noremap gj :AnyJump<CR>
 " vim-headerguard.vim
 noremap <LEADER>ah :HeaderguardAdd<CR>
 
-" indentLine
-let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+" undotree.vim
+nnoremap <LEADER>U :UndotreeToggle<cr>
+function g:Undotree_CustomMap()
+    nmap <buffer> J <plug>UndotreeNextState
+    nmap <buffer> L <plug>UndotreePreviousState
+endfunc
 
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>
@@ -696,16 +732,16 @@ noremap <LEADER>u ~h
 " cute font
 noremap <LEADER>fr :r !figlet<SPACE>
 " go to next buffer
-noremap <LEADER>bn :bnext<CR>
+noremap bl :bnext<CR>
 " go to previous buffer
-noremap <LEADER>bp :bprevious<CR>
+noremap bj :bprevious<CR>
 " go to the buffer that you view just before
-noremap <LEADER>bb <C-^>
+noremap bb <C-^>
 " delete current buffer
-noremap <LEADER>bd :bdelete<CR>
+noremap bd :bdelete<CR>
 " alter the keymap between colemak with normal us keyboard
-noremap <LEADER>bc :source $HOME/.vim/insert-colemak.vim<CR>
-noremap <LEADER>bu :source $HOME/.vim/insert-normal.vim<CR>
+noremap <LEADER>bc :source $HOME/.config/nvim/insert-colemak.vim<CR>
+noremap <LEADER>bu :source $HOME/.config/nvim/insert-normal.vim<CR>
 " plus 1 to value in current location
 noremap <LEADER>. <C-a>
 " minus 1 to value in current location
@@ -735,9 +771,6 @@ noremap K 5j
 noremap i k
 noremap I 5k
 noremap L w
-" visual movement
-noremap gk gj
-noremap gi gk
 
 " move current line up
 nnoremap <C-i> :<c-u>move -2<CR>
@@ -768,9 +801,6 @@ cnoremap <C-e> <End>
 cnoremap <C-j> <Left>
 cnoremap <C-l> <Right>
 
-" insert mode movement inner current line
-inoremap <C-j> <Esc>I
-inoremap <C-l> <Esc>A
 " re-select view block after indent in v mode
 xnoremap < <gv
 xnoremap > >gv
@@ -795,11 +825,11 @@ noremap <left> :vertical resize+5<CR>
 noremap <right> :vertical resize-5<CR>
 
 " tab operation
-nnoremap tj :-tabnext<CR>
-nnoremap te :tabedit<CR>
-nnoremap tl :+tabnext<CR>
-nnoremap tmj :-tabmove<CR>
-nnoremap tml :+tabmove<CR>
+nnoremap <LEADER>tj :-tabnext<CR>
+nnoremap <LEADER>te :tabedit<CR>
+nnoremap <LEADER>tl :+tabnext<CR>
+nnoremap <LEADER>tmj :-tabmove<CR>
+nnoremap <LEADER>tml :+tabmove<CR>
 " make current window widest on left or top
 nnoremap sv <C-w>H
 nnoremap sh <C-w>K
@@ -818,22 +848,29 @@ noremap <LEADER><F7> :AsyncTask project-run<CR>
 """""""""""""""""""""""""""""""
 highlight Normal guibg=NONE ctermbg=NONE
 highlight SignColumn guibg=NONE ctermbg=NONE
-highlight LineNr guibg=NONE ctermbg=NONE
-highlight VertSplit guibg=NONE ctermbg=NONE
 highlight CocGitAddedSign ctermfg=142 guifg=#b8bb26 guibg=NONE ctermbg=NONE
 highlight CocGitChangedSign ctermfg=108 guifg=#8ec07c guibg=NONE ctermbg=NONE
 highlight CocGitRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
 highlight CocGitTopRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
 highlight CocGitChangeRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
-highlight CocHighlightText ctermfg=142 guifg=#623f4f guibg=#dddd77 ctermbg=NONE
+highlight CocHighlightText ctermfg=142 guifg=#623f4f guibg=#77dd77 ctermbg=NONE
+" highlight FleetingFlashyFiretrucks guibg=red
 
-highlight StatusLine cterm=reverse ctermfg=239 ctermbg=NONE gui=reverse guifg=#aea0ac guibg=NONE
+" highlight StatusLine cterm=reverse ctermfg=239 ctermbg=NONE gui=reverse guifg=#aea0ac guibg=NONE
+
+" function! s:show_prev_next_line()
+    " let curline_number = line(".")
+    " let curline_number_prev = curline_number - 5
+    " let curline_number_next = curline_number + 5
+    " let pattern = "/\\%" . string(curline_number_prev) . "l\\|\\%" . string(curline_number_next) . "l/"
+    " execute "match FleetingFlashyFiretrucks ". pattern
+" endfunction
+" autocmd CursorMoved,CursorMovedI * call s:show_prev_next_line()
 
 """""""""""""""""""""""""""""""
 "    auto executed commands   "
 """""""""""""""""""""""""""""""
 exec "nohlsearch"
-
 """""""""""""""""""""""""""""""""""""""""""""""
 "    some config put here to avoid conflict   "
 """""""""""""""""""""""""""""""""""""""""""""""

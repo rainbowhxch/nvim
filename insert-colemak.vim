@@ -6,7 +6,8 @@ inoremap y j
 inoremap u l
 inoremap i u
 inoremap o y
-inoremap p o
+inoremap ; o
+inoremap p ;
 inoremap s r
 inoremap d s
 inoremap f t
@@ -24,7 +25,8 @@ inoremap Y J
 inoremap U L
 inoremap I U
 inoremap O Y
-inoremap P O
+inoremap P :
+inoremap : O
 inoremap S R
 inoremap D S
 inoremap F T
