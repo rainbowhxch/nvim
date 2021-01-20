@@ -29,6 +29,10 @@ snippet ui "using xxx:xxx" b
 using std::${0:vector};
 endsnippet
 
+snippet un "using namespace xxx" b
+using namespace ${0:std};
+endsnippet
+
 snippet fe "for each" b
 for (${1:const auto &i} : ${2:array}) {
 	${0}
@@ -37,4 +41,11 @@ endsnippet
 
 snippet v "vector" b
 vector<${1:int}> ${0};
+endsnippet
+snippet main "main function" b
+int main(int argc, char *argv[])
+{
+	${0}
+	return 0;
+}
 endsnippet

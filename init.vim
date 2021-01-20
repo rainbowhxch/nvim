@@ -55,7 +55,6 @@ set softtabstop=4
 set expandtab
 set list
 set listchars=tab:▸\ ,trail:▫
-set iskeyword-=_
 set scrolloff=16
 set autoindent
 set smartindent
@@ -177,7 +176,6 @@ Plug 'preservim/nerdcommenter'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'antoinemadec/coc-fzf'
-Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python --enable-go'}
 Plug 'mzlogin/vim-markdown-toc'
@@ -201,7 +199,6 @@ Plug 'tpope/vim-repeat'
 Plug 'brooth/far.vim'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 Plug 'pechorin/any-jump.vim'
-Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'drmikehenry/vim-headerguard'
 Plug 'mbbill/undotree'
 
@@ -283,12 +280,14 @@ let g:AutoPairsShortcutJump = '<C-h>'
 " coc.nvim
 let g:coc_global_extensions = [
     \ 'coc-emoji',
+    \ 'coc-svg',
+    \ 'coc-marketplace',
+    \ 'coc-post',
 	\ 'coc-lists',
 	\ 'coc-actions',
     \ 'coc-tasks',
     \ 'coc-git',
     \ 'coc-snippets',
-    \ 'coc-template',
     \ 'coc-explorer',
     \ 'coc-floaterm',
     \ 'coc-highlight',
@@ -357,11 +356,9 @@ vmap <C-j> <Plug>(coc-snippets-select)
 let g:coc_snippet_next = '<C-j>'
 let g:coc_snippet_prev = '<C-k>'
 function! s:edit_snippets()
-    execute 'tabedit '. $HOME. '/.config/nvim/UltiSnips/'. &filetype. '.snippets'
+    execute 'tabedit '. $HOME. '/.config/nvim/snippets/'. &filetype. '.snippets'
 endfunction
 noremap <silent> gs :call <SID>edit_snippets()<CR>
-" coc-template
-nmap <LEADER>tp <Plug>(coc-template)
 " coc-explorer
 noremap <LEADER>n :CocCommand explorer<CR>
 " coc-yank
@@ -446,15 +443,8 @@ noremap <LEADER>fm :Marks<CR>
 noremap <LEADER>fw :Windows<CR>
 noremap <LEADER>fh :History<CR>
 noremap <LEADER>fs :CocFzfList snippets<CR>
+noremap <LEADER>fo :CocFzfList outline<CR>
 noremap <LEADER>fM :Maps<CR>
-
-" ultisnips
-let g:UltiSnipsExpandTrigger="<C-,>"
-let g:UltiSnipsJumpForwardTrigger="<C-,>"
-let g:UltiSnipsJumpBackwardTrigger="<C-,>"
-let g:UltiSnipsSnippetDirectories = [$HOME.'/.config/nvim/Ultisnips/',
-				    \$HOME.'/.config/nvim/plugged/vim-snippets/UltiSnips/']
-let g:UltiSnipsEditSplit="horizontal"
 
 " vimspector
 nnoremap <F3> :VimspectorReset<CR>
@@ -592,8 +582,9 @@ let g:goyo_width = '80'
 let g:goyo_height = '80%'
 
 " suda.vim
-nnoremap <LEADER>S :w suda://%<CR>
+nnoremap <LEADER>S :SudaWrite<CR>
 let g:suda#prompt = '(. > .) password please: '
+let g:suda_smart_edit = 1
 
 " asynctasks.vim
 let g:asyncrun_open = 6
@@ -854,18 +845,19 @@ highlight CocGitRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
 highlight CocGitTopRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
 highlight CocGitChangeRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
 highlight CocHighlightText ctermfg=142 guifg=#623f4f guibg=#77dd77 ctermbg=NONE
-" highlight FleetingFlashyFiretrucks guibg=red
+highlight SignatureMarkText ctermfg=109 guifg=#83a598 guibg=NONE ctermbg=NONE
+highlight FleetingFlashyFiretrucks guibg=#55dd77
 
 " highlight StatusLine cterm=reverse ctermfg=239 ctermbg=NONE gui=reverse guifg=#aea0ac guibg=NONE
 
-" function! s:show_prev_next_line()
-    " let curline_number = line(".")
-    " let curline_number_prev = curline_number - 5
-    " let curline_number_next = curline_number + 5
-    " let pattern = "/\\%" . string(curline_number_prev) . "l\\|\\%" . string(curline_number_next) . "l/"
-    " execute "match FleetingFlashyFiretrucks ". pattern
-" endfunction
-" autocmd CursorMoved,CursorMovedI * call s:show_prev_next_line()
+function! s:show_prev_next_line()
+    let curline_number = line(".")
+    let curline_number_prev = curline_number - 5
+    let curline_number_next = curline_number + 5
+    let pattern = '/\\%' . string(curline_number_prev) . 'l\\|\\%' . string(curline_number_next) . 'l/'
+    execute "match FleetingFlashyFiretrucks ". pattern
+endfunction
+autocmd CursorMoved,CursorMovedI * call s:show_prev_next_line()
 
 """""""""""""""""""""""""""""""
 "    auto executed commands   "

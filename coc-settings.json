@@ -49,10 +49,8 @@
     "python.autoComplete.addBrackets": true,
     "yaml.format.enable": true,
     "snippets.ultisnips.directories": [
-	    "~/.config/nvim/UltiSnips/",
-	    "~/.config/nvim/plugged/vim-snippets/UltiSnips/"
+	    "~/.config/nvim/snippets/"
     ],
-    "snippets.snipmate.enable": false,
 	"xml.java.home": "/usr/lib/jvm/java-14-openjdk",
     "yank.highlight.duration": 100,
     "yank.enableCompletion": false,
@@ -70,21 +68,18 @@
         "<space>": "toggleSelection",
         "m": "actionMenu",
 
-        "k": "nodeNext",
-        "i": "nodePrev",
-        "j": "gotoParent",
-        "l": "cd",
-        "e": ["expanded?", "collapse", "expand"],
-        "o": ["expandable?", "expand", "open"],
-        "gj": "expandRecursive",
-        "gl": "collapseRecursive",
-        "gi": "expandablePrev",
-        "gk": "expandableNext",
-
-        "<cr>": ["expanded?", "collapse", "expand"],
+        "k": ["wait", "nodeNext"],
+        "i": ["wait", "nodePrev"],
+        "j": ["wait", "gotoParent"],
+        "l": ["wait", "cd"],
+        "o": ["expandable?", ["expanded?", "collapse", "expand"], "open"],
+        "gj": ["wait", "expand:recursive"],
+        "gl": ["wait", "collapse:recursive"],
+        "gi": ["wait", "expandablePrev"],
+        "gk": ["wait", "expandableNext"],
 
         "s": "open:split",
-        "S": "open:vsplit",
+        "v": "open:vsplit",
         "t": "open:tab",
 
         "yp": "copyFilepath",
@@ -114,14 +109,22 @@
         "gf": "gotoSource:file",
         "gb": "gotoSource:buffer",
 
-        "[[": "sourcePrev",
-        "]]": "sourceNext",
+        "[[": ["wait", "sourcePrev"],
+        "]]": ["wait", "sourceNext"],
 
-        "[d": "diagnosticPrev",
-        "]d": "diagnosticNext",
+        "[i": ["wait", "indentPrev"],
+        "]i": ["wait", "indentNext"],
 
-        "[c": "gitPrev",
-        "]c": "gitNext",
+        "[m": ["wait", "markPrev:modified"],
+        "]m": ["wait", "markNext:modified"],
+
+        "[d": ["wait", "markPrev:diagnosticError:diagnosticWarning"],
+        "]d": ["wait", "markNext:diagnosticError:diagnosticWarning"],
+        "[D": ["wait", "markPrev:diagnosticError"],
+        "]D": ["wait", "markNext:diagnosticError"],
+
+        "[c": ["wait", "markPrev:git"],
+        "]c": ["wait", "markNext:git"],
         "<<": "gitStage",
         ">>": "gitUnstage"
     }
