@@ -5,6 +5,7 @@
     "coc.preferences.colorSupport": true,
     "coc.preferences.enableFloatHighlight": true,
     "coc.preferences.extensionUpdateCheck": "daily",
+    "coc.preferences.jumpCommand": "tabe",
     "suggest.noselect": false,
     "suggest.autoTrigger": "always",
     "suggest.triggerAfterInsertEnter": true,
@@ -43,9 +44,11 @@
         "value": "\uf89f",
         "variable": "\ue71b"
 	    },
-    "clangd.checkUpdates": true,
-    "clangd.semanticHighlighting": true,
+    "clangd.checkUpdates": false,
+    "python.pythonPath": "python",
     "python.jediEnabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.formatting.provider": "autopep8",
     "python.autoComplete.addBrackets": true,
     "yaml.format.enable": true,
     "snippets.ultisnips.directories": [
@@ -53,7 +56,7 @@
     ],
 	"xml.java.home": "/usr/lib/jvm/java-14-openjdk",
     "yank.highlight.duration": 100,
-    "yank.enableCompletion": false,
+    "yank.enableCompletion": true,
     "translator.engines": [
         "youdao"
     ],

@@ -31,6 +31,7 @@ syntax on
 set encoding=utf-8
 set title
 set autoread
+set autowrite
 set number
 set relativenumber
 set cursorline
@@ -158,6 +159,8 @@ func! FileRun()
         exec "AsyncTask file-run"
     endif
 endfunc
+" Standard plugins -- for gdb
+packadd termdebug
 
 call plug#begin('~/.config/nvim/plugged')
 
@@ -190,7 +193,6 @@ Plug 'lambdalisue/suda.vim'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'lervag/vimtex'
-Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'voldikss/vim-floaterm'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andymass/vim-matchup'
@@ -201,6 +203,9 @@ Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 Plug 'pechorin/any-jump.vim'
 Plug 'drmikehenry/vim-headerguard'
 Plug 'mbbill/undotree'
+Plug 'unblevable/quick-scope'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
 " themes
 Plug 'joshdick/onedark.vim'
@@ -250,9 +255,15 @@ let g:forest_night_disable_italic_comment = 1
 
 " vim-one
 let g:one_allow_italics = 1 " I love italic for comments
+" quick-scope highlight
+augroup qs_colors
+  autocmd!
+  autocmd ColorScheme * highlight QuickScopePrimary guifg='#5fffff' gui=underline ctermfg=155 cterm=underline
+  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#ff99ff' gui=underline ctermfg=81 cterm=underline
+augroup END
 
 " vim colorscheme
-colorscheme gruvbox
+colorscheme deus
 
 " airline
 " let g:airline_powerline_fonts = 1
@@ -280,10 +291,13 @@ let g:AutoPairsShortcutJump = '<C-h>'
 " coc.nvim
 let g:coc_global_extensions = [
     \ 'coc-emoji',
+    \ 'coc-zi',
     \ 'coc-svg',
     \ 'coc-marketplace',
     \ 'coc-post',
 	\ 'coc-lists',
+    \ 'coc-bibtex',
+    \ 'coc-picgo',
 	\ 'coc-actions',
     \ 'coc-tasks',
     \ 'coc-git',
@@ -293,11 +307,11 @@ let g:coc_global_extensions = [
     \ 'coc-highlight',
     \ 'coc-yank',
     \ 'coc-calc',
-    \ 'coc-translator',
     \ 'coc-html',
     \ 'coc-json',
     \ 'coc-xml',
     \ 'coc-yaml',
+    \ 'coc-tsserver',
     \ 'coc-clangd',
     \ 'coc-cmake',
     \ 'coc-python',
@@ -324,15 +338,19 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 " common operation
 noremap <LEADER>cd :CocFzfList commands<CR>
+nmap gp <Plug>(coc-diagnostic-prev)
 nmap gn <Plug>(coc-diagnostic-next)
 nmap gd <Plug>(coc-definition)
 nmap gD <Plug>(coc-declaration)
 nmap gi <Plug>(coc-implementation)
 nmap gt <Plug>(coc-type-definition)
-nmap gr <Plug>(coc-references)
-nmap gR <Plug>(coc-rename)
-nmap gL <Plug>(coc-refactor)
+nmap gL <Plug>(coc-references)
+nmap gr <Plug>(coc-rename)
+nmap gR <Plug>(coc-refactor)
 nmap gl <Plug>(coc-openlink)
+xmap gF <Plug>(coc-format-selected)
+nmap gF <Plug>(coc-format-selected)
+nmap gq <Plug>(coc-fix-current)
 nnoremap <silent> g; :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -371,6 +389,15 @@ nmap [g <Plug>(coc-git-prevchunk)
 nmap ]g <Plug>(coc-git-nextchunk)
 nmap [c <Plug>(coc-git-prevconflict)
 nmap ]c <Plug>(coc-git-nextconflict)
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
 
 " fzf&coc.nvim
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
@@ -695,6 +722,17 @@ function g:Undotree_CustomMap()
     nmap <buffer> L <plug>UndotreePreviousState
 endfunc
 
+" nvim-treesitter
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "c", "cpp", "html", "css", "json", "lua", "bash", "python" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = {},  -- list of language that will be disabled
+  },
+}
+EOF
+
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>
 noremap <LEADER>R :FloatermNew ranger<CR>
@@ -770,7 +808,7 @@ xnoremap <C-i> :move -2<CR>gv
 nnoremap <C-k> :<c-u>move +1<CR>
 xnoremap <C-k> :move '>+1<CR>gv
 " move cusor to head of current line
-noremap <C-j> 0
+noremap <C-j> ^
 " move cusor to end of current line
 noremap <C-l> $
 " <C-u> go to older position, <C-o> go to newer position
@@ -827,6 +865,8 @@ nnoremap sh <C-w>K
 " rotate windows
 nnoremap sr <C-w>r
 nnoremap sR <C-w>R
+" terminal keymaps
+tnoremap <Esc> <C-\><C-n>
 
 " compile and run (file scope or project scope)
 noremap <F6> :AsyncTask file-build<CR>
@@ -837,27 +877,25 @@ noremap <LEADER><F7> :AsyncTask project-run<CR>
 """""""""""""""""""""""""""""""
 "  colors for some conditions "
 """""""""""""""""""""""""""""""
-highlight Normal guibg=NONE ctermbg=NONE
-highlight SignColumn guibg=NONE ctermbg=NONE
-highlight CocGitAddedSign ctermfg=142 guifg=#b8bb26 guibg=NONE ctermbg=NONE
-highlight CocGitChangedSign ctermfg=108 guifg=#8ec07c guibg=NONE ctermbg=NONE
-highlight CocGitRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
-highlight CocGitTopRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
-highlight CocGitChangeRemovedSign ctermfg=167 guifg=#fb4934 guibg=NONE ctermbg=NONE
-highlight CocHighlightText ctermfg=142 guifg=#623f4f guibg=#77dd77 ctermbg=NONE
-highlight SignatureMarkText ctermfg=109 guifg=#83a598 guibg=NONE ctermbg=NONE
-highlight FleetingFlashyFiretrucks guibg=#55dd77
+" highlight Normal guibg=NONE ctermbg=NONE
+" highlight SignColumn guibg=NONE ctermbg=NONE
+highlight CocGitAddedSign ctermfg=142 guifg=#b8bb26 guibg=#242a32 ctermbg=NONE
+highlight CocGitChangedSign ctermfg=108 guifg=#8ec07c guibg=#242a32 ctermbg=NONE
+highlight CocGitRemovedSign ctermfg=167 guifg=#fb4934 guibg=#242a32 ctermbg=NONE
+highlight CocGitTopRemovedSign ctermfg=167 guifg=#fb4934 guibg=#242a32 ctermbg=NONE
+highlight CocGitChangeRemovedSign ctermfg=167 guifg=#fb4934 guibg=#242a32 ctermbg=NONE
+highlight SignatureMarkText ctermfg=109 guifg=#83a598 guibg=#242a32 ctermbg=NONE
+highlight CocHighlightText ctermfg=142 gui=underline,italic guifg= guibg= ctermbg=NONE
 
-" highlight StatusLine cterm=reverse ctermfg=239 ctermbg=NONE gui=reverse guifg=#aea0ac guibg=NONE
-
-function! s:show_prev_next_line()
-    let curline_number = line(".")
-    let curline_number_prev = curline_number - 5
-    let curline_number_next = curline_number + 5
-    let pattern = '/\\%' . string(curline_number_prev) . 'l\\|\\%' . string(curline_number_next) . 'l/'
-    execute "match FleetingFlashyFiretrucks ". pattern
-endfunction
-autocmd CursorMoved,CursorMovedI * call s:show_prev_next_line()
+" highlight FleetingFlashyFiretrucks guibg=#55dd77
+" function! s:show_prev_next_line()
+    " let curline_number = line(".")
+    " let curline_number_prev = curline_number - 5
+    " let curline_number_next = curline_number + 5
+    " let pattern = '/\\%' . string(curline_number_prev) . 'l\\|\\%' . string(curline_number_next) . 'l/'
+    " execute "match FleetingFlashyFiretrucks ". pattern
+" endfunction
+" autocmd CursorMoved,CursorMovedI * call s:show_prev_next_line()
 
 """""""""""""""""""""""""""""""
 "    auto executed commands   "
