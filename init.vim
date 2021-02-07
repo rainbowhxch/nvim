@@ -82,6 +82,7 @@ set vb t_vb=
 set t_Co=256
 " for preview of the substitue
 set inccommand=split
+set tags=./.tags;,.tags
 
 " swap file
 let &directory = s:vim_cachedir. "swap"
@@ -164,13 +165,10 @@ packadd termdebug
 
 call plug#begin('~/.config/nvim/plugged')
 
-" Plug 'vim-airline/vim-airline'
-" Plug 'liuchengxu/eleline.vim'
 Plug 'tpope/vim-surround'
 Plug 'luochen1990/rainbow'
 Plug 'jiangmiao/auto-pairs'
-Plug 'sheerun/vim-polyglot'
-" Plug 'mg979/vim-xtabline'
+Plug 'kyazdani42/nvim-web-devicons'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
@@ -184,7 +182,6 @@ Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'junegunn/vim-easy-align'
-Plug 'Chiel92/vim-autoformat'
 Plug 'liuchengxu/vista.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'easymotion/vim-easymotion'
@@ -196,16 +193,23 @@ Plug 'lervag/vimtex'
 Plug 'voldikss/vim-floaterm'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'andymass/vim-matchup'
-Plug 'osyo-manga/vim-anzu'
 Plug 'tpope/vim-repeat'
 Plug 'brooth/far.vim'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 Plug 'pechorin/any-jump.vim'
-Plug 'drmikehenry/vim-headerguard'
+Plug 'drmikehenry/vim-headerguard', { 'for': 'cpp' }
 Plug 'mbbill/undotree'
 Plug 'unblevable/quick-scope'
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'Shougo/echodoc.vim'
+Plug 'glepnir/indent-guides.nvim'
+Plug 'glepnir/dashboard-nvim'
+Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
+Plug 'rhysd/accelerated-jk'
+Plug 'akinsho/nvim-bufferline.lua'
+Plug 'kevinhwang91/nvim-hlslens'
+Plug 'mhartington/formatter.nvim'
 
 " themes
 Plug 'joshdick/onedark.vim'
@@ -265,23 +269,6 @@ augroup END
 " vim colorscheme
 colorscheme deus
 
-" airline
-" let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#whitespace#enabled = 0
-if !exists('g:airline_symbols')
-  let g:airline_symbol = {}
-endif
-function! s:update_git_status()
-	      let g:airline_section_b = "%{get(g:,'coc_git_status','')}"
-endfunction
-let g:airline_section_b = "%{get(g:,'coc_git_status','')}"
-autocmd User CocGitStatusChange call s:update_git_status()
-
-" eleline.vim
-let g:eleline_powerline_fonts = 1
-
 " auto-pairs
 let g:AutoPairsShortcutToggle = ''
 let g:AutoPairsMapCh = 0
@@ -295,10 +282,10 @@ let g:coc_global_extensions = [
     \ 'coc-svg',
     \ 'coc-marketplace',
     \ 'coc-post',
-	\ 'coc-lists',
+    \ 'coc-lists',
     \ 'coc-bibtex',
     \ 'coc-picgo',
-	\ 'coc-actions',
+    \ 'coc-actions',
     \ 'coc-tasks',
     \ 'coc-git',
     \ 'coc-snippets',
@@ -343,7 +330,8 @@ nmap gn <Plug>(coc-diagnostic-next)
 nmap gd <Plug>(coc-definition)
 nmap gD <Plug>(coc-declaration)
 nmap gi <Plug>(coc-implementation)
-nmap gt <Plug>(coc-type-definition)
+nnoremap gt :stjump <C-R><C-W><CR>
+nmap gT <Plug>(coc-type-definition)
 nmap gL <Plug>(coc-references)
 nmap gr <Plug>(coc-rename)
 nmap gR <Plug>(coc-refactor)
@@ -467,7 +455,8 @@ noremap <LEADER>fc :Colors<CR>
 noremap <LEADER>fl :Lines<CR>
 noremap <LEADER>ft :Tags<CR>
 noremap <LEADER>fm :Marks<CR>
-noremap <LEADER>fw :Windows<CR>
+noremap <LEADER>fw :Rg<CR>
+noremap <LEADER>fW :Windows<CR>
 noremap <LEADER>fh :History<CR>
 noremap <LEADER>fs :CocFzfList snippets<CR>
 noremap <LEADER>fo :CocFzfList outline<CR>
@@ -528,8 +517,33 @@ let g:vista_executive_for = {
   \ 'cpp': 'coc',
   \ }
 
-" vim-autoformat
-noremap <LEADER>af :Autoformat<CR>
+" formatter.nvim
+lua <<EOF
+require('formatter').setup({
+  logging = false,
+  filetype = {
+    c = {
+       function()
+          return {
+            exe = "clang-format",
+            args = {"--style=Google"},
+            stdin = true
+          }
+        end
+    },
+    cpp = {
+      function()
+        return {
+          exe = "clang-format",
+          args = {"--style=Google"},
+          stdin = true
+        }
+      end
+    }
+  }
+})
+EOF
+noremap <LEADER>af :Format<CR>
 
 " vim-signature
 let g:SignatureMap = {
@@ -573,36 +587,6 @@ nmap /l <Plug>(easymotion-overwin-line)
 vmap  /w <Plug>(easymotion-bd-w)
 nmap /w <Plug>(easymotion-overwin-w)
 
-" xtabline
-let g:xtabline_settings = {}
-let g:xtabline_settings.enable_mappings = 0
-let g:xtabline_settings.enable_persistance = 0
-let g:xtabline_settings.last_open_first = 1
-let g:xtabline_settings.tabline_modes = ['buffers', 'tabs']
-" autocmd vimenter * :XTabTheme tomorrow
-let g:xtabline_settings.indicators = {
-  \ 'modified': '[+]',
-  \ 'pinned': '[📌]',
-  \}
-let g:xtabline_settings.icons = {
-  \'pin': '📌',
-  \'star': '★',
-  \'book': '📖',
-  \'lock': '🔒',
-  \'hammer': '🔨',
-  \'tick': '✔',
-  \'cross': '✖',
-  \'warning': '⚠',
-  \'menu': '☰',
-  \'apple': '🍎',
-  \'linux': '🐧',
-  \'windows': '⌘',
-  \'git': '',
-  \'palette': '🎨',
-  \'lens': '🔍',
-  \'flag': '🏁',
-  \}
-
 " Goyo
 nnoremap <LEADER>gy :Goyo<CR>
 let g:goyo_width = '80'
@@ -615,7 +599,7 @@ let g:suda_smart_edit = 1
 
 " asynctasks.vim
 let g:asyncrun_open = 6
-let g:asyncrun_rootmarks = ['.git', '.svn', '.root', '.project', '.hg']
+let g:asyncrun_rootmarks = ['.git', '.svn', '.root', '.project' ]
 
 " vimtex
 let g:vimtex_mappings_enabled = 0
@@ -659,12 +643,6 @@ endfunction
 
 " floaterm
 let g:floaterm_keymap_toggle = '<F1>'
-
-" vim-anzu
-nmap n <Plug>(anzu-n-with-echo)
-nmap N <Plug>(anzu-N-with-echo)
-nmap * <Plug>(anzu-star-with-echo)
-nmap # <Plug>(anzu-sharp-with-echo)
 
 " vim-matchup
 let g:matchup_mappings_enabled = 1
@@ -725,13 +703,95 @@ endfunc
 " nvim-treesitter
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "c", "cpp", "html", "css", "json", "lua", "bash", "python" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
     disable = {},  -- list of language that will be disabled
   },
 }
 EOF
+
+" vim-gutentags
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
+let g:gutentags_ctags_tagfile = '.tags'
+let s:vim_tags = expand('~/.cache/tags')
+if !isdirectory(s:vim_tags)
+   silent! call mkdir(s:vim_tags, 'p')
+endif
+let g:gutentags_cache_dir = s:vim_tags
+let g:gutentags_modules = []
+if executable('ctags')
+	let g:gutentags_modules += ['ctags']
+endif
+if executable('gtags-cscope') && executable('gtags')
+	let g:gutentags_modules += ['gtags_cscope']
+endif
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
+let g:gutentags_auto_add_gtags_cscope = 0
+let g:gutentags_define_advanced_commands = 1
+let g:gutentags_enabled = 0
+augroup auto_gutentags
+  au FileType c,cpp let g:gutentags_enabled=1
+augroup end
+
+" echodoc.vim
+let g:echodoc_enable_at_startup = 1
+
+" indent_guides.nvim
+lua require('indent_guides').setup({})
+
+" dashboard-nvim
+let g:dashboard_default_executive ='fzf'
+let g:dashboard_custom_shortcut={
+  \ 'new_file'           : 'SPC c n',
+  \ 'find_file'          : 'SPC f f',
+  \ 'book_marks'         : 'SPC f m',
+  \ 'find_word'          : 'SPC f w',
+  \ 'find_history'       : 'SPC f h',
+  \ 'change_colorscheme' : 'SPC f c',
+  \ 'last_session'       : 'SPC s l',
+  \ }
+let g:dashboard_custom_header = [
+      \'     ⠀⠀⠀⠀⠀⠀⠀⡴⠞⠉⢉⣭⣿⣿⠿⣳⣤⠴⠖⠛⣛⣿⣿⡷⠖⣶⣤⡀⠀⠀⠀  ',
+      \'   ⠀⠀⠀⠀⠀⠀⠀⣼⠁⢀⣶⢻⡟⠿⠋⣴⠿⢻⣧⡴⠟⠋⠿⠛⠠⠾⢛⣵⣿⠀⠀⠀⠀  ',
+      \'   ⣼⣿⡿⢶⣄⠀⢀⡇⢀⡿⠁⠈⠀⠀⣀⣉⣀⠘⣿⠀⠀⣀⣀⠀⠀⠀⠛⡹⠋⠀⠀⠀⠀  ',
+      \'   ⣭⣤⡈⢑⣼⣻⣿⣧⡌⠁⠀⢀⣴⠟⠋⠉⠉⠛⣿⣴⠟⠋⠙⠻⣦⡰⣞⠁⢀⣤⣦⣤⠀  ',
+      \'   ⠀⠀⣰⢫⣾⠋⣽⠟⠑⠛⢠⡟⠁⠀⠀⠀⠀⠀⠈⢻⡄⠀⠀⠀⠘⣷⡈⠻⣍⠤⢤⣌⣀  ',
+      \'   ⢀⡞⣡⡌⠁⠀⠀⠀⠀⢀⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⢿⡀⠀⠀⠀⠸⣇⠀⢾⣷⢤⣬⣉  ',
+      \'   ⡞⣼⣿⣤⣄⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⣿⠀⠸⣿⣇⠈⠻  ',
+      \'   ⢰⣿⡿⢹⠃⠀⣠⠤⠶⣼⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⣿⠀⠀⣿⠛⡄⠀  ',
+      \'   ⠈⠉⠁⠀⠀⠀⡟⡀⠀⠈⡗⠲⠶⠦⢤⣤⣤⣄⣀⣀⣸⣧⣤⣤⠤⠤⣿⣀⡀⠉⣼⡇⠀  ',
+      \'   ⣿⣴⣴⡆⠀⠀⠻⣄⠀⠀⠡⠀⠀⠀⠈⠛⠋⠀⠀⠀⡈⠀⠻⠟⠀⢀⠋⠉⠙⢷⡿⡇⠀  ',
+      \'   ⣻⡿⠏⠁⠀⠀⢠⡟⠀⠀⠀⠣⡀⠀⠀⠀⠀⠀⢀⣄⠀⠀⠀⠀⢀⠈⠀⢀⣀⡾⣴⠃⠀  ',
+      \'   ⢿⠛⠀⠀⠀⠀⢸⠁⠀⠀⠀⠀⠈⠢⠄⣀⠠⠼⣁⠀⡱⠤⠤⠐⠁⠀⠀⣸⠋⢻⡟⠀⠀  ',
+      \'   ⠈⢧⣀⣤⣶⡄⠘⣆⠀⠀⠀⠀⠀⠀⠀⢀⣤⠖⠛⠻⣄⠀⠀⠀⢀⣠⡾⠋⢀⡞⠀⠀⠀  ',
+      \'   ⠀⠀⠻⣿⣿⡇⠀⠈⠓⢦⣤⣤⣤⡤⠞⠉⠀⠀⠀⠀⠈⠛⠒⠚⢩⡅⣠⡴⠋⠀⠀⠀⠀  ',
+      \'   ⠀⠀⠀⠈⠻⢧⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⣻⠿⠋⠀⠀⠀⠀⠀⠀  ',
+      \'   ⠀⠀⠀⠀⠀⠀⠉⠓⠶⣤⣄⣀⡀⠀⠀⠀⠀⠀⢀⣀⣠⡴⠖⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀  ',
+      \ ]
+let g:dashboard_custom_footer = [ "Welcome to RainbowCh's Nvim!" ]
+nnoremap <silent> <Leader>cn :DashboardNewFile<CR>
+nmap <Leader>cs :<C-u>SessionSave<CR>
+nmap <Leader>cl :<C-u>SessionLoad<CR>
+
+" galaxyline.nvim
+lua require('eviline')
+
+" nvim-bufferline.lus
+lua require'bufferline'.setup{}
+
+" nvim-hlslens
+noremap <silent> n <Cmd>execute('normal! ' . v:count1 . 'n')<CR>
+                \<Cmd>lua require('hlslens').start()<CR>
+noremap <silent> N <Cmd>execute('normal! ' . v:count1 . 'N')<CR>
+                \<Cmd>lua require('hlslens').start()<CR>
+noremap * *<Cmd>lua require('hlslens').start()<CR>
+noremap # #<Cmd>lua require('hlslens').start()<CR>
+noremap g* g*<Cmd>lua require('hlslens').start()<CR>
+noremap g# g#<Cmd>lua require('hlslens').start()<CR>
 
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>
@@ -795,10 +855,13 @@ noremap h m
 " movement
 noremap j h
 noremap J b
-noremap k j
-noremap K 5j
-noremap i k
+" use accelerated-jk
+nmap i <Plug>(accelerated_jk_gk)
+nmap k <Plug>(accelerated_jk_gj)
+xnoremap i k
+xnoremap k j
 noremap I 5k
+noremap K 5j
 noremap L w
 
 " move current line up
@@ -859,6 +922,7 @@ nnoremap <LEADER>te :tabedit<CR>
 nnoremap <LEADER>tl :+tabnext<CR>
 nnoremap <LEADER>tmj :-tabmove<CR>
 nnoremap <LEADER>tml :+tabmove<CR>
+
 " make current window widest on left or top
 nnoremap sv <C-w>H
 nnoremap sh <C-w>K

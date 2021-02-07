@@ -1,8 +1,7 @@
 extends c
 
 snippet class "Class" b
-class ${1} ${2: :parent}
-{
+class ${1} ${2: :parent} {
 public:
 	${1}();
 private:
@@ -12,15 +11,13 @@ endsnippet
 
 snippet tf "template function" b
 template <typename ${1:T}>
-${1:void} ${2:funcname}(${3:args})
-{
+${1:void} ${2:funcname}(${3:args}) {
 	${0}
 }
 endsnippet
 
 snippet cf "class function" b
-${1:void} ${2:class}::${3:func}
-{
+${1:void} ${2:class}::${3:func} {
 	${0}
 }
 endsnippet
@@ -41,11 +38,4 @@ endsnippet
 
 snippet v "vector" b
 vector<${1:int}> ${0};
-endsnippet
-snippet main "main function" b
-int main(int argc, char *argv[])
-{
-	${0}
-	return 0;
-}
 endsnippet
