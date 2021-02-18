@@ -168,6 +168,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'
 Plug 'luochen1990/rainbow'
 Plug 'jiangmiao/auto-pairs'
+
 Plug 'kyazdani42/nvim-web-devicons'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -251,7 +252,13 @@ autocmd vim-colors-xcode ColorScheme * hi Comment        cterm=italic gui=italic
 autocmd vim-colors-xcode ColorScheme * hi SpecialComment cterm=italic gui=italic
 
 " gruvbox
-let g:gruvbox_italic=1
+let g:gruvbox_italic = 1
+let g:gruvbox_italicize_strings = 1
+let g:gruvbox_invert_signs = 1
+let g:gruvbox_invert_indent_guides = 1
+let g:gruvbox_invert_tabline = 1
+let g:gruvbox_improved_strings = 1
+let g:gruvbox_improved_warnings = 1
 
 " forest
 let g:forest_night_enable_italic = 1
@@ -267,13 +274,14 @@ augroup qs_colors
 augroup END
 
 " vim colorscheme
-colorscheme deus
+colorscheme gruvbox
 
 " auto-pairs
 let g:AutoPairsShortcutToggle = ''
+let g:AutoPairsShortcutBackInsert = ''
 let g:AutoPairsMapCh = 0
 let g:AutoPairsShortcutFastWrap = '<C-a>'
-let g:AutoPairsShortcutJump = '<C-h>'
+let g:AutoPairsShortcutJump = '<C-;>'
 
 " coc.nvim
 let g:coc_global_extensions = [
@@ -325,20 +333,31 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 " common operation
 noremap <LEADER>cd :CocFzfList commands<CR>
-nmap gp <Plug>(coc-diagnostic-prev)
-nmap gn <Plug>(coc-diagnostic-next)
+nmap [d <Plug>(coc-diagnostic-prev)
+nmap ]d <Plug>(coc-diagnostic-next)
+nmap [r <Plug>(coc-range-select)
+nmap ]r <Plug>(coc-range-select-backward)
 nmap gd <Plug>(coc-definition)
 nmap gD <Plug>(coc-declaration)
 nmap gi <Plug>(coc-implementation)
 nnoremap gt :stjump <C-R><C-W><CR>
 nmap gT <Plug>(coc-type-definition)
-nmap gL <Plug>(coc-references)
+nmap gl <Plug>(coc-references)
 nmap gr <Plug>(coc-rename)
 nmap gR <Plug>(coc-refactor)
-nmap gl <Plug>(coc-openlink)
-xmap gF <Plug>(coc-format-selected)
+nmap gL <Plug>(coc-openlink)
+vmap gF <Plug>(coc-format-selected)
 nmap gF <Plug>(coc-format-selected)
 nmap gq <Plug>(coc-fix-current)
+nmap ga <Plug>(coc-codeaction)
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
 nnoremap <silent> g; :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -349,9 +368,6 @@ function! s:show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
-" multiple cursors
-nmap <silent> <C-m> <Plug>(coc-cursors-word)
-xmap <silent> <C-m> <Plug>(coc-cursors-range)
 " coc-highlight
 autocmd CursorHold * silent call CocActionAsync('highlight')
 " coc-clangd
@@ -396,7 +412,7 @@ let g:rainbow_active = 1
 " vim-surround
 nmap <LEADER>" ysmW"
 nmap <LEADER>' ysmW'
-nmap <LEADER>) ysmW)
+nmap <LEADER>( ysmW)
 nmap <LEADER>{ ysmW{
 nmap <LEADER>[ ysmW[
 nmap <LEADER>/ ysmW*ysmW/f*a<SPACE><ESC>f*m<SPACE><ESC>b
@@ -421,7 +437,7 @@ vmap <Leader>cc <plug>NERDCommenterToggle
 nmap <Leader>cm <plug>NERDCommenterMinimal
 vmap <Leader>cm <plug>NERDCommenterMinimal
 
-" markdown
+" markdown-preview.vim
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
 let g:mkdp_refresh_slow = 0
@@ -498,8 +514,8 @@ let g:vmt_fence_closing_text = '/TOC'
 let g:table_mode_corner = '|'
 
 " vim-easy-align
-nmap ga <Plug>(EasyAlign)
-xmap ga <Plug>(EasyAlign)
+nmap <LEADER>al <Plug>(EasyAlign)
+xmap <LEADER>al <Plug>(EasyAlign)
 
 " vista
 noremap T :Vista!!<CR>
@@ -539,7 +555,34 @@ require('formatter').setup({
           stdin = true
         }
       end
-    }
+    },
+    python =  {
+      function()
+        return {
+          exe = "autopep8",
+          args = {""},
+          stdin = true
+        }
+      end
+    },
+    json =  {
+      function()
+        return {
+          exe = "fixjson",
+          args = {""},
+          stdin = true
+        }
+      end
+    },
+    markdown =  {
+      function()
+        return {
+          exe = "remark",
+          args = {""},
+          stdin = true
+        }
+      end
+    },
   }
 })
 EOF
@@ -547,13 +590,13 @@ noremap <LEADER>af :Format<CR>
 
 " vim-signature
 let g:SignatureMap = {
-    \ 'Leader'             :  "h",
-    \ 'PlaceNextMark'      :  "h,",
-    \ 'ToggleMarkAtLine'   :  "h.",
-    \ 'PurgeMarksAtLine'   :  "h-",
-    \ 'DeleteMark'         :  "dh",
-    \ 'PurgeMarks'         :  "h<SPACE>",
-    \ 'PurgeMarkers'       :  "h<BS>",
+    \ 'Leader'             :  "m",
+    \ 'PlaceNextMark'      :  "m,",
+    \ 'ToggleMarkAtLine'   :  "m.",
+    \ 'PurgeMarksAtLine'   :  "m-",
+    \ 'DeleteMark'         :  "dm",
+    \ 'PurgeMarks'         :  "m<SPACE>",
+    \ 'PurgeMarkers'       :  "m<BS>",
     \ 'GotoNextLineAlpha'  :  "",
     \ 'GotoPrevLineAlpha'  :  "",
     \ 'GotoNextSpotAlpha'  :  "",
@@ -566,8 +609,8 @@ let g:SignatureMap = {
     \ 'GotoPrevMarker'     :  "[-",
     \ 'GotoNextMarkerAny'  :  "",
     \ 'GotoPrevMarkerAny'  :  "",
-    \ 'ListBufferMarks'    :  "h/",
-    \ 'ListBufferMarkers'  :  "h?"
+    \ 'ListBufferMarks'    :  "m/",
+    \ 'ListBufferMarkers'  :  "m?"
     \ }
 
 " vim-easymotion
@@ -576,16 +619,17 @@ let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1
 "/f{char} to move to {char}
-vmap /f <Plug>(easymotion-bd-f)
-nmap /f <Plug>(easymotion-overwin-f)
+vmap sf <Plug>(easymotion-bd-f)
+nmap sf <Plug>(easymotion-overwin-f)
 " s{char}{char} to move to {char}{char}
-nmap /s <Plug>(easymotion-overwin-f2)
+vmap sc <Plug>(easymotion-bd-f2)
+nmap sc <Plug>(easymotion-overwin-f2)
 " Move to line
-vmap /l <Plug>(easymotion-bd-jk)
-nmap /l <Plug>(easymotion-overwin-line)
+vmap sL <Plug>(easymotion-bd-jk)
+nmap sL <Plug>(easymotion-overwin-line)
 " Move to word
-vmap  /w <Plug>(easymotion-bd-w)
-nmap /w <Plug>(easymotion-overwin-w)
+vmap sw <Plug>(easymotion-bd-w)
+nmap sw <Plug>(easymotion-overwin-w)
 
 " Goyo
 nnoremap <LEADER>gy :Goyo<CR>
@@ -649,7 +693,7 @@ let g:matchup_mappings_enabled = 1
 let g:matchup_text_obj_enabled = 0
 let g:matchup_override_vimtex = 1
 xmap a% <plug>(matchup-%)
-xmap m% <plug>(matchup-%)
+xmap i% <plug>(matchup-%)
 
 " vim-which-key
 nnoremap <silent> <LEADER> :WhichKey '<SPACE>'<CR>
@@ -676,8 +720,8 @@ let g:far#mapping = {
 	\ "jump_to_source" : "<CR>",
 	\ "open_preview" : "p",
 	\ "close_preview" : "P",
-	\ "preview_scroll_up" : "<C-i>",
-	\ "preview_scroll_down" : "<C-k>",
+	\ "preview_scroll_up" : "<C-k>",
+	\ "preview_scroll_down" : "<C-j>",
 	\ "stoggle_expand" : "za",
 	\ "stoggle_expand_all" : "zA",
 	\ "replace_do" : "r",
@@ -697,7 +741,7 @@ noremap <LEADER>ah :HeaderguardAdd<CR>
 nnoremap <LEADER>U :UndotreeToggle<cr>
 function g:Undotree_CustomMap()
     nmap <buffer> J <plug>UndotreeNextState
-    nmap <buffer> L <plug>UndotreePreviousState
+    nmap <buffer> K <plug>UndotreePreviousState
 endfunc
 
 " nvim-treesitter
@@ -741,7 +785,7 @@ augroup end
 let g:echodoc_enable_at_startup = 1
 
 " indent_guides.nvim
-lua require('indent_guides').setup({})
+lua require('indent_guides').setup()
 
 " dashboard-nvim
 let g:dashboard_default_executive ='fzf'
@@ -806,14 +850,14 @@ noremap <LEADER>rc :edit $MYVIMRC<CR>
 noremap <LEADER><CR> :nohlsearch<CR>
 " move cursor to other window
 noremap <LEADER>l <C-w>l
-noremap <LEADER>i <C-w>k
-noremap <LEADER>j <C-w>h
-noremap <LEADER>k <C-w>j
+noremap <LEADER>k <C-w>k
+noremap <LEADER>h <C-w>h
+noremap <LEADER>j <C-w>j
 " swith the position of current window
 noremap <LEADER>L <C-w>L
-noremap <LEADER>I <C-w>K
-noremap <LEADER>J <C-w>H
-noremap <LEADER>K <C-w>J
+noremap <LEADER>K <C-w>K
+noremap <LEADER>H <C-w>H
+noremap <LEADER>J <C-w>J
 " substitute
 noremap <LEADER>s :%s///g<left><left><left>
 " switch upper or lower
@@ -821,13 +865,13 @@ noremap <LEADER>u ~h
 " cute font
 noremap <LEADER>fr :r !figlet<SPACE>
 " go to next buffer
-noremap bl :bnext<CR>
+noremap ]b :bnext<CR>
 " go to previous buffer
-noremap bj :bprevious<CR>
+noremap [b :bprevious<CR>
 " go to the buffer that you view just before
-noremap bb <C-^>
+noremap L <C-^>
 " delete current buffer
-noremap bd :bdelete<CR>
+noremap H :bdelete<CR>
 " alter the keymap between colemak with normal us keyboard
 noremap <LEADER>bc :source $HOME/.config/nvim/insert-colemak.vim<CR>
 noremap <LEADER>bu :source $HOME/.config/nvim/insert-normal.vim<CR>
@@ -838,40 +882,26 @@ noremap <LEADER>, <C-x>
 " jump to the next placehold and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
 
-" search
-noremap // /
-
 " go next or previous searched text and keep in middle of screen
 nnoremap - Nzz
 nnoremap = nzz
 " change indent
 nnoremap < <<
 nnoremap > >>
-" go into insert mode
-noremap m i
-noremap M I
-" mark
-noremap h m
-" movement
-noremap j h
-noremap J b
-" use accelerated-jk
-nmap i <Plug>(accelerated_jk_gk)
-nmap k <Plug>(accelerated_jk_gj)
-xnoremap i k
-xnoremap k j
-noremap I 5k
-noremap K 5j
-noremap L w
+" use accelerated-jk for normal up/down movement
+nmap j <Plug>(accelerated_jk_gj)
+nmap k <Plug>(accelerated_jk_gk)
+noremap J 5j
+noremap K 5k
 
 " move current line up
-nnoremap <C-i> :<c-u>move -2<CR>
-xnoremap <C-i> :move -2<CR>gv
+nnoremap <C-k> :<c-u>move -2<CR>
+xnoremap <C-k> :move -2<CR>gv
 " move current line down
-nnoremap <C-k> :<c-u>move +1<CR>
-xnoremap <C-k> :move '>+1<CR>gv
+nnoremap <C-j> :<c-u>move +1<CR>
+xnoremap <C-j> :move '>+1<CR>gv
 " move cusor to head of current line
-noremap <C-j> ^
+noremap <C-h> ^
 " move cusor to end of current line
 noremap <C-l> $
 " <C-u> go to older position, <C-o> go to newer position
@@ -890,7 +920,7 @@ xnoremap <C-p> "+p
 " command mode movement
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
-cnoremap <C-j> <Left>
+cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
 
 " re-select view block after indent in v mode
@@ -906,9 +936,9 @@ nnoremap R :source $MYVIMRC<CR>
 
 " split windows
 nnoremap sl :set splitright<CR>:vsplit<CR>
-nnoremap sj :set nosplitright<CR>:vsplit<CR>
-nnoremap si :set nosplitbelow<CR>:split<CR>
-nnoremap sk :set splitbelow<CR>:split<CR>
+nnoremap sh :set nosplitright<CR>:vsplit<CR>
+nnoremap sk :set nosplitbelow<CR>:split<CR>
+nnoremap sj :set splitbelow<CR>:split<CR>
 
 " alter size of the current window
 noremap <up> :resize +5<CR>
@@ -917,11 +947,11 @@ noremap <left> :vertical resize+5<CR>
 noremap <right> :vertical resize-5<CR>
 
 " tab operation
-nnoremap <LEADER>tj :-tabnext<CR>
 nnoremap <LEADER>te :tabedit<CR>
-nnoremap <LEADER>tl :+tabnext<CR>
-nnoremap <LEADER>tmj :-tabmove<CR>
-nnoremap <LEADER>tml :+tabmove<CR>
+nnoremap [t :-tabnext<CR>
+nnoremap ]t :+tabnext<CR>
+nnoremap <LEADER>tk :-tabmove<CR>
+nnoremap <LEADER>tj :+tabmove<CR>
 
 " make current window widest on left or top
 nnoremap sv <C-w>H
