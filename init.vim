@@ -9,14 +9,15 @@
 """""""""""""""""""""""""""""""
 "    some initial commands    "
 """""""""""""""""""""""""""""""
-" Auto load plugs for the first time uses
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+" Auto load plugins at the first time uses
+if empty(glob(
+    \ '$HOME/' . (has('win32') ? 'vimfiles' : '.config/nvim') . '/autoload/plug.vim'))
+  execute '!curl -fLo ' .
+    \ (has('win32') ? '\%USERPROFILE\%/vimfiles' : '$HOME/.config/nvim') .
+    \ '/autoload/plug.vim --create-dirs ' .
+    \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-
-let s:vim_cachedir = $HOME. "/.cache/nvim/"
 
 """""""""""""""""""""""""""
 "    some vim settings    "
@@ -84,6 +85,7 @@ set t_Co=256
 set inccommand=split
 set tags=./.tags;,.tags
 
+let s:vim_cachedir = $HOME. "/.cache/nvim/"
 " swap file
 let &directory = s:vim_cachedir. "swap"
 " file backup
@@ -257,8 +259,8 @@ let g:gruvbox_italicize_strings = 1
 let g:gruvbox_invert_signs = 1
 let g:gruvbox_invert_indent_guides = 1
 let g:gruvbox_invert_tabline = 1
-let g:gruvbox_improved_strings = 1
-let g:gruvbox_improved_warnings = 1
+" let g:gruvbox_improved_strings = 1
+" let g:gruvbox_improved_warnings = 1
 
 " forest
 let g:forest_night_enable_italic = 1
