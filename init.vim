@@ -36,6 +36,7 @@ set autowrite
 set number
 set relativenumber
 set cursorline
+set colorcolumn=80
 set wrap
 set showcmd
 set ruler
@@ -57,33 +58,31 @@ set softtabstop=4
 set expandtab
 set list
 set listchars=tab:▸\ ,trail:▫
+set conceallevel=2
+set concealcursor=nc
 set scrolloff=16
 set autoindent
 set smartindent
 set backspace=indent,eol,start
 set foldmethod=indent
 set foldlevel=99
-" disable textwidth auto wrap
-set formatoptions=q
 set laststatus=2
-" set working directory to the current file
 set updatetime=100
 set updatecount=100
 set autochdir
-set indentexpr=
 set lazyredraw
-set virtualedit=block
 set termguicolors
-set noshowmode
-" shutdown the error bell
-set noerrorbells
-set novisualbell
-set vb t_vb=
-" recommender render 256 colors
-set t_Co=256
 " for preview of the substitue
 set inccommand=split
+" for echodoc
+set noshowmode
+" for tags generator
 set tags=./.tags;,.tags
+
+set backup
+set backupext=.bak
+set undofile
+set shada=!,'100,<50,s10,h
 
 let s:vim_cachedir = $HOME. "/.cache/nvim/"
 " swap file
@@ -99,25 +98,9 @@ let &shadafile = s:vim_cachedir. "shada"
 
 " file path of swap, backup, undo, view and vimtex&vista plugin files
 for d in [ &directory, &backupdir, &undodir, &viewdir,
-	 \ s:vim_cachedir."vimtex", s:vim_cachedir."vista" ]
+    \ s:vim_cachedir."vimtex", s:vim_cachedir."vista" ]
     call mkdir(d, "p", 0700)
 endfor
-
-set backup
-set backupext=.bak
-set undofile
-set shada='1000,f1,<500
-
-" cursor shape in i mode
-let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-" cursor shape in r mode
-let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-" cursor shape in normal mode
-let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-" let vim with terminal be better
-let &t_ut = ''
-let &t_TI = "\<Esc>[>4;2m"
-let &t_TE = "\<Esc>[>4;m"
 
 " go back the last line where you quit vim
 autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
@@ -125,6 +108,13 @@ autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~#
 " automatically deletes all trailing whitespace and newlines at end of file on save
 autocmd BufWritePre * %s/\s\+$//e
 autocmd BufWritePre * %s/\n\+\%$//e
+
+" turn off relative-line-number when enter insert mode and enable otherwise
+augroup AutoRelativeLineNums
+    autocmd!
+    au InsertEnter * set norelativenumber
+    au InsertLeave * set relativenumber
+augroup END
 
 " leader map
 let g:mapleader=" "
@@ -134,15 +124,15 @@ let g:mapleader=" "
 """""""""""""""""""""""""""""""
 " make task run on floaterm
 function! s:run_floaterm(opts)
-  let curr_bufnr = floaterm#curr()
-  if has_key(a:opts, 'silent') && a:opts.silent == 1
+    let curr_bufnr = floaterm#curr()
+    if has_key(a:opts, 'silent') && a:opts.silent == 1
     FloatermHide!
-  endif
-  let cmd = 'cd ' . shellescape(getcwd())
-  call floaterm#terminal#send(curr_bufnr, [cmd])
-  call floaterm#terminal#send(curr_bufnr, [a:opts.cmd])
-  " Back to the normal mode
-  stopinsert
+    endif
+    let cmd = 'cd ' . shellescape(getcwd())
+    call floaterm#terminal#send(curr_bufnr, [cmd])
+    call floaterm#terminal#send(curr_bufnr, [a:opts.cmd])
+    " Back to the normal mode
+    stopinsert
 endfunction
 
 let g:asyncrun_runner = get(g:, 'asyncrun_runner', {})
@@ -170,11 +160,18 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'
 Plug 'luochen1990/rainbow'
 Plug 'jiangmiao/auto-pairs'
-
 Plug 'kyazdani42/nvim-web-devicons'
+Plug 'Yggdroot/indentLine'
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'glepnir/dashboard-nvim'
+Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
+Plug 'romgrk/barbar.nvim'
+Plug 'aklt/plantuml-syntax'
+
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'terryma/vim-multiple-cursors'
 Plug 'preservim/nerdcommenter'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -182,13 +179,13 @@ Plug 'junegunn/fzf.vim'
 Plug 'antoinemadec/coc-fzf'
 Plug 'honza/vim-snippets'
 Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python --enable-go'}
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'junegunn/vim-easy-align'
 Plug 'liuchengxu/vista.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'easymotion/vim-easymotion'
-Plug 'junegunn/goyo.vim'
 Plug 'lambdalisue/suda.vim'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
@@ -206,13 +203,11 @@ Plug 'unblevable/quick-scope'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'Shougo/echodoc.vim'
-Plug 'glepnir/indent-guides.nvim'
-Plug 'glepnir/dashboard-nvim'
-Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 Plug 'rhysd/accelerated-jk'
-Plug 'akinsho/nvim-bufferline.lua'
 Plug 'kevinhwang91/nvim-hlslens'
 Plug 'mhartington/formatter.nvim'
+Plug 'junegunn/vim-peekaboo'
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 " themes
 Plug 'joshdick/onedark.vim'
@@ -412,12 +407,12 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let g:rainbow_active = 1
 
 " vim-surround
-nmap <LEADER>" ysmW"
-nmap <LEADER>' ysmW'
-nmap <LEADER>( ysmW)
-nmap <LEADER>{ ysmW{
-nmap <LEADER>[ ysmW[
-nmap <LEADER>/ ysmW*ysmW/f*a<SPACE><ESC>f*m<SPACE><ESC>b
+nmap <LEADER>" ysiW"
+nmap <LEADER>' ysiW'
+nmap <LEADER>( ysiW)
+nmap <LEADER>{ ysiW{
+nmap <LEADER>[ ysiW[
+nmap <LEADER>/ ysiW*ysiW/f*a<SPACE><ESC>f*i<SPACE><ESC>b
 
 " vim-multiple-cursors
 let g:multi_cursor_use_default_mapping=0
@@ -781,13 +776,10 @@ let g:gutentags_define_advanced_commands = 1
 let g:gutentags_enabled = 0
 augroup auto_gutentags
   au FileType c,cpp let g:gutentags_enabled=1
-augroup end
+augroup END
 
 " echodoc.vim
 let g:echodoc_enable_at_startup = 1
-
-" indent_guides.nvim
-lua require('indent_guides').setup()
 
 " dashboard-nvim
 let g:dashboard_default_executive ='fzf'
@@ -826,9 +818,6 @@ nmap <Leader>cl :<C-u>SessionLoad<CR>
 " galaxyline.nvim
 lua require('eviline')
 
-" nvim-bufferline.lus
-lua require'bufferline'.setup{}
-
 " nvim-hlslens
 noremap <silent> n <Cmd>execute('normal! ' . v:count1 . 'n')<CR>
                 \<Cmd>lua require('hlslens').start()<CR>
@@ -838,6 +827,23 @@ noremap * *<Cmd>lua require('hlslens').start()<CR>
 noremap # #<Cmd>lua require('hlslens').start()<CR>
 noremap g* g*<Cmd>lua require('hlslens').start()<CR>
 noremap g# g#<Cmd>lua require('hlslens').start()<CR>
+
+" limelight.vim
+augroup limelight
+    autocmd! User GoyoEnter Limelight
+    autocmd! User GoyoLeave Limelight!
+augroup END
+
+" barbar.nvim
+nnoremap sb :BufferPick<CR>
+" go to next buffer
+noremap ]b :BufferNext<CR>
+" go to previous buffer
+noremap [b :BufferPrevious<CR>
+" go to the buffer that you view just before
+noremap L <C-^>
+" delete current buffer
+noremap H :BufferClose<CR>
 
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>
@@ -866,14 +872,6 @@ noremap <LEADER>s :%s///g<left><left><left>
 noremap <LEADER>u ~h
 " cute font
 noremap <LEADER>fr :r !figlet<SPACE>
-" go to next buffer
-noremap ]b :bnext<CR>
-" go to previous buffer
-noremap [b :bprevious<CR>
-" go to the buffer that you view just before
-noremap L <C-^>
-" delete current buffer
-noremap H :bdelete<CR>
 " alter the keymap between colemak with normal us keyboard
 noremap <LEADER>bc :source $HOME/.config/nvim/insert-colemak.vim<CR>
 noremap <LEADER>bu :source $HOME/.config/nvim/insert-normal.vim<CR>
