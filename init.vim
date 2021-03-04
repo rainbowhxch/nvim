@@ -103,11 +103,16 @@ for d in [ &directory, &backupdir, &undodir, &viewdir,
 endfor
 
 " go back the last line where you quit vim
-autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-                  \ |   exe "normal! g`\"" | endif
+augroup AutoLastLine
+    autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+                      \ |   exe "normal! g`\"" | endif
+augroup END
+
 " automatically deletes all trailing whitespace and newlines at end of file on save
-autocmd BufWritePre * %s/\s\+$//e
-autocmd BufWritePre * %s/\n\+\%$//e
+augroup AutoTrailWhitespace
+    autocmd BufWritePre * %s/\s\+$//e
+    autocmd BufWritePre * %s/\n\+\%$//e
+augroup END
 
 " turn off relative-line-number when enter insert mode and enable otherwise
 augroup AutoRelativeLineNums
@@ -208,6 +213,7 @@ Plug 'kevinhwang91/nvim-hlslens'
 Plug 'mhartington/formatter.nvim'
 Plug 'junegunn/vim-peekaboo'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+Plug 'rafcamlet/coc-nvim-lua'
 
 " themes
 Plug 'joshdick/onedark.vim'
@@ -305,6 +311,7 @@ let g:coc_global_extensions = [
     \ 'coc-yaml',
     \ 'coc-tsserver',
     \ 'coc-clangd',
+    \ 'coc-lua',
     \ 'coc-cmake',
     \ 'coc-python',
     \ 'coc-vimlsp',
@@ -845,6 +852,12 @@ noremap L <C-^>
 " delete current buffer
 noremap H :BufferClose<CR>
 
+" AsyncTask
+noremap <F6> :AsyncTask file-build<CR>
+noremap <F7> :call FileRun()<CR>
+noremap <LEADER><F6> :AsyncTask project-build<CR>
+noremap <LEADER><F7> :AsyncTask project-run<CR>
+
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>
 noremap <LEADER>R :FloatermNew ranger<CR>
@@ -961,12 +974,6 @@ nnoremap sr <C-w>r
 nnoremap sR <C-w>R
 " terminal keymaps
 tnoremap <Esc> <C-\><C-n>
-
-" compile and run (file scope or project scope)
-noremap <F6> :AsyncTask file-build<CR>
-noremap <F7> :call FileRun()<CR>
-noremap <LEADER><F6> :AsyncTask project-build<CR>
-noremap <LEADER><F7> :AsyncTask project-run<CR>
 
 """""""""""""""""""""""""""""""
 "  colors for some conditions "
