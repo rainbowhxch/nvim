@@ -167,7 +167,6 @@ Plug 'luochen1990/rainbow'
 Plug 'jiangmiao/auto-pairs'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'Yggdroot/indentLine'
-Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'glepnir/dashboard-nvim'
 Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 Plug 'romgrk/barbar.nvim'
@@ -857,6 +856,9 @@ noremap <F6> :AsyncTask file-build<CR>
 noremap <F7> :call FileRun()<CR>
 noremap <LEADER><F6> :AsyncTask project-build<CR>
 noremap <LEADER><F7> :AsyncTask project-run<CR>
+
+" indentLine
+let g:indentLine_fileTypeExclude = [ 'help', 'dashboard' ]
 
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>
