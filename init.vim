@@ -59,7 +59,7 @@ set expandtab
 set list
 set listchars=tab:▸\ ,trail:▫
 set conceallevel=2
-set concealcursor=nc
+set concealcursor=
 set scrolloff=16
 set autoindent
 set smartindent
@@ -259,8 +259,8 @@ let g:gruvbox_italicize_strings = 1
 let g:gruvbox_invert_signs = 1
 let g:gruvbox_invert_indent_guides = 1
 let g:gruvbox_invert_tabline = 1
-" let g:gruvbox_improved_strings = 1
-" let g:gruvbox_improved_warnings = 1
+let g:gruvbox_improved_strings = 1
+let g:gruvbox_improved_warnings = 1
 
 " forest
 let g:forest_night_enable_italic = 1
@@ -303,6 +303,7 @@ let g:coc_global_extensions = [
     \ 'coc-floaterm',
     \ 'coc-highlight',
     \ 'coc-yank',
+    \ 'coc-diagnostic',
     \ 'coc-calc',
     \ 'coc-html',
     \ 'coc-json',
@@ -312,7 +313,7 @@ let g:coc_global_extensions = [
     \ 'coc-clangd',
     \ 'coc-lua',
     \ 'coc-cmake',
-    \ 'coc-python',
+    \ 'coc-jedi',
     \ 'coc-vimlsp',
     \ 'coc-sh',
     \ 'coc-vimtex',
@@ -388,9 +389,6 @@ noremap <silent> gs :call <SID>edit_snippets()<CR>
 noremap <LEADER>n :CocCommand explorer<CR>
 " coc-yank
 nnoremap <silent> <LEADER>y  :CocFzfList yank<CR>
-" coc-translator
-nmap <LEADER>ts <Plug>(coc-translator-p)
-vmap <LEADER>ts <Plug>(coc-translator-pv)
 " coc-git
 nmap [g <Plug>(coc-git-prevchunk)
 nmap ]g <Plug>(coc-git-nextchunk)
@@ -859,6 +857,8 @@ noremap <LEADER><F7> :AsyncTask project-run<CR>
 
 " indentLine
 let g:indentLine_fileTypeExclude = [ 'help', 'dashboard' ]
+let g:indentLine_concealcursor = ''
+let g:indentLine_conceallevel = 2
 
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>

@@ -1,7 +1,7 @@
 {
     "coc.preferences.snippetStatusText": "Ⓢ ",
     "suggest.triggerAfterInsertEnter": true,
-    "suggest.snippetIndicator": "Ⓢ ",
+    "suggest.snippetIndicator": "",
     "suggest.echodocSupport": true,
     "suggest.enablePreselect": true,
     "suggest.completionItemKindLabels": {
@@ -10,7 +10,7 @@
         "value": "\uf89f",
         "operator": "\u03a8",
         "constructor": "\uf0ad",
-        "function": "\u0192",
+        "function": "\uf794",
         "reference": "\ufa46",
         "constant": "\uf8fe",
         "method": "\uf09a",
@@ -34,11 +34,6 @@
     },
     "signature.hideOnTextChange": true,
     "clangd.checkUpdates": false,
-    "python.pythonPath": "python",
-    "python.jediEnabled": true,
-    "python.linting.pylintEnabled": true,
-    "python.formatting.provider": "autopep8",
-    "python.autoComplete.addBrackets": true,
     "yaml.format.enable": true,
     "snippets.ultisnips.directories": [
 	    "~/.config/nvim/snippets/"
@@ -116,5 +111,52 @@
         "]c": ["wait", "markNext:git"],
         "<<": "gitStage",
         ">>": "gitUnstage"
+    },
+    "diagnostic-languageserver.filetypes": {
+      "python": "pylint"
+    },
+    "diagnostic-languageserver.linters": {
+      "pylint": {
+        "sourceName": "pylint",
+        "command": "pylint",
+        "args": [
+          "--output-format",
+          "text",
+          "--score",
+          "no",
+          "--msg-template",
+          "'{line}:{column}:{category}:{msg} ({msg_id}:{symbol})'",
+          "%file"
+        ],
+        "formatPattern": [
+          "^(\\d+?):(\\d+?):([a-z]+?):(.*)$",
+          {
+            "line": 1,
+            "column": 2,
+            "security": 3,
+            "message": 4
+          }
+        ],
+        "rootPatterns": [".git", "pyproject.toml", "setup.py"],
+        "securities": {
+          "informational": "hint",
+          "refactor": "info",
+          "convention": "info",
+          "warning": "warning",
+          "error": "error",
+          "fatal": "error"
+        },
+        "offsetColumn": 1,
+        "formatLines": 1
+      }
+    },
+    "diagnostic-languageserver.formatFiletypes": {
+      "python": ["autopep8"]
+    },
+    "diagnostic-languageserver.formatters": {
+      "autopep8": {
+        "command": "autopep8",
+        "args": ["-"]
+      }
     }
 }
