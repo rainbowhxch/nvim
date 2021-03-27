@@ -163,7 +163,6 @@ packadd termdebug
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'tpope/vim-surround'
-Plug 'luochen1990/rainbow'
 Plug 'jiangmiao/auto-pairs'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'Yggdroot/indentLine'
@@ -171,6 +170,7 @@ Plug 'glepnir/dashboard-nvim'
 Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 Plug 'romgrk/barbar.nvim'
 Plug 'aklt/plantuml-syntax'
+Plug 'p00f/nvim-ts-rainbow'
 
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
@@ -213,6 +213,9 @@ Plug 'mhartington/formatter.nvim'
 Plug 'junegunn/vim-peekaboo'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 Plug 'rafcamlet/coc-nvim-lua'
+Plug 'wellle/context.vim'
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'tpope/vim-endwise'
 
 " themes
 Plug 'joshdick/onedark.vim'
@@ -753,6 +756,9 @@ require'nvim-treesitter.configs'.setup {
     enable = true,              -- false will disable the whole extension
     disable = {},  -- list of language that will be disabled
   },
+  rainbow = {
+    enable = true
+  }
 }
 EOF
 
@@ -859,6 +865,12 @@ noremap <LEADER><F7> :AsyncTask project-run<CR>
 let g:indentLine_fileTypeExclude = [ 'help', 'dashboard' ]
 let g:indentLine_concealcursor = ''
 let g:indentLine_conceallevel = 2
+
+" context.vim
+let g:context_add_mappings = 0
+
+" nvim-colorizer.lua
+lua require'colorizer'.setup()
 
 " lazygit
 noremap <LEADER>gi :FloatermNew lazygit<CR>

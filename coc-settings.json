@@ -33,6 +33,8 @@
         "default": "\uf29c"
     },
     "signature.hideOnTextChange": true,
+    "highlight.colors.enable": false,
+    "highlight.colorNames.enable": false,
     "clangd.checkUpdates": false,
     "yaml.format.enable": true,
     "snippets.ultisnips.directories": [
