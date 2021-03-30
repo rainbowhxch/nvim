@@ -31,6 +31,9 @@ local function load_autocmds()
         { [[ User GoyoEnter Limelight ]] };
         { [[ User GoyoEnter Limelight! ]] };
     };
+    AutoTextYank = {
+        { [[ TextYankPost * silent! lua vim.highlight.on_yank{ timeout=100 } ]] }
+    };
   }
 
   create_augroups(autocmds)

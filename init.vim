@@ -127,23 +127,6 @@ let g:mapleader=" "
 """""""""""""""""""""""""""""""
 "   something about plugins   "
 """""""""""""""""""""""""""""""
-" make task run on floaterm
-function! s:run_floaterm(opts)
-    let curr_bufnr = floaterm#curr()
-    if has_key(a:opts, 'silent') && a:opts.silent == 1
-    FloatermHide!
-    endif
-    let cmd = 'cd ' . shellescape(getcwd())
-    call floaterm#terminal#send(curr_bufnr, [cmd])
-    call floaterm#terminal#send(curr_bufnr, [a:opts.cmd])
-    " Back to the normal mode
-    stopinsert
-endfunction
-
-let g:asyncrun_runner = get(g:, 'asyncrun_runner', {})
-let g:asyncrun_runner.floaterm = function('s:run_floaterm')
-let g:asynctasks_term_pos = 'floaterm'
-
 " Compile function
 func! FileRun()
     exec "w"
@@ -193,6 +176,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'lambdalisue/suda.vim'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
+Plug 'skywind3000/asyncrun.extra'
 Plug 'lervag/vimtex'
 Plug 'voldikss/vim-floaterm'
 Plug 'AndrewRadev/splitjoin.vim'
@@ -205,7 +189,7 @@ Plug 'drmikehenry/vim-headerguard', { 'for': 'cpp' }
 Plug 'mbbill/undotree'
 Plug 'unblevable/quick-scope'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
 Plug 'Shougo/echodoc.vim'
 Plug 'rhysd/accelerated-jk'
 Plug 'kevinhwang91/nvim-hlslens'
@@ -215,7 +199,7 @@ Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 Plug 'rafcamlet/coc-nvim-lua'
 Plug 'wellle/context.vim'
 Plug 'norcalli/nvim-colorizer.lua'
-Plug 'tpope/vim-endwise'
+Plug 'MattesGroeger/vim-bookmarks'
 
 " themes
 Plug 'joshdick/onedark.vim'
@@ -262,7 +246,7 @@ let g:gruvbox_italicize_strings = 1
 let g:gruvbox_invert_signs = 1
 let g:gruvbox_invert_indent_guides = 1
 let g:gruvbox_invert_tabline = 1
-let g:gruvbox_improved_strings = 1
+" let g:gruvbox_improved_strings = 1
 let g:gruvbox_improved_warnings = 1
 
 " forest
@@ -304,7 +288,6 @@ let g:coc_global_extensions = [
     \ 'coc-snippets',
     \ 'coc-explorer',
     \ 'coc-floaterm',
-    \ 'coc-highlight',
     \ 'coc-yank',
     \ 'coc-diagnostic',
     \ 'coc-calc',
@@ -331,7 +314,8 @@ inoremap <silent><expr> <TAB>
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-G>u\<CR>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
 " Add `:Fold` command to fold current buffer.
@@ -375,8 +359,6 @@ function! s:show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
-" coc-highlight
-autocmd CursorHold * silent call CocActionAsync('highlight')
 " coc-clangd
 noremap gh :CocCommand clangd.switchSourceHeader<CR>
 " coc-snippets
@@ -645,9 +627,17 @@ nnoremap <LEADER>S :SudaWrite<CR>
 let g:suda#prompt = '(. > .) password please: '
 let g:suda_smart_edit = 1
 
-" asynctasks.vim
+" asyncrun.vim
 let g:asyncrun_open = 6
 let g:asyncrun_rootmarks = ['.git', '.svn', '.root', '.project' ]
+
+" asynctasks.vim
+" make task run on floaterm
+let g:asynctasks_term_pos = 'floaterm_reuse'
+noremap <F6> <CMD>AsyncTask file-build<CR>
+noremap <F7> <CMD>call FileRun()<CR>
+noremap <LEADER><F6> <CMD>AsyncTask project-build<CR>
+noremap <LEADER><F7> <CMD>AsyncTask project-run<CR>
 
 " vimtex
 let g:vimtex_mappings_enabled = 0
@@ -763,30 +753,30 @@ require'nvim-treesitter.configs'.setup {
 EOF
 
 " vim-gutentags
-let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
-let g:gutentags_ctags_tagfile = '.tags'
-let s:vim_tags = expand('~/.cache/tags')
-if !isdirectory(s:vim_tags)
-   silent! call mkdir(s:vim_tags, 'p')
-endif
-let g:gutentags_cache_dir = s:vim_tags
-let g:gutentags_modules = []
-if executable('ctags')
-	let g:gutentags_modules += ['ctags']
-endif
-if executable('gtags-cscope') && executable('gtags')
-	let g:gutentags_modules += ['gtags_cscope']
-endif
-let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
-let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
-let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
-let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
-let g:gutentags_auto_add_gtags_cscope = 0
-let g:gutentags_define_advanced_commands = 1
-let g:gutentags_enabled = 0
-augroup auto_gutentags
-  au FileType c,cpp let g:gutentags_enabled=1
-augroup END
+" let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
+" let g:gutentags_ctags_tagfile = '.tags'
+" let s:vim_tags = expand('~/.cache/tags')
+" if !isdirectory(s:vim_tags)
+   " silent! call mkdir(s:vim_tags, 'p')
+" endif
+" let g:gutentags_cache_dir = s:vim_tags
+" let g:gutentags_modules = []
+" if executable('ctags')
+	" let g:gutentags_modules += ['ctags']
+" endif
+" if executable('gtags-cscope') && executable('gtags')
+	" let g:gutentags_modules += ['gtags_cscope']
+" endif
+" let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+" let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+" let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+" let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
+" let g:gutentags_auto_add_gtags_cscope = 0
+" let g:gutentags_define_advanced_commands = 1
+" let g:gutentags_enabled = 0
+" augroup auto_gutentags
+  " au FileType c,cpp let g:gutentags_enabled=1
+" augroup END
 
 " echodoc.vim
 let g:echodoc_enable_at_startup = 1
@@ -855,12 +845,6 @@ noremap L <C-^>
 " delete current buffer
 noremap H :BufferClose<CR>
 
-" AsyncTask
-noremap <F6> :AsyncTask file-build<CR>
-noremap <F7> :call FileRun()<CR>
-noremap <LEADER><F6> :AsyncTask project-build<CR>
-noremap <LEADER><F7> :AsyncTask project-run<CR>
-
 " indentLine
 let g:indentLine_fileTypeExclude = [ 'help', 'dashboard' ]
 let g:indentLine_concealcursor = ''
@@ -868,13 +852,30 @@ let g:indentLine_conceallevel = 2
 
 " context.vim
 let g:context_add_mappings = 0
+nnoremap <LEADER>ct <CMD>ContextToggle<CR>
 
 " nvim-colorizer.lua
 lua require'colorizer'.setup()
 
+" yank highlight
+autocmd TextYankPost * silent! lua vim.highlight.on_yank{ timeout=100 }
+
+" vim-bookmarks
+let g:bookmark_sign = ''
+let g:bookmark_annotation_sign = '☰'
+let g:bookmark_no_default_key_mappings = 1
+nmap <Leader>mt <Plug>BookmarkToggle
+nmap <Leader>ma <Plug>BookmarkAnnotate
+nmap <Leader>mm <Plug>BookmarkShowAll
+nmap ]m <Plug>BookmarkNext
+nmap [m <Plug>BookmarkPrev
+nmap <Leader>mc <Plug>BookmarkClear
+nmap <Leader>mC <Plug>BookmarkClearAll
+
 " lazygit
-noremap <LEADER>gi :FloatermNew lazygit<CR>
-noremap <LEADER>R :FloatermNew ranger<CR>
+noremap <LEADER>gi <CMD>FloatermNew --autoclose=1 lazygit<CR>
+noremap <LEADER>R <CMD>FloatermNew --autoclose=1 ranger<CR>
+noremap <LEADER>rg <CMD>FloatermNew --autoclose=1 --width=0.8 --height=0.8 rg<CR>
 
 """""""""""""""""""""""""""""""""""""""""
 "  some mappings about common operation "

@@ -33,14 +33,12 @@
         "default": "\uf29c"
     },
     "signature.hideOnTextChange": true,
-    "highlight.colors.enable": false,
-    "highlight.colorNames.enable": false,
     "clangd.checkUpdates": false,
     "yaml.format.enable": true,
     "snippets.ultisnips.directories": [
 	    "~/.config/nvim/snippets/"
     ],
-	"xml.java.home": "/usr/lib/jvm/java-14-openjdk",
+    "xml.java.home": "/usr/lib/jvm/default",
     "yank.highlight.duration": 100,
     "yank.enableCompletion": true,
     "explorer.previewAction.onHover": false,
