@@ -125,7 +125,7 @@ require('nvim_comment').setup({
   -- Should key mappings be created
   create_mappings = true,
   -- Normal mode mapping left hand side
-  line_mapping = "<LEADER>cc",
+  line_mapping = "gcc",
   -- Visual/Operator mapping left hand side
   operator_mapping = "<LEADER>cc"
 })
@@ -559,6 +559,7 @@ return require('packer').startup(function(use)
   use { 'p00f/nvim-ts-rainbow', requires = {'nvim-treesitter/nvim-treesitter'} }
   use { 'windwp/nvim-ts-autotag', requires = {'nvim-treesitter/nvim-treesitter'} }
   use { 'JoosepAlviste/nvim-ts-context-commentstring', requires = {'nvim-treesitter/nvim-treesitter'} }
+  use 'norcalli/nvim-colorizer.lua'
 
   -- reading mode
   use { 'junegunn/goyo.vim', cmd = 'Goyo' }

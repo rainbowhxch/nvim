@@ -4,7 +4,7 @@ local utils = require('utils')
 utils.nnoremap('<LEADER>rc', '<CMD>edit $MYVIMRC<CR>')
 
 -- Shut down the hightlight of last search
-utils.nnoremap('<LEADER><CR>', '<CMD>nohlsearch')
+utils.nnoremap('<LEADER><CR>', '<CMD>nohlsearch<CR>')
 
 -- Move cursor to other window
 utils.nnoremap('<LEADER>l', '<C-w>l')

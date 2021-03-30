@@ -7,7 +7,6 @@ local function createdir()
     cache_dir..'swap',
     cache_dir..'view',
     cache_dir..'undo',
-    cache_dir..'shada',
     cache_dir..'vimtex',
     cache_dir..'vista',
   }
@@ -91,7 +90,7 @@ local function load_options()
         undodir        = cache_dir .. "undo/";
         backupdir      = cache_dir .. "backup/";
         viewdir        = cache_dir .. "view/";
-        shadafile      = cache_dir .. "shada/";
+        shadafile      = cache_dir .. "shada";
     }
 
     bind_option(options);

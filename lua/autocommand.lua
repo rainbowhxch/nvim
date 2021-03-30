@@ -12,10 +12,9 @@ end
 
 local function load_autocmds()
   local autocmds = {
-    AutoLastLine = {
-        { [[ BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") &&
-        &ft !~# 'commit' |   exe "normal! g`\"" | endif ]] };
-    };
+   AutoLastLine = {
+       { [[ BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit' |   exe "normal! g`\"" | endif ]] };
+   };
     AutoTrailWhitespace = {
         { [[ BufWritePre * %s/\s\+$//e ]] };
         { [[ BufWritePre * %s/\n\+\%$//e ]] };
@@ -23,9 +22,6 @@ local function load_autocmds()
     AutoRelativeLineNums = {
         { [[ InsertEnter * set norelativenumber ]] };
         { [[ InsertLeave * set relativenumber ]] };
-    };
-    AutoHighlight = {
-        { [[ CursorHold * silent call CocActionAsync('highlight') ]] };
     };
     AutoLimelight = {
         { [[ User GoyoEnter Limelight ]] };
