@@ -148,7 +148,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'kyazdani42/nvim-web-devicons'
-Plug 'Yggdroot/indentLine'
+Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'glepnir/dashboard-nvim'
 Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 Plug 'romgrk/barbar.nvim'
