@@ -86,6 +86,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/formatter.nvim"
   },
+  ["friendly-snippets"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/friendly-snippets"
+  },
   ["galaxyline.nvim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/galaxyline.nvim"
@@ -143,6 +147,10 @@ _G.packer_plugins = {
   ["nvim-comment"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/nvim-comment"
+  },
+  ["nvim-compe"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/nvim-compe"
   },
   ["nvim-hlslens"] = {
     loaded = true,
@@ -274,6 +282,14 @@ _G.packer_plugins = {
     needs_bufread = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/opt/vim-table-mode"
   },
+  ["vim-vsnip"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-vsnip"
+  },
+  ["vim-vsnip-integ"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-vsnip-integ"
+  },
   ["vim-which-key"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-which-key"
@@ -301,8 +317,8 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 vim.cmd [[au FileType cpp ++once lua require("packer.load")({'vim-headerguard'}, { ft = "cpp" }, _G.packer_plugins)]]
+vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-markdown-toc', 'vim-table-mode', 'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
 vim.cmd [[au FileType c ++once lua require("packer.load")({'vim-headerguard'}, { ft = "c" }, _G.packer_plugins)]]
-vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-markdown-toc', 'markdown-preview.nvim', 'vim-table-mode'}, { ft = "markdown" }, _G.packer_plugins)]]
 vim.cmd [[au FileType tex ++once lua require("packer.load")({'vimtex'}, { ft = "tex" }, _G.packer_plugins)]]
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]

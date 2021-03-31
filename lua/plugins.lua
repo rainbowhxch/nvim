@@ -544,6 +544,7 @@ utils.vmap('<C-a>', '<Plug>(dial-increment)')
 utils.vmap('<C-x>', '<Plug>(dial-decrement)')
 
 -- nvim-compe
+vim.o.completeopt = "menuone,noselect"
 require'compe'.setup {
   enabled = true;
   autocomplete = true;
@@ -572,6 +573,7 @@ require'compe'.setup {
     emoji = {kind = " ﲃ ", filetypes={"markdown"}}
   };
 }
+
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
@@ -609,10 +611,32 @@ _G.s_tab_complete = function()
   end
 end
 
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+-- compatible with nvim-autopairs
+local npairs = require('nvim-autopairs')
+_G.MUtils= {}
+vim.g.completion_confirm_key = ""
+
+MUtils.completion_confirm=function()
+  if vim.fn.pumvisible() ~= 0  then
+    if vim.fn.complete_info()["selected"] ~= -1 then
+      vim.fn["compe#confirm"]()
+      return npairs.esc("<c-y>")
+    else
+      vim.defer_fn(function()
+        vim.fn["compe#confirm"]("<cr>")
+      end, 20)
+      return npairs.esc("<c-n>")
+    end
+  else
+    return npairs.check_break_line_char()
+  end
+end
+
+utils.inoremap_with_expr('<CR>','v:lua.MUtils.completion_confirm()')
+utils.inoremap_with_expr("<Tab>", "v:lua.tab_complete()")
+utils.snoremap_with_expr("<Tab>", "v:lua.tab_complete()")
+utils.inoremap_with_expr("<S-Tab>", "v:lua.s_tab_complete()")
+utils.snoremap_with_expr("<S-Tab>", "v:lua.s_tab_complete()")
 
 return require('packer').startup(function(use)
   -- packer.nvim itself
@@ -686,6 +710,9 @@ return require('packer').startup(function(use)
 
   -- autocompletor
   use 'hrsh7th/nvim-compe'
+  use 'hrsh7th/vim-vsnip'
+  use "rafamadriz/friendly-snippets"
+  use 'hrsh7th/vim-vsnip-integ'
 
   -- themes
   use 'morhetz/gruvbox'
