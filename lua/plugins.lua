@@ -1,6 +1,7 @@
 local fn = vim.fn
 local utils = require('utils')
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+local vsnip_path = fn.stdpath('config') .. '/snippets/'
 
 if fn.empty(fn.glob(install_path)) > 0 then
     vim.api.nvim_command('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
@@ -611,6 +612,11 @@ _G.s_tab_complete = function()
   end
 end
 
+utils.imap_with_expr("<Tab>", "v:lua.tab_complete()")
+utils.smap_with_expr("<Tab>", "v:lua.tab_complete()")
+utils.imap_with_expr("<S-Tab>", "v:lua.s_tab_complete()")
+utils.smap_with_expr("<S-Tab>", "v:lua.s_tab_complete()")
+
 -- compatible with nvim-autopairs
 local npairs = require('nvim-autopairs')
 _G.MUtils= {}
@@ -633,10 +639,9 @@ MUtils.completion_confirm=function()
 end
 
 utils.inoremap_with_expr('<CR>','v:lua.MUtils.completion_confirm()')
-utils.inoremap_with_expr("<Tab>", "v:lua.tab_complete()")
-utils.snoremap_with_expr("<Tab>", "v:lua.tab_complete()")
-utils.inoremap_with_expr("<S-Tab>", "v:lua.s_tab_complete()")
-utils.snoremap_with_expr("<S-Tab>", "v:lua.s_tab_complete()")
+
+-- vim-vsnip
+vim.g.vsnip_snippet_dir = vsnip_path
 
 return require('packer').startup(function(use)
   -- packer.nvim itself

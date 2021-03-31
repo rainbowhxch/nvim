@@ -1,0 +1,6 @@
+{
+  "#include <>": {
+    "prefix": "is",
+    "body": "#include <${1:iostream}>${0}"
+  }
+}
