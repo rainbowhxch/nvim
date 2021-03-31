@@ -200,6 +200,7 @@ Plug 'rafcamlet/coc-nvim-lua'
 Plug 'wellle/context.vim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'MattesGroeger/vim-bookmarks'
+Plug 'wfxr/minimap.vim'
 
 " themes
 Plug 'joshdick/onedark.vim'
@@ -845,10 +846,18 @@ noremap L <C-^>
 " delete current buffer
 noremap H :BufferClose<CR>
 
-" indentLine
-let g:indentLine_fileTypeExclude = [ 'help', 'dashboard' ]
-let g:indentLine_concealcursor = ''
-let g:indentLine_conceallevel = 2
+" indent-blankline.nvim
+let g:indent_blankline_buftype_exclude = ['terminal']
+let g:indent_blankline_filetype_exclude = ['help', 'startify', 'dashboard', 'packer', 'neogitstatus']
+let g:indent_blankline_char = '▏'
+let g:indent_blankline_use_treesitter = 1
+let g:indent_blankline_show_trailing_blankline_indent = 0
+let g:indent_blankline_show_current_context = 1
+let g:indent_blankline_context_patterns = [
+            \ 'class', 'return', 'function', 'method', '^if', '^while', 'jsx_element', '^for', '^object', '^table', 'block',
+            \ 'arguments', 'if_statement', 'else_clause', 'jsx_element', 'jsx_self_closing_element', 'try_statement',
+            \ 'catch_clause', 'import_statement', 'operation_type'
+            \ ]
 
 " context.vim
 let g:context_add_mappings = 0
