@@ -86,7 +86,7 @@ utils.nnoremap('S', '<CMD>w<CR>')
 utils.nnoremap('Q', '<CMD>q<CR>')
 
 -- Refresh my vimrc
-utils.nnoremap('R', '<CMD>source $MYVIMRC<CR>')
+utils.nnoremap('R', '<CMD>luafile $MYVIMRC<CR>')
 
 -- Split windows
 utils.nnoremap('s', '<NOP>')

@@ -54,6 +54,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/barbar.nvim"
   },
+  ["codi.vim"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/codi.vim"
+  },
   ["context.vim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/context.vim"
@@ -114,11 +118,19 @@ _G.packer_plugins = {
     needs_bufread = false,
     path = "/home/ch/.local/share/nvim/site/pack/packer/opt/limelight.vim"
   },
+  ["lspkind-nvim"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/lspkind-nvim"
+  },
   ["markdown-preview.nvim"] = {
     commands = { "MarkdownPreview" },
     loaded = false,
     needs_bufread = false,
     path = "/home/ch/.local/share/nvim/site/pack/packer/opt/markdown-preview.nvim"
+  },
+  ["minimap.vim"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/minimap.vim"
   },
   ["nvim-autopairs"] = {
     loaded = true,
@@ -135,6 +147,10 @@ _G.packer_plugins = {
   ["nvim-hlslens"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/nvim-hlslens"
+  },
+  ["nvim-lspconfig"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/nvim-lspconfig"
   },
   ["nvim-tree.lua"] = {
     loaded = true,
@@ -179,6 +195,10 @@ _G.packer_plugins = {
   ["quick-scope"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/quick-scope"
+  },
+  sniprun = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/sniprun"
   },
   ["splitjoin.vim"] = {
     loaded = true,
@@ -272,7 +292,7 @@ _G.packer_plugins = {
 
 -- Command lazy-loads
 vim.cmd [[command! -nargs=* -range -bang -complete=file MarkdownPreview lua require("packer.load")({'markdown-preview.nvim'}, { cmd = "MarkdownPreview", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
-vim.cmd [[command! -nargs=* -range -bang -complete=file Goyo lua require("packer.load")({'limelight.vim', 'goyo.vim'}, { cmd = "Goyo", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+vim.cmd [[command! -nargs=* -range -bang -complete=file Goyo lua require("packer.load")({'goyo.vim', 'limelight.vim'}, { cmd = "Goyo", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file HeaderguardAdd lua require("packer.load")({'vim-headerguard'}, { cmd = "HeaderguardAdd", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file UndotreeToggle lua require("packer.load")({'undotree'}, { cmd = "UndotreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file AnyJump lua require("packer.load")({'any-jump.vim'}, { cmd = "AnyJump", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
@@ -280,9 +300,9 @@ vim.cmd [[command! -nargs=* -range -bang -complete=file AnyJump lua require("pac
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
-vim.cmd [[au FileType c ++once lua require("packer.load")({'vim-headerguard'}, { ft = "c" }, _G.packer_plugins)]]
 vim.cmd [[au FileType cpp ++once lua require("packer.load")({'vim-headerguard'}, { ft = "cpp" }, _G.packer_plugins)]]
-vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-markdown-toc', 'vim-table-mode', 'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
+vim.cmd [[au FileType c ++once lua require("packer.load")({'vim-headerguard'}, { ft = "c" }, _G.packer_plugins)]]
+vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-markdown-toc', 'markdown-preview.nvim', 'vim-table-mode'}, { ft = "markdown" }, _G.packer_plugins)]]
 vim.cmd [[au FileType tex ++once lua require("packer.load")({'vimtex'}, { ft = "tex" }, _G.packer_plugins)]]
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]

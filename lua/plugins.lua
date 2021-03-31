@@ -245,15 +245,15 @@ vim.g.mkdp_browser = ''
 vim.g.mkdp_echo_preview_url = 0
 vim.g.mkdp_browserfunc = ''
 vim.g.mkdp_preview_options = {
-    mkit = {};
-    katex = {};
-    uml = {};
-    maid = {};
-    disable_sync_scroll = 0;
-    sync_scroll_type = 'middle';
-    hide_yaml_meta = 1;
-    sequence_diagrams = {};
-    flowchart_diagrams = {}
+  mkit = {};
+  katex = {};
+  uml = {};
+  maid = {};
+  disable_sync_scroll = 0;
+  sync_scroll_type = 'middle';
+  hide_yaml_meta = 1;
+  sequence_diagrams = {};
+  flowchart_diagrams = {}
 }
 vim.g.mkdp_markdown_css = ''
 vim.g.mkdp_highlight_css = ''
@@ -277,7 +277,7 @@ utils.nmap('<LEADER>al', '<Plug>(EasyAlign)')
 utils.xmap('<LEADER>al', '<Plug>(EasyAlign)')
 
 -- vista
-utils.nnoremap('T', '<CMD>Vista!!<CR>')
+utils.nnoremap('T', '<CMD>MinimapClose<CR><CMD>Vista!!<CR>')
 vim.g.vista_icon_indent = {"╰─▸ ", "├─▸ "}
 vim.g.vista_default_executive = 'ctags'
 vim.g.vista_fzf_preview = {'right:50%'}
@@ -285,27 +285,27 @@ vim.g['vista#renderer#enable_icon'] = 1
 
 -- vim-signature
 vim.g.SignatureMap = {
-    Leader             =  'm';
-    PlaceNextMark      =  'm,';
-    ToggleMarkAtLine   =  'm.';
-    PurgeMarksAtLine   =  'm-';
-    DeleteMark         =  'dm';
-    PurgeMarks         =  'm<SPACE>';
-    PurgeMarkers       =  'm<BS>';
-    GotoNextLineAlpha  =  '';
-    GotoPrevLineAlpha  =  '';
-    GotoNextSpotAlpha  =  '';
-    GotoPrevSpotAlpha  =  '';
-    GotoNextLineByPos  =  '';
-    GotoPrevLineByPos  =  '';
-    GotoNextSpotByPos  =  '';
-    GotoPrevSpotByPos  =  '';
-    GotoNextMarker     =  ']-';
-    GotoPrevMarker     =  '[-';
-    GotoNextMarkerAny  =  '';
-    GotoPrevMarkerAny  =  '';
-    ListBufferMarks    =  'm/';
-    ListBufferMarkers  =  'm?';
+  Leader             =  'm';
+  PlaceNextMark      =  'm,';
+  ToggleMarkAtLine   =  'm.';
+  PurgeMarksAtLine   =  'm-';
+  DeleteMark         =  'dm';
+  PurgeMarks         =  'm<SPACE>';
+  PurgeMarkers       =  'm<BS>';
+  GotoNextLineAlpha  =  '';
+  GotoPrevLineAlpha  =  '';
+  GotoNextSpotAlpha  =  '';
+  GotoPrevSpotAlpha  =  '';
+  GotoNextLineByPos  =  '';
+  GotoPrevLineByPos  =  '';
+  GotoNextSpotByPos  =  '';
+  GotoPrevSpotByPos  =  '';
+  GotoNextMarker     =  ']-';
+  GotoPrevMarker     =  '[-';
+  GotoNextMarkerAny  =  '';
+  GotoPrevMarkerAny  =  '';
+  ListBufferMarks    =  'm/';
+  ListBufferMarkers  =  'm?';
 }
 
 -- hop.nvim
@@ -511,29 +511,29 @@ vim.g.nvim_tree_icons = {
 -- dashboard-nvim
 vim.g.dashboard_default_executive ='telescope'
 vim.g.dashboard_custom_header = {
-      '     ⠀⠀⠀⠀⠀⠀⠀⡴⠞⠉⢉⣭⣿⣿⠿⣳⣤⠴⠖⠛⣛⣿⣿⡷⠖⣶⣤⡀⠀⠀⠀  ',
-      '   ⠀⠀⠀⠀⠀⠀⠀⣼⠁⢀⣶⢻⡟⠿⠋⣴⠿⢻⣧⡴⠟⠋⠿⠛⠠⠾⢛⣵⣿⠀⠀⠀⠀  ',
-      '   ⣼⣿⡿⢶⣄⠀⢀⡇⢀⡿⠁⠈⠀⠀⣀⣉⣀⠘⣿⠀⠀⣀⣀⠀⠀⠀⠛⡹⠋⠀⠀⠀⠀  ',
-      '   ⣭⣤⡈⢑⣼⣻⣿⣧⡌⠁⠀⢀⣴⠟⠋⠉⠉⠛⣿⣴⠟⠋⠙⠻⣦⡰⣞⠁⢀⣤⣦⣤⠀  ',
-      '   ⠀⠀⣰⢫⣾⠋⣽⠟⠑⠛⢠⡟⠁⠀⠀⠀⠀⠀⠈⢻⡄⠀⠀⠀⠘⣷⡈⠻⣍⠤⢤⣌⣀  ',
-      '   ⢀⡞⣡⡌⠁⠀⠀⠀⠀⢀⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⢿⡀⠀⠀⠀⠸⣇⠀⢾⣷⢤⣬⣉  ',
-      '   ⡞⣼⣿⣤⣄⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⣿⠀⠸⣿⣇⠈⠻  ',
-      '   ⢰⣿⡿⢹⠃⠀⣠⠤⠶⣼⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⣿⠀⠀⣿⠛⡄⠀  ',
-      '   ⠈⠉⠁⠀⠀⠀⡟⡀⠀⠈⡗⠲⠶⠦⢤⣤⣤⣄⣀⣀⣸⣧⣤⣤⠤⠤⣿⣀⡀⠉⣼⡇⠀  ',
-      '   ⣿⣴⣴⡆⠀⠀⠻⣄⠀⠀⠡⠀⠀⠀⠈⠛⠋⠀⠀⠀⡈⠀⠻⠟⠀⢀⠋⠉⠙⢷⡿⡇⠀  ',
-      '   ⣻⡿⠏⠁⠀⠀⢠⡟⠀⠀⠀⠣⡀⠀⠀⠀⠀⠀⢀⣄⠀⠀⠀⠀⢀⠈⠀⢀⣀⡾⣴⠃⠀  ',
-      '   ⢿⠛⠀⠀⠀⠀⢸⠁⠀⠀⠀⠀⠈⠢⠄⣀⠠⠼⣁⠀⡱⠤⠤⠐⠁⠀⠀⣸⠋⢻⡟⠀⠀  ',
-      '   ⠈⢧⣀⣤⣶⡄⠘⣆⠀⠀⠀⠀⠀⠀⠀⢀⣤⠖⠛⠻⣄⠀⠀⠀⢀⣠⡾⠋⢀⡞⠀⠀⠀  ',
-      '   ⠀⠀⠻⣿⣿⡇⠀⠈⠓⢦⣤⣤⣤⡤⠞⠉⠀⠀⠀⠀⠈⠛⠒⠚⢩⡅⣠⡴⠋⠀⠀⠀⠀  ',
-      '   ⠀⠀⠀⠈⠻⢧⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⣻⠿⠋⠀⠀⠀⠀⠀⠀  ',
-      '   ⠀⠀⠀⠀⠀⠀⠉⠓⠶⣤⣄⣀⡀⠀⠀⠀⠀⠀⢀⣀⣠⡴⠖⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀  ',
+  '     ⠀⠀⠀⠀⠀⠀⠀⡴⠞⠉⢉⣭⣿⣿⠿⣳⣤⠴⠖⠛⣛⣿⣿⡷⠖⣶⣤⡀⠀⠀⠀  ',
+  '   ⠀⠀⠀⠀⠀⠀⠀⣼⠁⢀⣶⢻⡟⠿⠋⣴⠿⢻⣧⡴⠟⠋⠿⠛⠠⠾⢛⣵⣿⠀⠀⠀⠀  ',
+  '   ⣼⣿⡿⢶⣄⠀⢀⡇⢀⡿⠁⠈⠀⠀⣀⣉⣀⠘⣿⠀⠀⣀⣀⠀⠀⠀⠛⡹⠋⠀⠀⠀⠀  ',
+  '   ⣭⣤⡈⢑⣼⣻⣿⣧⡌⠁⠀⢀⣴⠟⠋⠉⠉⠛⣿⣴⠟⠋⠙⠻⣦⡰⣞⠁⢀⣤⣦⣤⠀  ',
+  '   ⠀⠀⣰⢫⣾⠋⣽⠟⠑⠛⢠⡟⠁⠀⠀⠀⠀⠀⠈⢻⡄⠀⠀⠀⠘⣷⡈⠻⣍⠤⢤⣌⣀  ',
+  '   ⢀⡞⣡⡌⠁⠀⠀⠀⠀⢀⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⢿⡀⠀⠀⠀⠸⣇⠀⢾⣷⢤⣬⣉  ',
+  '   ⡞⣼⣿⣤⣄⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⣿⠀⠸⣿⣇⠈⠻  ',
+  '   ⢰⣿⡿⢹⠃⠀⣠⠤⠶⣼⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⣿⠀⠀⣿⠛⡄⠀  ',
+  '   ⠈⠉⠁⠀⠀⠀⡟⡀⠀⠈⡗⠲⠶⠦⢤⣤⣤⣄⣀⣀⣸⣧⣤⣤⠤⠤⣿⣀⡀⠉⣼⡇⠀  ',
+  '   ⣿⣴⣴⡆⠀⠀⠻⣄⠀⠀⠡⠀⠀⠀⠈⠛⠋⠀⠀⠀⡈⠀⠻⠟⠀⢀⠋⠉⠙⢷⡿⡇⠀  ',
+  '   ⣻⡿⠏⠁⠀⠀⢠⡟⠀⠀⠀⠣⡀⠀⠀⠀⠀⠀⢀⣄⠀⠀⠀⠀⢀⠈⠀⢀⣀⡾⣴⠃⠀  ',
+  '   ⢿⠛⠀⠀⠀⠀⢸⠁⠀⠀⠀⠀⠈⠢⠄⣀⠠⠼⣁⠀⡱⠤⠤⠐⠁⠀⠀⣸⠋⢻⡟⠀⠀  ',
+  '   ⠈⢧⣀⣤⣶⡄⠘⣆⠀⠀⠀⠀⠀⠀⠀⢀⣤⠖⠛⠻⣄⠀⠀⠀⢀⣠⡾⠋⢀⡞⠀⠀⠀  ',
+  '   ⠀⠀⠻⣿⣿⡇⠀⠈⠓⢦⣤⣤⣤⡤⠞⠉⠀⠀⠀⠀⠈⠛⠒⠚⢩⡅⣠⡴⠋⠀⠀⠀⠀  ',
+  '   ⠀⠀⠀⠈⠻⢧⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⣻⠿⠋⠀⠀⠀⠀⠀⠀  ',
+  '   ⠀⠀⠀⠀⠀⠀⠉⠓⠶⣤⣄⣀⡀⠀⠀⠀⠀⠀⢀⣀⣠⡴⠖⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀  ',
 }
 vim.g.dashboard_custom_section = {
-    a = {description = {' Find File          '}, command = 'Telescope find_files'},
-    b = {description = {' Recently Used Files'}, command = 'Telescope oldfiles'},
-    c = {description = {' Load Last Session  '}, command = 'SessionLoad'},
-    d = {description = {' Find Word          '}, command = 'Telescope live_grep'},
-    e = {description = {' Settings           '}, command = ':e ~/.config/nvim/init.vim'}
+  a = {description = {' Find File          '}, command = 'Telescope find_files'},
+  b = {description = {' Recently Used Files'}, command = 'Telescope oldfiles'},
+  c = {description = {' Load Last Session  '}, command = 'SessionLoad'},
+  d = {description = {' Find Word          '}, command = 'Telescope live_grep'},
+  e = {description = {' Settings           '}, command = ':e ~/.config/nvim/init.vim'}
 }
 vim.g.dashboard_custom_footer = { "Welcome to RainbowCh's Nvim!" }
 
@@ -542,6 +542,77 @@ utils.nmap('<C-a>', '<Plug>(dial-increment)')
 utils.nmap('<C-x>', '<Plug>(dial-decrement)')
 utils.vmap('<C-a>', '<Plug>(dial-increment)')
 utils.vmap('<C-x>', '<Plug>(dial-decrement)')
+
+-- nvim-compe
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
+  source = {
+    path = {kind = "  "},
+    buffer = {kind = "  "},
+    calc = {kind = "  "},
+    vsnip = {kind = "  "},
+    nvim_lsp = {kind = "  "},
+    nvim_lua = {kind = "  "},
+    spell = {kind = "  "},
+    tags = true,
+    -- snippets_nvim = {kind = "  "},
+    -- ultisnips = {kind = "  "},
+    -- treesitter = {kind = "  "},
+    emoji = {kind = " ﲃ ", filetypes={"markdown"}}
+  };
+}
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
+end
+
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif vim.fn.call("vsnip#available", {1}) == 1 then
+    return t "<Plug>(vsnip-expand-or-jump)"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+    return t "<Plug>(vsnip-jump-prev)"
+  else
+    return t "<S-Tab>"
+  end
+end
+
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 
 return require('packer').startup(function(use)
   -- packer.nvim itself
@@ -560,6 +631,7 @@ return require('packer').startup(function(use)
   use { 'windwp/nvim-ts-autotag', requires = {'nvim-treesitter/nvim-treesitter'} }
   use { 'JoosepAlviste/nvim-ts-context-commentstring', requires = {'nvim-treesitter/nvim-treesitter'} }
   use 'norcalli/nvim-colorizer.lua'
+  use 'wfxr/minimap.vim'
 
   -- reading mode
   use { 'junegunn/goyo.vim', cmd = 'Goyo' }
@@ -605,6 +677,15 @@ return require('packer').startup(function(use)
   use 'mhartington/formatter.nvim'
   use { 'glacambre/firenvim', run = function() vim.fn['firenvim#install'](0) end }
   use 'monaqa/dial.nvim'
+  use 'metakirby5/codi.vim'
+  use 'michaelb/sniprun'
+
+  -- lsp
+  use 'neovim/nvim-lspconfig'
+  use 'onsails/lspkind-nvim'
+
+  -- autocompletor
+  use 'hrsh7th/nvim-compe'
 
   -- themes
   use 'morhetz/gruvbox'
