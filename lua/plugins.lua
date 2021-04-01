@@ -8,7 +8,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
     vim.api.nvim_command('packadd packer.nvim')
 end
 
-vim.cmd 'autocmd BufWritePost plugins.lua PackerCompile' -- Auto compile when there are changes in plugins.lua
+vim.cmd('autocmd BufWritePost plugins.lua PackerCompile') -- Auto compile when there are changes in plugins.lua
 vim.g.gruvbox_italic = 1
 vim.g.gruvbox_italicize_strings = 1
 vim.g.gruvbox_invert_signs = 1
@@ -455,6 +455,17 @@ require('telescope').setup {
     }
   }
 }
+utils.nnoremap('<LEADER>ff', '<CMD>Telescope find_files<CR>')
+utils.nnoremap('<LEADER>fg', '<CMD>Telescope git_files<CR>')
+utils.nnoremap('<LEADER>fb', '<CMD>Telescope buffers<CR>')
+utils.nnoremap('<LEADER>fc', '<CMD>Telescope colorscheme<CR>')
+utils.nnoremap('<LEADER>fs', '<CMD>Telescope current_buffer_fuzzy_find<CR>')
+utils.nnoremap('<LEADER>fS', '<CMD>Telescope grep_string<CR>')
+utils.nnoremap('<LEADER>ft', '<CMD>Telescope tags<CR>')
+utils.nnoremap('<LEADER>fm', '<CMD>Telescope marks<CR>')
+utils.nnoremap('<LEADER>fo', '<CMD>Telescope oldfiles<CR>')
+utils.nnoremap('<LEADER>fM', '<CMD>Telescope keymaps<CR>')
+utils.nnoremap('<LEADER>fp', '<CMD>Telescope media_files<CR>')
 
 -- nvim-tree
 utils.nnoremap('<LEADER>n', '<CMD>NvimTreeToggle<CR>')
@@ -643,6 +654,58 @@ utils.inoremap_with_expr('<CR>','v:lua.MUtils.completion_confirm()')
 -- vim-vsnip
 vim.g.vsnip_snippet_dir = vsnip_path
 
+-- nvim-dap
+local dap = require('dap')
+dap.adapters.cpp = {
+  type = 'executable',
+  attach = {
+    pidProperty = "pid",
+    pidSelect = "ask"
+  },
+  command = 'lldb-vscode',
+  env = {
+    LLDB_LAUNCH_FLAG_LAUNCH_IN_TTY = "YES"
+  },
+  name = "lldb"
+}
+dap.configurations.cpp = {
+  {
+    type = 'cpp';
+    request = 'launch';
+    name = "Launch file";
+    program = vim.fn.expand('%:p:r');
+    cwd = vim.fn.getcwd();
+  },
+  {
+    type = "cpp";
+    request = "attach";
+    name = "Attach File";
+    program = vim.fn.expand('%:p:r');
+    cwd = vim.fn.getcwd();
+  }
+}
+dap.defaults.fallback.external_terminal = {
+  command = '/usr/local/bin/st';
+  args = {'-e'};
+}
+
+vim.fn.sign_define('DapBreakpoint', {text='B', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapLogPoint', {text='L', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapStopped', {text='→', texthl='', linehl='', numhl=''})
+vim.api.nvim_command('au FileType dap-repl lua require(\'dap.ext.autocompl\').attach()')
+utils.nnoremap('<F3>', ':lua require\'dap\'.run_last()<CR>')
+utils.nnoremap('<F5>', ':lua require\'dap\'.continue()<CR>')
+utils.nnoremap('<F6>', ':lua require\'dap\'.repl.toggle()<CR>')
+utils.nnoremap('<F7', ':lua require\'dap\'.set_breakpoint(nil, nil, vim.fn.input(\'Log point message: \'))<CR>')
+utils.nnoremap('<F8>', ':lua require\'dap\'.set_breakpoint(vim.fn.input(\'Breakpoint condition: \'))<CR>')
+utils.nnoremap('<F9>', ':lua require\'dap\'.toggle_breakpoint()<CR>')
+utils.nnoremap('<F10>', ':lua require\'dap\'.step_over()<CR>')
+utils.nnoremap('<F11>', ':lua require\'dap\'.step_into()<CR>')
+utils.nnoremap('<F12>', ':lua require\'dap\'.step_out()<CR>')
+
+-- nvim-dap-virtual-text
+vim.g.dap_virtual_text = true
+
 return require('packer').startup(function(use)
   -- packer.nvim itself
   use 'wbthomason/packer.nvim'
@@ -661,6 +724,7 @@ return require('packer').startup(function(use)
   use { 'JoosepAlviste/nvim-ts-context-commentstring', requires = {'nvim-treesitter/nvim-treesitter'} }
   use 'norcalli/nvim-colorizer.lua'
   use 'wfxr/minimap.vim'
+  use 'karb94/neoscroll.nvim'
 
   -- reading mode
   use { 'junegunn/goyo.vim', cmd = 'Goyo' }
@@ -708,6 +772,9 @@ return require('packer').startup(function(use)
   use 'monaqa/dial.nvim'
   use 'metakirby5/codi.vim'
   use 'michaelb/sniprun'
+  use 'mfussenegger/nvim-dap'
+  use 'theHamsta/nvim-dap-virtual-text'
+  use 'nvim-telescope/telescope-dap.nvim'
 
   -- lsp
   use 'neovim/nvim-lspconfig'

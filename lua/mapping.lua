@@ -64,8 +64,8 @@ utils.nnoremap('<C-l>', '$')
 utils.xnoremap('<C-l>', 'g_')
 
 -- <C-u> go to older position, <C-o> go to newer position
-utils.nnoremap('<C-o>', '<C-i>')
-utils.nnoremap('<C-u>', '<C-o>')
+-- utils.nnoremap('<C-o>', '<C-i>')
+-- utils.nnoremap('<C-u>', '<C-o>')
 
 -- Use sys-clipboard
 utils.nnoremap('<C-y>', '"+yy')
@@ -86,7 +86,7 @@ utils.nnoremap('S', '<CMD>w<CR>')
 utils.nnoremap('Q', '<CMD>q<CR>')
 
 -- Refresh my vimrc
-utils.nnoremap('R', '<CMD>luafile $MYVIMRC<CR>')
+utils.nnoremap('R', '<CMD>PackerCompile<CR>')
 
 -- Split windows
 utils.nnoremap('s', '<NOP>')
