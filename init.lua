@@ -1,8 +1,8 @@
-vim.g.mapleader = " "
+vim.g.mapleader = ' '
 
 require('options')
 require('mapping')
-require('hightlight')
+require('highlight')
 require('autocommand')
 require('plugins')
 require('lsp')
