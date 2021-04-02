@@ -6,12 +6,12 @@
 ![screenshot-2](./screenshot-2.png)
 
 # Feature
-- ☑️ Two choice: `VimL` or `Lua`
+- 🐮 Two choice: `VimL` or `Lua`
 - ⚖️  Support multi language building, running and testing (using [asynctasks.vim](https://github.com/skywind3000/asynctasks.vim))
 - 🚁 Float Terminal (using [vim-floaterm](https://github.com/voldikss/vim-floaterm)) and some cool stuff based it
 - ⛄ Support snippets (using [vim-vsnip](https://github.com/hrsh7th/vim-vsnip))
 - 🌋 Debug (using [nvim-dap](https://github.com/mfussenegger/nvim-dap))
-- 🎹 Two keyboard laywer in **Insert Mode**: `qwerty` and `colemak`
+- 🎹 Two keyboard lawyer in **Insert Mode**: `qwerty` and `colemak`
 - 📢 `coc` or `built-in` LSP
 - 🚠 Many other useful stuff, check the [plugins](https://github.com/rainbowhxch/nvim/blob/lua/lua/plugins.lua#L709-L791)
 
