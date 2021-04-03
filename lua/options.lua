@@ -96,4 +96,6 @@ local function load_options()
     bind_option(options);
 end
 
+vim.api.nvim_command('filetype plugin indent on')
+vim.api.nvim_command('syntax enable')
 load_options();

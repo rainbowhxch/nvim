@@ -196,6 +196,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/nvim-web-devicons"
   },
+  ["onedark.vim"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/onedark.vim"
+  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/packer.nvim"
@@ -249,6 +253,10 @@ _G.packer_plugins = {
   ["vim-bookmarks"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-bookmarks"
+  },
+  ["vim-deus"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-deus"
   },
   ["vim-easy-align"] = {
     loaded = true,

@@ -17,7 +17,7 @@ vim.g.gruvbox_invert_tabline = 1
 -- vim.g.gruvbox_improved_strings = 1
 vim.g.gruvbox_improved_warnings = 1
 
-vim.cmd('colorscheme gruvbox')
+vim.cmd('colorscheme deus')
 
 -- nvim-autopairs
 require('nvim-autopairs').setup()
@@ -132,7 +132,8 @@ require('nvim_comment').setup({
 })
 
 -- context.vim
-vim.g.context_add_mappings = 0
+vim.g.context_enabled = 0
+vim.g.context_add_mappings = 1
 utils.nnoremap('<LEADER>ct', '<CMD>ContextToggle<CR>')
 
 -- nvim-hlslens
@@ -167,7 +168,7 @@ utils.nnoremap('<LEADER>ah', '<CMD>HeaderguardAdd<CR>')
 
 -- any-jump.vim
 vim.g.any_jump_disable_default_keybindings = 1
-utils.nnoremap('gj', '<CMD>HeaderguardAdd<CR>')
+utils.nnoremap('gj', '<CMD>AnyJump<CR>')
 
 -- vim-which-key
 utils.nnoremap('<LEADER>', '<CMD>WhichKey \'<SPACE>\'<CR>')
@@ -479,10 +480,10 @@ vim.g.nvim_tree_bindings = {
   ["o"]              = tree_cb("edit"),
   ["<2-LeftMouse>"]  = tree_cb("edit"),
   ["<2-RightMouse>"] = tree_cb("cd"),
-  ["<l>"]            = tree_cb("cd"),
-  ["<v>"]            = tree_cb("vsplit"),
-  ["<s>"]            = tree_cb("split"),
-  ["<t>"]            = tree_cb("tabnew"),
+  ["l"]            = tree_cb("cd"),
+  ["v"]            = tree_cb("vsplit"),
+  ["s"]            = tree_cb("split"),
+  ["t"]            = tree_cb("tabnew"),
   ["<BS>"]           = tree_cb("close_node"),
   ["<S-CR>"]         = tree_cb("close_node"),
   ["<Tab>"]          = tree_cb("preview"),
@@ -788,4 +789,6 @@ return require('packer').startup(function(use)
 
   -- themes
   use 'morhetz/gruvbox'
+  use 'joshdick/onedark.vim'
+  use 'ajmwagar/vim-deus'
 end)
