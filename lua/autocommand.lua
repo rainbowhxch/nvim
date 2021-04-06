@@ -12,23 +12,23 @@ end
 
 local function load_autocmds()
   local autocmds = {
-   AutoLastLine = {
-       { [[ BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit' |   exe "normal! g`\"" | endif ]] };
-   };
+    AutoLastLine = {
+      { [[ BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit' |   exe "normal! g`\"" | endif ]] };
+    };
     AutoTrailWhitespace = {
-        { [[ BufWritePre * %s/\s\+$//e ]] };
-        { [[ BufWritePre * %s/\n\+\%$//e ]] };
+      { [[ BufWritePre * %s/\s\+$//e ]] };
+      { [[ BufWritePre * %s/\n\+\%$//e ]] };
     };
     AutoRelativeLineNums = {
-        { [[ InsertEnter * set norelativenumber ]] };
-        { [[ InsertLeave * set relativenumber ]] };
+      { [[ InsertEnter * set norelativenumber ]] };
+      { [[ InsertLeave * set relativenumber ]] };
     };
     AutoLimelight = {
-        { [[ User GoyoEnter Limelight ]] };
-        { [[ User GoyoEnter Limelight! ]] };
+      { [[ User GoyoEnter Limelight ]] };
+      { [[ User GoyoLeave Limelight! ]] };
     };
     AutoTextYank = {
-        { [[ TextYankPost * silent! lua vim.highlight.on_yank{ timeout=100 } ]] }
+      { [[ TextYankPost * silent! lua vim.highlight.on_yank{ timeout=100 } ]] }
     };
   }
 

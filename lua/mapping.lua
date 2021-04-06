@@ -18,8 +18,8 @@ utils.nnoremap('<LEADER>J', '<C-w>J')
 utils.nnoremap('<LEADER>K', '<C-w>K')
 
 -- Substitute
-utils.nnoremap('<LEADER>s', '<CMD>%s///g<LEFT><LEFT><LEFT>')
-utils.vnoremap('<LEADER>s', '<CMD>s///g<LEFT><LEFT><LEFT>')
+vim.cmd('nnoremap <LEADER>s :%s///g<LEFT><LEFT><LEFT>')
+vim.cmd('vnoremap <LEADER>s :s///g<LEFT><LEFT><LEFT>')
 
 -- Switch upper or lower
 utils.nnoremap('<LEADER>u', '~h')
@@ -74,10 +74,10 @@ utils.xnoremap('<C-y>', '"+y')
 utils.xnoremap('<C-p>', '"+p')
 
 -- Command mode movement
-utils.cnoremap('<C-a>', '<HOME>')
-utils.cnoremap('<C-e>', '<END>')
-utils.cnoremap('<C-h>', '<LEFT>')
-utils.cnoremap('<C-l>', '<RIGHT>')
+vim.cmd('cnoremap <C-a> <HOME>')
+vim.cmd('cnoremap <C-e> <END>')
+vim.cmd('cnoremap <C-h> <LEFT>')
+vim.cmd('cnoremap <C-l> <RIGHT>')
 
 -- Save
 utils.nnoremap('S', '<CMD>w<CR>')

@@ -54,6 +54,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/barbar.nvim"
   },
+  ["beacon.nvim"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/beacon.nvim"
+  },
   ["codi.vim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/codi.vim"
@@ -99,10 +103,8 @@ _G.packer_plugins = {
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
   },
   ["goyo.vim"] = {
-    commands = { "Goyo" },
-    loaded = false,
-    needs_bufread = false,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/opt/goyo.vim"
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/goyo.vim"
   },
   gruvbox = {
     loaded = true,
@@ -117,10 +119,8 @@ _G.packer_plugins = {
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim"
   },
   ["limelight.vim"] = {
-    commands = { "Goyo" },
-    loaded = false,
-    needs_bufread = false,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/opt/limelight.vim"
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/limelight.vim"
   },
   ["lspkind-nvim"] = {
     loaded = true,
@@ -143,6 +143,10 @@ _G.packer_plugins = {
   ["nvim-autopairs"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/nvim-autopairs"
+  },
+  ["nvim-bqf"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/nvim-bqf"
   },
   ["nvim-colorizer.lua"] = {
     loaded = true,
@@ -258,6 +262,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-deus"
   },
+  ["vim-doge"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-doge"
+  },
   ["vim-easy-align"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-easy-align"
@@ -265,6 +273,10 @@ _G.packer_plugins = {
   ["vim-floaterm"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-floaterm"
+  },
+  ["vim-header"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-header"
   },
   ["vim-headerguard"] = {
     commands = { "HeaderguardAdd" },
@@ -292,10 +304,6 @@ _G.packer_plugins = {
   ["vim-signature"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-signature"
-  },
-  ["vim-snippets"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-snippets"
   },
   ["vim-surround"] = {
     loaded = true,
@@ -331,11 +339,10 @@ _G.packer_plugins = {
 
 
 -- Command lazy-loads
-vim.cmd [[command! -nargs=* -range -bang -complete=file MarkdownPreview lua require("packer.load")({'markdown-preview.nvim'}, { cmd = "MarkdownPreview", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file AnyJump lua require("packer.load")({'any-jump.vim'}, { cmd = "AnyJump", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file HeaderguardAdd lua require("packer.load")({'vim-headerguard'}, { cmd = "HeaderguardAdd", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file UndotreeToggle lua require("packer.load")({'undotree'}, { cmd = "UndotreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
-vim.cmd [[command! -nargs=* -range -bang -complete=file Goyo lua require("packer.load")({'limelight.vim', 'goyo.vim'}, { cmd = "Goyo", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+vim.cmd [[command! -nargs=* -range -bang -complete=file MarkdownPreview lua require("packer.load")({'markdown-preview.nvim'}, { cmd = "MarkdownPreview", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]

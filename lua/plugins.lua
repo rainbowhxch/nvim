@@ -133,7 +133,7 @@ require('nvim_comment').setup({
 
 -- context.vim
 vim.g.context_enabled = 0
-vim.g.context_add_mappings = 1
+vim.g.context_add_mappings = 0
 utils.nnoremap('<LEADER>ct', '<CMD>ContextToggle<CR>')
 
 -- nvim-hlslens
@@ -697,7 +697,7 @@ vim.api.nvim_command('au FileType dap-repl lua require(\'dap.ext.autocompl\').at
 utils.nnoremap('<F3>', '<CMD>lua require\'dap\'.run_last()<CR>')
 utils.nnoremap('<F5>', '<CMD>lua require\'dap\'.continue()<CR>')
 utils.nnoremap('<F6>', '<CMD>lua require\'dap\'.repl.toggle()<CR>')
-utils.nnoremap('<F7', '<CMD>lua require\'dap\'.set_breakpoint(nil, nil, vim.fn.input(\'Log point message: \'))<CR>')
+utils.nnoremap('<F7>', '<CMD>lua require\'dap\'.set_breakpoint(nil, nil, vim.fn.input(\'Log point message: \'))<CR>')
 utils.nnoremap('<F8>', '<CMD>lua require\'dap\'.set_breakpoint(vim.fn.input(\'Breakpoint condition: \'))<CR>')
 utils.nnoremap('<F9>', '<CMD>lua require\'dap\'.toggle_breakpoint()<CR>')
 utils.nnoremap('<F10>', '<CMD>lua require\'dap\'.step_over()<CR>')
@@ -706,6 +706,28 @@ utils.nnoremap('<F12>', '<CMD>lua require\'dap\'.step_out()<CR>')
 
 -- nvim-dap-virtual-text
 vim.g.dap_virtual_text = true
+
+-- neoscroll.vim
+vim.g.neoscroll_no_mappings = 1
+utils.nnoremap('<C-u>', '<CMD>lua require(\'neoscroll\').scroll(-vim.wo.scroll, true)<CR>')
+utils.nnoremap('<C-d>', '<CMD>lua require(\'neoscroll\').scroll(vim.wo.scroll, true)<CR>')
+utils.xnoremap('<C-u>', '<CMD>lua require(\'neoscroll\').scroll(-vim.wo.scroll, true)<CR>')
+utils.xnoremap('<C-d>', '<CMD>lua require(\'neoscroll\').scroll(vim.wo.scroll, true)<CR>')
+utils.nnoremap('<C-b>', '<CMD>lua require(\'neoscroll\').scroll(-vim.api.nvim_win_get_height(0), true)<CR>')
+utils.nnoremap('<C-f>', '<CMD>lua require(\'neoscroll\').scroll(vim.api.nvim_win_get_height(0), true)<CR>')
+utils.xnoremap('<C-b>', '<CMD>lua require(\'neoscroll\').scroll(-vim.api.nvim_win_get_height(0), true)<CR>')
+utils.xnoremap('<C-f>', '<CMD>lua require(\'neoscroll\').scroll(vim.api.nvim_win_get_height(0), true)<CR>')
+
+-- vim-doge
+vim.g.doge_mapping = '<LEADER>d'
+
+-- vim-header
+vim.g.header_auto_add_header = 0
+vim.g.header_field_author = 'rainbowhxch'
+vim.g.header_field_author_email = 'https://github.com/rainbowhxch'
+vim.g.header_field_license_id = 'MIT'
+vim.g.header_field_modified_by = 0
+vim.g.header_field_modified_timestamp = 0
 
 return require('packer').startup(function(use)
   -- packer.nvim itself
@@ -726,18 +748,23 @@ return require('packer').startup(function(use)
   use 'norcalli/nvim-colorizer.lua'
   use 'wfxr/minimap.vim'
   use 'karb94/neoscroll.nvim'
+  use 'Shougo/echodoc.vim'
+  use 'kevinhwang91/nvim-hlslens'
+  use 'liuchengxu/vim-which-key'
+  use 'andymass/vim-matchup'
+  use 'junegunn/vim-peekaboo'
+  use { 'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'} }
+  use 'unblevable/quick-scope'
+  use 'danilamihailov/beacon.nvim'
 
   -- reading mode
-  use { 'junegunn/goyo.vim', cmd = 'Goyo' }
-  use { 'junegunn/limelight.vim', cmd = 'Goyo' }
+  use { 'junegunn/goyo.vim' }
+  use { 'junegunn/limelight.vim' }
 
   -- functional
-  use 'nvim-lua/popup.nvim'
-  use 'nvim-lua/plenary.nvim'
   use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}} }
   use { 'nvim-telescope/telescope-media-files.nvim', requires = {'nvim-telescope/telescope.nvim'} }
   use { 'kyazdani42/nvim-tree.lua', requires = {'kyazdani42/nvim-web-devicons'} }
-  use 'honza/vim-snippets'
   use {'iamcco/markdown-preview.nvim', ft = {'markdown'}, run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
   use { 'mzlogin/vim-markdown-toc', ft = {'markdown'} }
   use { 'dhruvasagar/vim-table-mode', ft = {'markdown'} }
@@ -753,21 +780,14 @@ return require('packer').startup(function(use)
   use 'voldikss/vim-floaterm'
   use 'tpope/vim-surround'
   use 'AndrewRadev/splitjoin.vim'
-  use 'andymass/vim-matchup'
-  use { 'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'} }
   use 'terrortylor/nvim-comment'
   use 'tpope/vim-repeat'
   use 'brooth/far.vim'
-  use 'liuchengxu/vim-which-key'
   use { 'pechorin/any-jump.vim', cmd = {'AnyJump'} }
   use { 'drmikehenry/vim-headerguard', ft = {'c', 'cpp'}, cmd = {'HeaderguardAdd'} }
   use { 'mbbill/undotree', cmd = {'UndotreeToggle'} }
-  use 'unblevable/quick-scope'
-  use 'Shougo/echodoc.vim'
   use 'rhysd/accelerated-jk'
   use 'wellle/context.vim'
-  use 'kevinhwang91/nvim-hlslens'
-  use 'junegunn/vim-peekaboo'
   use 'mhartington/formatter.nvim'
   use { 'glacambre/firenvim', run = function() vim.fn['firenvim#install'](0) end }
   use 'monaqa/dial.nvim'
@@ -776,6 +796,10 @@ return require('packer').startup(function(use)
   use 'mfussenegger/nvim-dap'
   use 'theHamsta/nvim-dap-virtual-text'
   use 'nvim-telescope/telescope-dap.nvim'
+  use 'kevinhwang91/nvim-bqf'
+  use {'kkoomen/vim-doge', run = ':call doge#install()'}
+  use 'michaeljsmith/vim-indent-object'
+  use 'alpertuna/vim-header'
 
   -- lsp
   use 'neovim/nvim-lspconfig'

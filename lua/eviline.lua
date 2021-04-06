@@ -3,17 +3,17 @@ local gls = gl.section
 gl.short_line_list = { 'NvimTree', 'vista' }
 
 local colors = {
-  bg = '#202328',
-  fg = '#bbc2cf',
-  yellow = '#fabd2f',
-  cyan = '#008080',
-  darkblue = '#081633',
-  green = '#98be65',
-  orange = '#FF8800',
-  violet = '#a9a1e1',
-  magenta = '#c678dd',
-  blue = '#51afef';
-  red = '#ec5f67';
+  bg = '#242a32',
+  fg = '#eaeaea',
+  yellow = '#e5c07b',
+  cyan = '#70c0ba',
+  darkblue = '#242a32',
+  green = '#98c379',
+  orange = '#e5c07b',
+  violet = '#c678dd',
+  magenta = '#c858e9',
+  blue = '#2bcec2';
+  red = '#ec3e45';
 }
 
 local buffer_not_empty = function()

@@ -25,75 +25,75 @@ end
 createdir();
 
 local function bind_option(options)
-    for k, v in pairs(options) do
-        if v == true or v == nil then
-            vim.cmd(string.format('set %s', k))
-        elseif v == false then
-            vim.cmd(string.format('set no%s', k))
-        else
-            vim.cmd(string.format('set %s=%s', k, v))
-        end
+  for k, v in pairs(options) do
+    if v == true or v == nil then
+      vim.cmd(string.format('set %s', k))
+    elseif v == false then
+      vim.cmd(string.format('set no%s', k))
+    else
+      vim.cmd(string.format('set %s=%s', k, v))
     end
+  end
 end
 
 local function load_options()
-    local options = {
-        encoding       = "utf-8";
-        title          = true;
-        autoread       = true;
-        autowrite      = true;
-        number         = true;
-        relativenumber = true;
-        cursorline     = true;
-        colorcolumn    = 80;
-        wrap           = true;
-        showcmd        = true;
-        ruler          = true;
-        wildmenu       = true;
-        history        = 100;
-        timeout        = true;
-        timeoutlen     = 1500;
-        ttimeout       = false;
-        hlsearch       = true;
-        incsearch      = true;
-        ignorecase     = true;
-        smartcase      = true;
-        whichwrap      = "b,s";
-        shiftwidth     = 4;
-        tabstop        = 4;
-        softtabstop    = 4;
-        expandtab      = true;
-        list           = true;
-        listchars      = "tab:▸\\ ,trail:▫";
-        conceallevel   = 2;
-        concealcursor  = "nc";
-        scrolloff      = 16;
-        autoindent     = true;
-        smartindent    = true;
-        backspace      = "indent,eol,start";
-        foldmethod     = "indent";
-        foldlevel      = 99;
-        laststatus     = 2;
-        updatetime     = 100;
-        updatecount    = 100;
-        autochdir      = true;
-        lazyredraw     = true;
-        termguicolors  = true;
-        inccommand     = "split";
-        showmode   = false;
-        tags           = "./.tags;,.tags";
-        backup         = true;
-        backupext      = ".bak";
-        undofile       = true;
-        shada          = "!,'100,<50,s10,h";
-        directory      = cache_dir .. "swag/";
-        undodir        = cache_dir .. "undo/";
-        backupdir      = cache_dir .. "backup/";
-        viewdir        = cache_dir .. "view/";
-        shadafile      = cache_dir .. "shada";
-    }
+  local options = {
+    encoding       = "utf-8";
+    title          = true;
+    autoread       = true;
+    autowrite      = true;
+    number         = true;
+    relativenumber = true;
+    cursorline     = true;
+    colorcolumn    = 80;
+    wrap           = true;
+    showcmd        = true;
+    ruler          = true;
+    wildmenu       = true;
+    history        = 100;
+    timeout        = true;
+    timeoutlen     = 1500;
+    ttimeout       = false;
+    hlsearch       = true;
+    incsearch      = true;
+    ignorecase     = true;
+    smartcase      = true;
+    whichwrap      = "b,s";
+    shiftwidth     = 4;
+    tabstop        = 4;
+    softtabstop    = 4;
+    expandtab      = true;
+    list           = true;
+    listchars      = "tab:▸\\ ,trail:▫";
+    conceallevel   = 2;
+    concealcursor  = "nc";
+    scrolloff      = 16;
+    autoindent     = true;
+    smartindent    = true;
+    backspace      = "indent,eol,start";
+    foldmethod     = "indent";
+    foldlevel      = 99;
+    laststatus     = 2;
+    updatetime     = 100;
+    updatecount    = 100;
+    autochdir      = true;
+    lazyredraw     = true;
+    termguicolors  = true;
+    inccommand     = "split";
+    showmode   = false;
+    tags           = "./.tags;,.tags";
+    backup         = true;
+    backupext      = ".bak";
+    undofile       = true;
+    shada          = "!,'100,<50,s10,h";
+    directory      = cache_dir .. "swag/";
+    undodir        = cache_dir .. "undo/";
+    backupdir      = cache_dir .. "backup/";
+    viewdir        = cache_dir .. "view/";
+    shadafile      = cache_dir .. "shada";
+  }
 
-    bind_option(options);
+  bind_option(options);
 end
 
 vim.api.nvim_command('filetype plugin indent on')
