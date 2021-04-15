@@ -1,3 +1,8 @@
+--[[--
+File              : plugins.lua
+Date              : 15.04.2021
+Last Modified Date: 15.04.2021
+--]]--
 local fn = vim.fn
 local utils = require('utils')
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
@@ -50,6 +55,44 @@ require'nvim-treesitter.configs'.setup {
   },
   context_commentstring = {
     enable = true,
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
+    },
+    move = {
+      enable = true,
+      goto_next_start = {
+        ["]f"] = "@function.outer",
+        ["]c"] = "@class.outer",
+      },
+      goto_next_end = {
+        ["]F"] = "@function.outer",
+        ["]C"] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[f"] = "@function.outer",
+        ["[c"] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[F"] = "@function.outer",
+        ["[C"] = "@class.outer",
+      },
+    },
+    lsp_interop = {
+      enable = true,
+      peek_definition_code = {
+        ["df"] = "@function.outer",
+        ["dF"] = "@class.outer",
+      },
+    },
   },
 }
 
@@ -654,6 +697,7 @@ utils.inoremap_with_expr('<CR>','v:lua.MUtils.completion_confirm()')
 
 -- vim-vsnip
 vim.g.vsnip_snippet_dir = vsnip_path
+utils.nnoremap('gs', '<CMD>VsnipOpenSplit<CR>')
 
 -- nvim-dap
 local dap = require('dap')
@@ -694,11 +738,11 @@ vim.fn.sign_define('DapBreakpoint', {text='', texthl='DapBreakpointHL', lineh
 vim.fn.sign_define('DapLogPoint', {text='', texthl='DapLogPointHL', linehl='DapLogPointHL', numhl='DapLogPointHL'})
 vim.fn.sign_define('DapStopped', {text='', texthl='DapStoppedHL', linehl='DapStoppedHL', numhl='DapStoppedHL'})
 vim.api.nvim_command('au FileType dap-repl lua require(\'dap.ext.autocompl\').attach()')
+utils.nnoremap('<F2>', '<CMD>lua require\'dap\'.repl.toggle()<CR>')
 utils.nnoremap('<F3>', '<CMD>lua require\'dap\'.run_last()<CR>')
 utils.nnoremap('<F5>', '<CMD>lua require\'dap\'.continue()<CR>')
-utils.nnoremap('<F6>', '<CMD>lua require\'dap\'.repl.toggle()<CR>')
-utils.nnoremap('<F7>', '<CMD>lua require\'dap\'.set_breakpoint(nil, nil, vim.fn.input(\'Log point message: \'))<CR>')
 utils.nnoremap('<F8>', '<CMD>lua require\'dap\'.set_breakpoint(vim.fn.input(\'Breakpoint condition: \'))<CR>')
+utils.nnoremap('<LEADER><F8>', '<CMD>lua require\'dap\'.set_breakpoint(nil, nil, vim.fn.input(\'Log point message: \'))<CR>')
 utils.nnoremap('<F9>', '<CMD>lua require\'dap\'.toggle_breakpoint()<CR>')
 utils.nnoremap('<F10>', '<CMD>lua require\'dap\'.step_over()<CR>')
 utils.nnoremap('<F11>', '<CMD>lua require\'dap\'.step_into()<CR>')
@@ -729,6 +773,7 @@ vim.g.header_field_license_id = 'MIT'
 vim.g.header_field_modified_by = 0
 vim.g.header_field_modified_timestamp = 0
 
+
 return require('packer').startup(function(use)
   -- packer.nvim itself
   use 'wbthomason/packer.nvim'
@@ -745,6 +790,8 @@ return require('packer').startup(function(use)
   use { 'p00f/nvim-ts-rainbow', requires = {'nvim-treesitter/nvim-treesitter'} }
   use { 'windwp/nvim-ts-autotag', requires = {'nvim-treesitter/nvim-treesitter'} }
   use { 'JoosepAlviste/nvim-ts-context-commentstring', requires = {'nvim-treesitter/nvim-treesitter'} }
+  use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = {'nvim-treesitter/nvim-treesitter'} }
+  use { 'romgrk/nvim-treesitter-context', requires = {'nvim-treesitter/nvim-treesitter'} }
   use 'norcalli/nvim-colorizer.lua'
   use 'wfxr/minimap.vim'
   use 'karb94/neoscroll.nvim'
@@ -753,6 +800,7 @@ return require('packer').startup(function(use)
   use 'liuchengxu/vim-which-key'
   use 'andymass/vim-matchup'
   use 'junegunn/vim-peekaboo'
+  -- use 'tversteeg/registers.nvim'
   use { 'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'} }
   use 'unblevable/quick-scope'
   use 'danilamihailov/beacon.nvim'
@@ -787,7 +835,6 @@ return require('packer').startup(function(use)
   use { 'drmikehenry/vim-headerguard', ft = {'c', 'cpp'}, cmd = {'HeaderguardAdd'} }
   use { 'mbbill/undotree', cmd = {'UndotreeToggle'} }
   use 'rhysd/accelerated-jk'
-  use 'wellle/context.vim'
   use 'mhartington/formatter.nvim'
   use { 'glacambre/firenvim', run = function() vim.fn['firenvim#install'](0) end }
   use 'monaqa/dial.nvim'

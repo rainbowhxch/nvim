@@ -1,12 +1,12 @@
 local function create_augroups(groups)
   for group, cmds in pairs(groups) do
-    vim.cmd('augroup ' .. group)
-    vim.cmd('autocmd!')
+    vim.api.nvim_command('augroup ' .. group)
+    vim.api.nvim_command('autocmd!')
     for _, cmd in ipairs(cmds) do
       local cmd_content = table.concat(vim.tbl_flatten{'autocmd', cmd}, ' ')
-      vim.cmd(cmd_content)
+      vim.api.nvim_command(cmd_content)
     end
-    vim.cmd('augroup END')
+    vim.api.nvim_command('augroup END')
   end
 end
 
@@ -20,8 +20,8 @@ local function load_autocmds()
       { [[ BufWritePre * %s/\n\+\%$//e ]] };
     };
     AutoRelativeLineNums = {
-      { [[ InsertEnter * set norelativenumber ]] };
-      { [[ InsertLeave * set relativenumber ]] };
+      { [[ BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set relativenumber | endif ]] };
+      { [[ BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu          | endif ]] }
     };
     AutoLimelight = {
       { [[ User GoyoEnter Limelight ]] };

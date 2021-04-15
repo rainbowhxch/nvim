@@ -1,8 +1,9 @@
 local utils = require('utils')
+local lspconfig = require('lspconfig')
 
 local function common_on_attach(client, bufnr)
-    -- Set autocommands conditional on server_capabilities
-    if client.resolved_capabilities.document_highlight then
+  -- Set autocommands conditional on server_capabilities
+  if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec([[
       hi LspReferenceRead cterm=bold ctermbg=red guibg=#464646
       hi LspReferenceText cterm=bold ctermbg=red guibg=#464646
@@ -14,28 +15,51 @@ local function common_on_attach(client, bufnr)
         autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
       augroup END
     ]], false)
-    end
+  end
+
+  vim.fn.sign_define("LspDiagnosticsSignError",
+                     {texthl = "LspDiagnosticsSignError", text = "", numhl = "LspDiagnosticsSignError"})
+  vim.fn.sign_define("LspDiagnosticsSignWarning",
+                     {texthl = "LspDiagnosticsSignWarning", text = "", numhl = "LspDiagnosticsSignWarning"})
+  vim.fn.sign_define("LspDiagnosticsSignHint",
+                     {texthl = "LspDiagnosticsSignHint", text = "ﯦ", numhl = "LspDiagnosticsSignHint"})
+  vim.fn.sign_define("LspDiagnosticsSignInformation",
+                     {texthl = "LspDiagnosticsSignInformation", text = "", numhl = "LspDiagnosticsSignInformation"})
+
+  vim.api.nvim_command('set omnifunc=v:lua.vim.lsp.omnifunc')
+  utils.nnoremap('[d', '<CMD>lua vim.lsp.diagnostic.goto_prev()<CR>')
+  utils.nnoremap(']d', '<CMD>lua vim.lsp.diagnostic.goto_next()<CR>')
+  utils.nnoremap('gt', '<CMD>lua vim.lsp.buf.type_definition()<CR>')
+  utils.nnoremap('gD', '<CMD>lua vim.lsp.buf.declaration()<CR>')
+  utils.nnoremap('gd', '<CMD>lua vim.lsp.buf.definition()<CR>')
+  utils.nnoremap('gr', '<CMD>lua vim.lsp.buf.rename()<CR>')
+  utils.nnoremap('gR', '<CMD>lua vim.lsp.buf.references()<CR>')
+  utils.nnoremap('gi', '<CMD>lua vim.lsp.buf.implementation()<CR>')
+  utils.nnoremap('ga', '<CMD>lua vim.lsp.buf.code_action()<CR>')
+  utils.nnoremap('g;', '<CMD>lua vim.lsp.buf.hover()<CR>')
+  utils.nnoremap('gI', '<CMD>lua vim.lsp.buf.signature_help()<CR>')
 end
 
 -- c/cpp
-require'lspconfig'.clangd.setup{
+lspconfig.clangd.setup{
   on_attach = common_on_attach;
 }
 
 -- python
-require'lspconfig'.jedi_language_server.setup{
+lspconfig.jedi_language_server.setup{
   on_attach = common_on_attach;
 }
 
 -- bash
-require'lspconfig'.bashls.setup{
+lspconfig.bashls.setup{
   on_attach = common_on_attach;
 }
+
 
 -- lua
 local sumneko_root_path = '/use/share/lua-language-server'
 local sumneko_binary = 'lua-language-server'
-require'lspconfig'.sumneko_lua.setup {
+lspconfig.sumneko_lua.setup {
   cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
   on_attach = common_on_attach;
   settings = {
@@ -66,41 +90,52 @@ require'lspconfig'.sumneko_lua.setup {
 }
 
 -- tex
-require'lspconfig'.texlab.setup{
+lspconfig.texlab.setup{
   on_attach = common_on_attach;
 }
 
 -- vim
-require'lspconfig'.vimls.setup{
+lspconfig.vimls.setup{
   on_attach = common_on_attach;
 }
 
 -- html
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-require'lspconfig'.html.setup {
-  capabilities = capabilities;
+lspconfig.html.setup {
   on_attach = common_on_attach;
 }
 
 -- css
-require'lspconfig'.cssls.setup{
+lspconfig.cssls.setup{
   on_attach = common_on_attach;
 }
 
 -- tsserver
-require'lspconfig'.tsserver.setup{
+lspconfig.tsserver.setup{
   on_attach = common_on_attach;
 }
 
 -- json
-require'lspconfig'.jsonls.setup{
+lspconfig.jsonls.setup{
   on_attach = common_on_attach;
 }
 
 -- yaml
-require'lspconfig'.yamlls.setup{
+lspconfig.yamlls.setup{
+  on_attach = common_on_attach;
+}
+
+-- xml
+require'lspconfig/configs'.xmlls = {
+  default_config = {
+    cmd = {'xml-language-server'};
+    filetypes = {'xml'};
+    root_dir = function(fname)
+      return require'lspconfig'.util.find_git_ancestor(fname) or vim.loop.os_homedir()
+    end;
+    settings = {};
+  };
+}
+lspconfig.xmlls.setup{
   on_attach = common_on_attach;
 }
 
@@ -130,24 +165,3 @@ require('lspkind').init({
     Struct = '   '
   },
 })
-
-vim.fn.sign_define("LspDiagnosticsSignError",
-                   {texthl = "LspDiagnosticsSignError", text = "", numhl = "LspDiagnosticsSignError"})
-vim.fn.sign_define("LspDiagnosticsSignWarning",
-                   {texthl = "LspDiagnosticsSignWarning", text = "", numhl = "LspDiagnosticsSignWarning"})
-vim.fn.sign_define("LspDiagnosticsSignHint",
-                   {texthl = "LspDiagnosticsSignHint", text = "ﯦ", numhl = "LspDiagnosticsSignHint"})
-vim.fn.sign_define("LspDiagnosticsSignInformation",
-                   {texthl = "LspDiagnosticsSignInformation", text = "", numhl = "LspDiagnosticsSignInformation"})
-
-utils.nnoremap('[d', '<CMD>lua vim.lsp.diagnostic.goto_prev()<CR>')
-utils.nnoremap(']d', '<CMD>lua vim.lsp.diagnostic.goto_next()<CR>')
-utils.nnoremap('gt', '<CMD>lua vim.lsp.buf.type_definition()<CR>')
-utils.nnoremap('gD', '<CMD>lua vim.lsp.buf.declaration()<CR>')
-utils.nnoremap('gd', '<CMD>lua vim.lsp.buf.definition()<CR>')
-utils.nnoremap('gr', '<CMD>lua vim.lsp.buf.rename()<CR>')
-utils.nnoremap('gR', '<CMD>lua vim.lsp.buf.references()<CR>')
-utils.nnoremap('gi', '<CMD>lua vim.lsp.buf.implementation()<CR>')
-utils.nnoremap('ga', '<CMD>lua vim.lsp.buf.code_action()<CR>')
-utils.nnoremap('g;', '<CMD>lua vim.lsp.buf.hover()<CR>')
-utils.nnoremap('gI', '<CMD>lua vim.lsp.buf.signature_help()<CR>')
