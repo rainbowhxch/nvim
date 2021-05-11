@@ -1,0 +1,11 @@
+{
+  "function": {
+    "prefix": "func",
+    "body": [
+      "function ${1:name}(${2:args}) {",
+      "\t${0}",
+      "}"
+    ],
+    "description": "function"
+  }
+}

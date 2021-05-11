@@ -85,9 +85,6 @@ utils.nnoremap('S', '<CMD>w<CR>')
 -- Quit
 utils.nnoremap('Q', '<CMD>q<CR>')
 
--- Refresh my vimrc
-utils.nnoremap('R', '<CMD>PackerCompile<CR>')
-
 -- Split windows
 utils.nnoremap('s', '<NOP>')
 utils.nnoremap('sl', '<CMD>set splitright<CR><CMD>vsplit<CR>')

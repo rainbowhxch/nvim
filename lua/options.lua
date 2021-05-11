@@ -52,7 +52,7 @@ local function load_options()
     wildmenu       = true;
     history        = 100;
     timeout        = true;
-    timeoutlen     = 1500;
+    timeoutlen     = 500;
     ttimeout       = false;
     hlsearch       = true;
     incsearch      = true;
@@ -80,7 +80,7 @@ local function load_options()
     lazyredraw     = true;
     termguicolors  = true;
     inccommand     = "split";
-    showmode   = false;
+    showmode       = false;
     tags           = "./.tags;,.tags";
     backup         = true;
     backupext      = ".bak";

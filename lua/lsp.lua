@@ -1,5 +1,14 @@
 local utils = require('utils')
 local lspconfig = require('lspconfig')
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  }
+}
 
 local function common_on_attach(client, bufnr)
   -- Set autocommands conditional on server_capabilities
@@ -30,6 +39,7 @@ local function common_on_attach(client, bufnr)
   utils.nnoremap('[d', '<CMD>lua vim.lsp.diagnostic.goto_prev()<CR>')
   utils.nnoremap(']d', '<CMD>lua vim.lsp.diagnostic.goto_next()<CR>')
   utils.nnoremap('gt', '<CMD>lua vim.lsp.buf.type_definition()<CR>')
+  utils.nnoremap('gT', '<CMD>lua vim.lsp.buf.workspace_symbol()<CR>')
   utils.nnoremap('gD', '<CMD>lua vim.lsp.buf.declaration()<CR>')
   utils.nnoremap('gd', '<CMD>lua vim.lsp.buf.definition()<CR>')
   utils.nnoremap('gr', '<CMD>lua vim.lsp.buf.rename()<CR>')
@@ -38,20 +48,26 @@ local function common_on_attach(client, bufnr)
   utils.nnoremap('ga', '<CMD>lua vim.lsp.buf.code_action()<CR>')
   utils.nnoremap('g;', '<CMD>lua vim.lsp.buf.hover()<CR>')
   utils.nnoremap('gI', '<CMD>lua vim.lsp.buf.signature_help()<CR>')
+  utils.nnoremap('gh', '<CMD>ClangdSwitchSourceHeader<CR>')
+
+  require'lsp_signature'.on_attach()
 end
 
 -- c/cpp
 lspconfig.clangd.setup{
+  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- python
 lspconfig.jedi_language_server.setup{
+  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- bash
 lspconfig.bashls.setup{
+  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
@@ -61,6 +77,7 @@ local sumneko_root_path = '/use/share/lua-language-server'
 local sumneko_binary = 'lua-language-server'
 lspconfig.sumneko_lua.setup {
   cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+  capabilities = capabilities;
   on_attach = common_on_attach;
   settings = {
     Lua = {
@@ -91,51 +108,61 @@ lspconfig.sumneko_lua.setup {
 
 -- tex
 lspconfig.texlab.setup{
+  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- vim
 lspconfig.vimls.setup{
+  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- html
 lspconfig.html.setup {
+  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- css
 lspconfig.cssls.setup{
+  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- tsserver
 lspconfig.tsserver.setup{
+  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- json
 lspconfig.jsonls.setup{
+  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- yaml
 lspconfig.yamlls.setup{
+  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- xml
-require'lspconfig/configs'.xmlls = {
-  default_config = {
-    cmd = {'xml-language-server'};
-    filetypes = {'xml'};
-    root_dir = function(fname)
-      return require'lspconfig'.util.find_git_ancestor(fname) or vim.loop.os_homedir()
-    end;
-    settings = {};
-  };
-}
+if not lspconfig.xmlls then
+    require'lspconfig/configs'.xmlls = {
+      default_config = {
+        cmd = {'xml-language-server', '--stdio'};
+        filetypes = {'xml'};
+        root_dir = function(fname)
+          return require'lspconfig'.util.find_git_ancestor(fname) or vim.loop.os_homedir()
+        end;
+        settings = {};
+      };
+    }
+end
 lspconfig.xmlls.setup{
+  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 

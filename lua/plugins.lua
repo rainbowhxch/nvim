@@ -1,12 +1,8 @@
---[[--
-File              : plugins.lua
-Date              : 15.04.2021
-Last Modified Date: 15.04.2021
---]]--
 local fn = vim.fn
 local utils = require('utils')
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 local vsnip_path = fn.stdpath('config') .. '/snippets/'
+local cache_dir = os.getenv("HOME") .. '/.cache/nvim/'
 
 if fn.empty(fn.glob(install_path)) > 0 then
     vim.api.nvim_command('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
@@ -14,6 +10,8 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 vim.cmd('autocmd BufWritePost plugins.lua PackerCompile') -- Auto compile when there are changes in plugins.lua
+
+-- gruvbox
 vim.g.gruvbox_italic = 1
 vim.g.gruvbox_italicize_strings = 1
 vim.g.gruvbox_invert_signs = 1
@@ -22,7 +20,7 @@ vim.g.gruvbox_invert_tabline = 1
 -- vim.g.gruvbox_improved_strings = 1
 vim.g.gruvbox_improved_warnings = 1
 
-vim.cmd('colorscheme deus')
+vim.cmd('colorscheme onedark')
 
 -- nvim-autopairs
 require('nvim-autopairs').setup()
@@ -32,10 +30,6 @@ utils.nnoremap('sb', '<Cmd>BufferPick<CR>')
 utils.nnoremap(']b', '<Cmd>BufferNext<CR>')
 utils.nnoremap('[b', '<Cmd>BufferPrevious<CR>')
 utils.nnoremap('H', '<Cmd>BufferClose<CR>')
-
--- Use accelerated-jk for normal up/down movement
-utils.nmap('j', '<Plug>(accelerated_jk_gj)')
-utils.nmap('k', '<Plug>(accelerated_jk_gk)')
 
 -- nvim-colorizer.lua
 require'colorizer'.setup()
@@ -52,6 +46,7 @@ require'nvim-treesitter.configs'.setup {
   },
   autotag = {
     enable = true,
+    filetypes = { "html" , "xml" },
   },
   context_commentstring = {
     enable = true,
@@ -84,13 +79,6 @@ require'nvim-treesitter.configs'.setup {
       goto_previous_end = {
         ["[F"] = "@function.outer",
         ["[C"] = "@class.outer",
-      },
-    },
-    lsp_interop = {
-      enable = true,
-      peek_definition_code = {
-        ["df"] = "@function.outer",
-        ["dF"] = "@class.outer",
       },
     },
   },
@@ -213,9 +201,6 @@ utils.nnoremap('<LEADER>ah', '<CMD>HeaderguardAdd<CR>')
 vim.g.any_jump_disable_default_keybindings = 1
 utils.nnoremap('gj', '<CMD>AnyJump<CR>')
 
--- vim-which-key
-utils.nnoremap('<LEADER>', '<CMD>WhichKey \'<SPACE>\'<CR>')
-
 -- far.vim
 utils.nnoremap('ss', '<CMD>Farp<CR>')
 vim.g['far#default_mappings'] = 1
@@ -258,7 +243,6 @@ utils.xmap('i%', '<plug>(matchup-%)')
 -- vim-floaterm
 vim.g.floaterm_keymap_toggle = '<F1>'
 utils.nnoremap('<LEADER>gi', '<CMD>FloatermNew --autoclose=1 lazygit<CR>')
-utils.nnoremap('<LEADER>R', '<CMD>FloatermNew --autoclose=1 ranger<CR>')
 utils.nnoremap('<LEADER>rg', '<CMD>FloatermNew --autoclose=1 --width=0.8 --height=0.8 rg<CR>')
 
 -- vim-surround
@@ -270,7 +254,6 @@ utils.nmap('<LEADER>[', 'ysiW[')
 utils.nmap('<LEADER>/', 'ysiW*ysiW/f*a<SPACE><ESC>f*i<SPACE><ESC>b')
 
 -- vimtex
-local cache_dir = os.getenv("HOME") .. '/.cache/nvim/'
 vim.g.vimtex_mappings_enabled = 0
 vim.g.vimtex_cache_root = cache_dir .. 'vimtex'
 vim.g.tex_flavor = 'latex'
@@ -321,13 +304,6 @@ vim.g.table_mode_corner = '|'
 utils.nmap('<LEADER>al', '<Plug>(EasyAlign)')
 utils.xmap('<LEADER>al', '<Plug>(EasyAlign)')
 
--- vista
-utils.nnoremap('T', '<CMD>MinimapClose<CR><CMD>Vista!!<CR>')
-vim.g.vista_icon_indent = {"╰─▸ ", "├─▸ "}
-vim.g.vista_default_executive = 'ctags'
-vim.g.vista_fzf_preview = {'right:50%'}
-vim.g['vista#renderer#enable_icon'] = 1
-
 -- vim-signature
 vim.g.SignatureMap = {
   Leader             =  'm';
@@ -362,7 +338,6 @@ utils.nnoremap('sL', '<CMD>HopLine<CR>')
 utils.vnoremap('sL', '<CMD>HopLine<CR>')
 
 -- suda.vim
-utils.nnoremap('<LEADER>S', '<CMD>SudaWrite<CR>')
 vim.g['suda#prompt'] = '(. > .) password please: '
 vim.g.suda_smart_edit = 1
 
@@ -519,31 +494,29 @@ vim.g.nvim_tree_indent_markers = 1 --"0 by default, this option shows indent mar
 vim.g.nvim_tree_follow = 1 --"0 by default, this option allows the cursor to be updated when entering a buffer
 local tree_cb = require'nvim-tree.config'.nvim_tree_callback
 vim.g.nvim_tree_bindings = {
-  ["<CR>"]           = tree_cb("edit"),
-  ["o"]              = tree_cb("edit"),
-  ["<2-LeftMouse>"]  = tree_cb("edit"),
-  ["<2-RightMouse>"] = tree_cb("cd"),
-  ["l"]            = tree_cb("cd"),
-  ["v"]            = tree_cb("vsplit"),
-  ["s"]            = tree_cb("split"),
-  ["t"]            = tree_cb("tabnew"),
-  ["<BS>"]           = tree_cb("close_node"),
-  ["<S-CR>"]         = tree_cb("close_node"),
-  ["<Tab>"]          = tree_cb("preview"),
-  ["I"]              = tree_cb("toggle_ignored"),
-  ["H"]              = tree_cb("toggle_dotfiles"),
-  ["<C-r>"]          = tree_cb("refresh"),
-  ["a"]              = tree_cb("create"),
-  ["d"]              = tree_cb("remove"),
-  ["r"]              = tree_cb("rename"),
-  ["R"]              = tree_cb("full_rename"),
-  ["c"]              = tree_cb("cut"),
-  ["y"]              = tree_cb("copy"),
-  ["p"]              = tree_cb("paste"),
-  ["[g"]             = tree_cb("prev_git_item"),
-  ["]g"]             = tree_cb("next_git_item"),
-  ["h"]              = tree_cb("dir_up"),
-  ["q"]              = tree_cb("close"),
+  ["<CR>"]   = tree_cb("edit"),
+  ["o"]      = tree_cb("edit"),
+  ["l"]      = tree_cb("cd"),
+  ["<C-v>"]  = tree_cb("vsplit"),
+  ["x"]      = tree_cb("split"),
+  ["t"]      = tree_cb("tabnew"),
+  ["<BS>"]   = tree_cb("close_node"),
+  ["<S-CR>"] = tree_cb("close_node"),
+  ["<Tab>"]  = tree_cb("preview"),
+  ["I"]      = tree_cb("toggle_ignored"),
+  ["H"]      = tree_cb("toggle_dotfiles"),
+  ["<C-r>"]  = tree_cb("refresh"),
+  ["a"]      = tree_cb("create"),
+  ["d"]      = tree_cb("remove"),
+  ["r"]      = tree_cb("rename"),
+  ["R"]      = tree_cb("full_rename"),
+  ["c"]      = tree_cb("cut"),
+  ["y"]      = tree_cb("copy"),
+  ["p"]      = tree_cb("paste"),
+  ["[g"]     = tree_cb("prev_git_item"),
+  ["]g"]     = tree_cb("next_git_item"),
+  ["h"]      = tree_cb("dir_up"),
+  ["q"]      = tree_cb("close"),
 }
 vim.g.nvim_tree_icons = {
   default = '',
@@ -596,8 +569,6 @@ vim.g.dashboard_custom_footer = { "Welcome to RainbowCh's Nvim!" }
 -- dial.nvim
 utils.nmap('<C-a>', '<Plug>(dial-increment)')
 utils.nmap('<C-x>', '<Plug>(dial-decrement)')
-utils.vmap('<C-a>', '<Plug>(dial-increment)')
-utils.vmap('<C-x>', '<Plug>(dial-decrement)')
 
 -- nvim-compe
 vim.o.completeopt = "menuone,noselect"
@@ -773,6 +744,89 @@ vim.g.header_field_license_id = 'MIT'
 vim.g.header_field_modified_by = 0
 vim.g.header_field_modified_timestamp = 0
 
+-- rnvimr
+vim.g.rnvimr_enable_picker = 1
+utils.nnoremap('<LEADER>R', '<CMD>RnvimrToggle<CR>')
+
+-- nvim-reload
+utils.nnoremap('R', '<CMD>Reload<CR>')
+
+-- nvim-spectre
+utils.nnoremap('<LEADER>S', '<CMD>lua require(\'spectre\').open()<CR>')
+
+-- symbols-outline.nvim
+vim.g.symbols_outline = {
+    highlight_hovered_item = true,
+    show_guides = true,
+    auto_preview = true, -- experimental
+    position = 'right',
+    keymaps = {
+        close = "<ESC>",
+        goto_location = "<CR>",
+        focus_location = "o",
+        hover_symbol = "g;",
+        rename_symbol = "gr",
+        code_actions = "ga",
+    },
+    lsp_blacklist = {},
+}
+utils.nnoremap('T', '<CMD>SymbolsOutline<CR>')
+
+-- which-key.nvim
+require("which-key").setup{
+  plugins = {
+    marks = true, -- shows a list of your marks on ' and `
+    registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+    -- the presets plugin, adds help for a bunch of default keybindings in Neovim
+    -- No actual key bindings are created
+    presets = {
+      operators = true, -- adds help for operators like d, y, ... and registers them for motion / text object completion
+      motions = true, -- adds help for motions
+      text_objects = true, -- help for text objects triggered after entering an operator
+      windows = true, -- default bindings on <c-w>
+      nav = true, -- misc bindings to work with windows
+      z = true, -- bindings for folds, spelling and others prefixed with z
+      g = true, -- bindings for prefixed with g
+    },
+  },
+  -- add operators that will trigger motion and text object completion
+  -- to enable all native operators, set the preset / operators plugin above
+  operators = { gc = "Comments" },
+  icons = {
+    breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
+    separator = "➜", -- symbol used between a key and it's label
+    group = "+", -- symbol prepended to a group
+  },
+  window = {
+    border = "none", -- none, single, double, shadow
+    position = "bottom", -- bottom, top
+    margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
+    padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
+  },
+  layout = {
+    height = { min = 4, max = 25 }, -- min and max height of the columns
+    width = { min = 20, max = 50 }, -- min and max width of the columns
+    spacing = 3, -- spacing between columns
+  },
+  hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ "}, -- hide mapping boilerplate
+  show_help = false, -- show help message on the command line when the popup is visible
+  triggers = "auto", -- automatically setup triggers
+  -- triggers = {"<leader>"} -- or specifiy a list manually
+}
+
+-- nvim-workbench
+vim.g.workbench_storage_path = os.getenv("HOME") .. "/Documents/Notes/"
+utils.nmap('<LEADER>bp', '<Plug>ToggleProjectWorkbench')
+utils.nmap('<LEADER>bb', '<Plug>ToggleBranchWorkbench')
+
+-- nvim-lsputils
+vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+
+-- bullets.vim
+vim.g.bullets_enable_in_empty_buffers = 0
+vim.g.bullets_enabled_file_types = {
+  'markdown',
+}
 
 return require('packer').startup(function(use)
   -- packer.nvim itself
@@ -797,10 +851,8 @@ return require('packer').startup(function(use)
   use 'karb94/neoscroll.nvim'
   use 'Shougo/echodoc.vim'
   use 'kevinhwang91/nvim-hlslens'
-  use 'liuchengxu/vim-which-key'
+  use 'folke/which-key.nvim'
   use 'andymass/vim-matchup'
-  use 'junegunn/vim-peekaboo'
-  -- use 'tversteeg/registers.nvim'
   use { 'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'} }
   use 'unblevable/quick-scope'
   use 'danilamihailov/beacon.nvim'
@@ -818,7 +870,6 @@ return require('packer').startup(function(use)
   use { 'dhruvasagar/vim-table-mode', ft = {'markdown'} }
   use { 'lervag/vimtex', ft = {'tex'} }
   use 'junegunn/vim-easy-align'
-  use 'liuchengxu/vista.vim'
   use 'kshenoy/vim-signature'
   use 'phaazon/hop.nvim'
   use 'MattesGroeger/vim-bookmarks'
@@ -847,10 +898,20 @@ return require('packer').startup(function(use)
   use {'kkoomen/vim-doge', run = ':call doge#install()'}
   use 'michaeljsmith/vim-indent-object'
   use 'alpertuna/vim-header'
+  use 'kevinhwang91/rnvimr'
+  use 'famiu/nvim-reload'
+  use 'windwp/nvim-spectre'
+  use 'marcushwz/nvim-workbench'
+  use 'haringsrob/nvim_context_vt'
+  use 'dkarter/bullets.vim'
+  use 'triglav/vim-visual-increment'
 
   -- lsp
   use 'neovim/nvim-lspconfig'
   use 'onsails/lspkind-nvim'
+  use 'ray-x/lsp_signature.nvim'
+  use 'simrat39/symbols-outline.nvim'
+  use { 'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}} }
 
   -- autocompletor
   use 'hrsh7th/nvim-compe'
@@ -859,6 +920,7 @@ return require('packer').startup(function(use)
   use 'hrsh7th/vim-vsnip-integ'
 
   -- themes
+  use 'tjdevries/colorbuddy.nvim'
   use 'morhetz/gruvbox'
   use 'joshdick/onedark.vim'
   use 'ajmwagar/vim-deus'

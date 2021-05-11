@@ -30,6 +30,10 @@ local function load_autocmds()
     AutoTextYank = {
       { [[ TextYankPost * silent! lua vim.highlight.on_yank{ timeout=100 } ]] }
     };
+    AutoCursorLine = {
+      { [[ WinEnter,BufEnter * setlocal cursorline ]] };
+      { [[ WinLeave,BufLeave * setlocal nocursorline ]] };
+    };
   }
 
   create_augroups(autocmds)
