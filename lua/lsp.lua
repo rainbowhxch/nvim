@@ -17,12 +17,6 @@ local function common_on_attach(client, bufnr)
       hi LspReferenceRead cterm=bold ctermbg=red guibg=#464646
       hi LspReferenceText cterm=bold ctermbg=red guibg=#464646
       hi LspReferenceWrite cterm=bold ctermbg=red guibg=#464646
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
     ]], false)
   end
 
@@ -51,6 +45,7 @@ local function common_on_attach(client, bufnr)
   utils.nnoremap('gh', '<CMD>ClangdSwitchSourceHeader<CR>')
 
   require'lsp_signature'.on_attach()
+  require 'illuminate'.on_attach(client)
 end
 
 -- c/cpp

@@ -125,10 +125,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/far.vim"
   },
-  firenvim = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/firenvim"
-  },
   ["formatter.nvim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/formatter.nvim"
@@ -299,10 +295,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/popup.nvim"
   },
-  ["quick-scope"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/quick-scope"
-  },
   rnvimr = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/rnvimr"
@@ -330,6 +322,10 @@ _G.packer_plugins = {
   ["telescope-media-files.nvim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/telescope-media-files.nvim"
+  },
+  ["telescope-project.nvim"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/telescope-project.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,
@@ -371,6 +367,10 @@ _G.packer_plugins = {
     needs_bufread = false,
     path = "/home/ch/.local/share/nvim/site/pack/packer/opt/vim-headerguard"
   },
+  ["vim-illuminate"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-illuminate"
+  },
   ["vim-indent-object"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-indent-object"
@@ -379,10 +379,6 @@ _G.packer_plugins = {
     loaded = false,
     needs_bufread = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc"
-  },
-  ["vim-matchup"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-matchup"
   },
   ["vim-repeat"] = {
     loaded = true,
@@ -404,6 +400,10 @@ _G.packer_plugins = {
   ["vim-visual-increment"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-visual-increment"
+  },
+  ["vim-visual-multi"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-visual-multi"
   },
   ["vim-vsnip"] = {
     loaded = true,

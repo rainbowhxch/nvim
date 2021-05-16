@@ -11,7 +11,7 @@ local function createdir()
     cache_dir..'vista',
   }
   -- There only check once that If cache_dir exists
-  -- Then I don't want to check subs dir exists
+  -- Then i don't want to check subs dir exists
   if vim.fn.isdirectory(cache_dir) == 0 then
     os.execute("mkdir -p " .. cache_dir)
     for _,v in pairs(data_dir) do
@@ -51,8 +51,7 @@ local function load_options()
     ruler          = true;
     wildmenu       = true;
     history        = 100;
-    timeout        = true;
-    timeoutlen     = 500;
+    timeout        = false;
     ttimeout       = false;
     hlsearch       = true;
     incsearch      = true;
@@ -74,8 +73,6 @@ local function load_options()
     foldmethod     = "indent";
     foldlevel      = 99;
     laststatus     = 2;
-    updatetime     = 100;
-    updatecount    = 100;
     autochdir      = true;
     lazyredraw     = true;
     termguicolors  = true;

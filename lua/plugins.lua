@@ -82,6 +82,9 @@ require'nvim-treesitter.configs'.setup {
       },
     },
   },
+  matchup = {
+    enable = true;
+  },
 }
 
 -- formatter.nvim
@@ -405,9 +408,10 @@ vim.g.indent_blankline_context_patterns = {
 
 -- nvim-telescope
 local actions = require('telescope.actions')
-require('telescope').load_extension('media_files')
-require('telescope').setup {
- defaults = {
+  require('telescope').load_extension('media_files')
+  require'telescope'.load_extension('project')
+  require('telescope').setup {
+  defaults = {
     vimgrep_arguments = {'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case'},
     prompt_position = "top",
     prompt_prefix = " ",
@@ -723,15 +727,16 @@ utils.nnoremap('<F12>', '<CMD>lua require\'dap\'.step_out()<CR>')
 vim.g.dap_virtual_text = true
 
 -- neoscroll.vim
-vim.g.neoscroll_no_mappings = 1
-utils.nnoremap('<C-u>', '<CMD>lua require(\'neoscroll\').scroll(-vim.wo.scroll, true)<CR>')
-utils.nnoremap('<C-d>', '<CMD>lua require(\'neoscroll\').scroll(vim.wo.scroll, true)<CR>')
-utils.xnoremap('<C-u>', '<CMD>lua require(\'neoscroll\').scroll(-vim.wo.scroll, true)<CR>')
-utils.xnoremap('<C-d>', '<CMD>lua require(\'neoscroll\').scroll(vim.wo.scroll, true)<CR>')
-utils.nnoremap('<C-b>', '<CMD>lua require(\'neoscroll\').scroll(-vim.api.nvim_win_get_height(0), true)<CR>')
-utils.nnoremap('<C-f>', '<CMD>lua require(\'neoscroll\').scroll(vim.api.nvim_win_get_height(0), true)<CR>')
-utils.xnoremap('<C-b>', '<CMD>lua require(\'neoscroll\').scroll(-vim.api.nvim_win_get_height(0), true)<CR>')
-utils.xnoremap('<C-f>', '<CMD>lua require(\'neoscroll\').scroll(vim.api.nvim_win_get_height(0), true)<CR>')
+require('neoscroll').setup({
+  -- All these keys will be mapped. Pass an empty table ({}) for no mappings
+  mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>'},
+  hide_cursor = true,          -- Hide cursor while scrolling
+  stop_eof = true,             -- Stop at <EOF> when scrolling downwards
+  respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+  cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+  easing = false,              -- easing_function will be used in all scrolling animations with some defaults
+  easing_function = function(x) return math.pow(x, 2) end -- default easing function
+})
 
 -- vim-doge
 vim.g.doge_mapping = '<LEADER>d'
@@ -780,7 +785,7 @@ require("which-key").setup{
     -- the presets plugin, adds help for a bunch of default keybindings in Neovim
     -- No actual key bindings are created
     presets = {
-      operators = true, -- adds help for operators like d, y, ... and registers them for motion / text object completion
+      operators = false, -- adds help for operators like d, y, ... and registers them for motion / text object completion
       motions = true, -- adds help for motions
       text_objects = true, -- help for text objects triggered after entering an operator
       windows = true, -- default bindings on <c-w>
@@ -887,7 +892,6 @@ return require('packer').startup(function(use)
   use { 'mbbill/undotree', cmd = {'UndotreeToggle'} }
   use 'rhysd/accelerated-jk'
   use 'mhartington/formatter.nvim'
-  use { 'glacambre/firenvim', run = function() vim.fn['firenvim#install'](0) end }
   use 'monaqa/dial.nvim'
   use 'metakirby5/codi.vim'
   use 'michaelb/sniprun'
@@ -905,6 +909,8 @@ return require('packer').startup(function(use)
   use 'haringsrob/nvim_context_vt'
   use 'dkarter/bullets.vim'
   use 'triglav/vim-visual-increment'
+  use 'nvim-telescope/telescope-project.nvim'
+  use 'mg979/vim-visual-multi'
 
   -- lsp
   use 'neovim/nvim-lspconfig'
@@ -912,6 +918,7 @@ return require('packer').startup(function(use)
   use 'ray-x/lsp_signature.nvim'
   use 'simrat39/symbols-outline.nvim'
   use { 'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}} }
+  use 'RRethy/vim-illuminate'
 
   -- autocompletor
   use 'hrsh7th/nvim-compe'
