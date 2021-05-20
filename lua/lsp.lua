@@ -68,38 +68,21 @@ lspconfig.bashls.setup{
 
 
 -- lua
-local sumneko_root_path = '/use/share/lua-language-server'
-local sumneko_binary = 'lua-language-server'
-lspconfig.sumneko_lua.setup {
-  cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
-  capabilities = capabilities;
-  on_attach = common_on_attach;
-  settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT',
-        -- Setup your lua path
-        path = vim.split(package.path, ';'),
-      },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
-      },
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = {
-          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-        },
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
-      },
-    },
+local luadev = require("lua-dev").setup({
+  library = {
+    vimruntime = true, -- runtime path
+    types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
+    plugins = true, -- installed opt or start plugins in packpath
+    -- you can also specify the list of plugins to make available as a workspace library
+    -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
   },
-}
+  lspconfig = {
+    cmd = {"lua-language-server"};
+    capabilities = capabilities;
+    on_attach = common_on_attach;
+  },
+})
+lspconfig.sumneko_lua.setup(luadev)
 
 -- tex
 lspconfig.texlab.setup{

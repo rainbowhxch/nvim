@@ -141,10 +141,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
   },
-  ["goyo.vim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/goyo.vim"
-  },
   gruvbox = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/gruvbox"
@@ -168,6 +164,10 @@ _G.packer_plugins = {
   ["lspkind-nvim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/lspkind-nvim"
+  },
+  ["lua-dev.nvim"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/lua-dev.nvim"
   },
   ["markdown-preview.nvim"] = {
     commands = { "MarkdownPreview" },
@@ -295,6 +295,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/popup.nvim"
   },
+  ["quick-scope"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/quick-scope"
+  },
   rnvimr = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/rnvimr"
@@ -330,6 +334,10 @@ _G.packer_plugins = {
   ["telescope.nvim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/telescope.nvim"
+  },
+  ["todo-comments.nvim"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/todo-comments.nvim"
   },
   undotree = {
     commands = { "UndotreeToggle" },
@@ -380,6 +388,12 @@ _G.packer_plugins = {
     needs_bufread = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc"
   },
+  ["vim-matchup"] = {
+    after_files = { "/home/ch/.local/share/nvim/site/pack/packer/opt/vim-matchup/after/plugin/matchit.vim" },
+    loaded = false,
+    needs_bufread = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/opt/vim-matchup"
+  },
   ["vim-repeat"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-repeat"
@@ -421,6 +435,10 @@ _G.packer_plugins = {
   ["which-key.nvim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/which-key.nvim"
+  },
+  ["zen-mode.nvim"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/zen-mode.nvim"
   }
 }
 
@@ -443,14 +461,18 @@ vim.cmd [[au FileType c ++once lua require("packer.load")({'vim-headerguard'}, {
 vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-table-mode', 'vim-markdown-toc', 'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
 vim.cmd [[au FileType tex ++once lua require("packer.load")({'vimtex'}, { ft = "tex" }, _G.packer_plugins)]]
 time("Defining lazy-load filetype autocommands", false)
+  -- Event lazy-loads
+time("Defining lazy-load event autocommands", true)
+vim.cmd [[au VimEnter * ++once lua require("packer.load")({'vim-matchup'}, { event = "VimEnter *" }, _G.packer_plugins)]]
+time("Defining lazy-load event autocommands", false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]
-time("Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim", true)
-vim.cmd [[source /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]]
-time("Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim", false)
 time("Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tex.vim", true)
 vim.cmd [[source /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tex.vim]]
 time("Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tex.vim", false)
+time("Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim", true)
+vim.cmd [[source /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]]
+time("Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim", false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end
 

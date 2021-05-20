@@ -23,10 +23,6 @@ local function load_autocmds()
       { [[ BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set relativenumber | endif ]] };
       { [[ BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu          | endif ]] }
     };
-    AutoLimelight = {
-      { [[ User GoyoEnter Limelight ]] };
-      { [[ User GoyoLeave Limelight! ]] };
-    };
     AutoTextYank = {
       { [[ TextYankPost * silent! lua vim.highlight.on_yank{ timeout=100 } ]] }
     };

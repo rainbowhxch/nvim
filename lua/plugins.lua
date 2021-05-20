@@ -38,7 +38,7 @@ require'colorizer'.setup()
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
-    enable = true,              -- false will disable the whole extension
+    enable = false,              -- false will disable the whole extension
     disable = {},  -- list of language that will be disabled
   },
   rainbow = {
@@ -164,11 +164,6 @@ require('nvim_comment').setup({
   -- Visual/Operator mapping left hand side
   operator_mapping = "<LEADER>cc"
 })
-
--- context.vim
-vim.g.context_enabled = 0
-vim.g.context_add_mappings = 0
-utils.nnoremap('<LEADER>ct', '<CMD>ContextToggle<CR>')
 
 -- nvim-hlslens
 utils.nnoremap('n', '<Cmd>execute(\'normal! \' . v:count1 . \'n\')<CR><Cmd>lua require(\'hlslens\').start()<CR>')
@@ -354,11 +349,6 @@ utils.nnoremap('<F6>', '<CMD>AsyncTask file-build<CR>')
 utils.nnoremap('<F7>', '<CMD>lua require(\'utils\').file_run()<CR>')
 utils.nnoremap('<LEADER><F6>', '<CMD>AsyncTask project-build<CR>')
 utils.nnoremap('<LEADER><F7>', '<CMD>AsyncTask project-run<CR>')
-
--- goyo.vim
-utils.nnoremap('<LEADER>gy', '<CMD>Goyo<CR>')
-vim.g.goyo_width = '80'
-vim.g.goyo_height = '80%'
 
 -- gitsigns.nvim
 require('gitsigns').setup {
@@ -566,7 +556,7 @@ vim.g.dashboard_custom_section = {
   b = {description = {' Recently Used Files'}, command = 'Telescope oldfiles'},
   c = {description = {' Load Last Session  '}, command = 'SessionLoad'},
   d = {description = {' Find Word          '}, command = 'Telescope live_grep'},
-  e = {description = {' Settings           '}, command = ':e ~/.config/nvim/init.vim'}
+  e = {description = {' Settings           '}, command = ':e ~/.config/nvim/init.lua'}
 }
 vim.g.dashboard_custom_footer = { "Welcome to RainbowCh's Nvim!" }
 
@@ -833,37 +823,51 @@ vim.g.bullets_enabled_file_types = {
   'markdown',
 }
 
+-- todo-comments.nvim
+require("todo-comments").setup{}
+utils.nnoremap('<LEADER>td', '<CMD>TodoQuickFix<CR>')
+
+-- zen-mode.nvim
+require("zen-mode").setup{
+  on_open = function()
+    vim.api.nvim_command('Limelight')
+  end;
+  on_close = function()
+    vim.api.nvim_command('Limelight!')
+  end;
+}
+utils.nnoremap('<LEADER>zm', '<CMD>ZenMode<CR>')
+
 return require('packer').startup(function(use)
   -- packer.nvim itself
-  use 'wbthomason/packer.nvim'
+  use { 'wbthomason/packer.nvim' }
 
   -- decoration
-  use 'windwp/nvim-autopairs'
+  use { 'windwp/nvim-autopairs' }
   use { 'lukas-reineke/indent-blankline.nvim', branch = 'lua' }
-  use 'kyazdani42/nvim-web-devicons'
-  use 'glepnir/dashboard-nvim'
-  use 'glepnir/galaxyline.nvim'
-  use 'romgrk/barbar.nvim'
-  use 'aklt/plantuml-syntax'
+  use { 'kyazdani42/nvim-web-devicons' }
+  use { 'glepnir/dashboard-nvim' }
+  use { 'glepnir/galaxyline.nvim' }
+  use { 'romgrk/barbar.nvim' }
+  use { 'aklt/plantuml-syntax' }
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use { 'p00f/nvim-ts-rainbow', requires = {'nvim-treesitter/nvim-treesitter'} }
   use { 'windwp/nvim-ts-autotag', requires = {'nvim-treesitter/nvim-treesitter'} }
   use { 'JoosepAlviste/nvim-ts-context-commentstring', requires = {'nvim-treesitter/nvim-treesitter'} }
   use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = {'nvim-treesitter/nvim-treesitter'} }
   use { 'romgrk/nvim-treesitter-context', requires = {'nvim-treesitter/nvim-treesitter'} }
-  use 'norcalli/nvim-colorizer.lua'
-  use 'wfxr/minimap.vim'
-  use 'karb94/neoscroll.nvim'
-  use 'Shougo/echodoc.vim'
-  use 'kevinhwang91/nvim-hlslens'
-  use 'folke/which-key.nvim'
-  use 'andymass/vim-matchup'
+  use { 'norcalli/nvim-colorizer.lua' }
+  use { 'wfxr/minimap.vim' }
+  use { 'karb94/neoscroll.nvim' }
+  use { 'Shougo/echodoc.vim' }
+  use { 'kevinhwang91/nvim-hlslens' }
+  use { 'folke/which-key.nvim' }
+  use { 'andymass/vim-matchup', event = 'VimEnter' }
   use { 'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'} }
-  use 'unblevable/quick-scope'
-  use 'danilamihailov/beacon.nvim'
+  use { 'unblevable/quick-scope' }
+  use { 'danilamihailov/beacon.nvim' }
 
   -- reading mode
-  use { 'junegunn/goyo.vim' }
   use { 'junegunn/limelight.vim' }
 
   -- functional
@@ -874,61 +878,64 @@ return require('packer').startup(function(use)
   use { 'mzlogin/vim-markdown-toc', ft = {'markdown'} }
   use { 'dhruvasagar/vim-table-mode', ft = {'markdown'} }
   use { 'lervag/vimtex', ft = {'tex'} }
-  use 'junegunn/vim-easy-align'
-  use 'kshenoy/vim-signature'
-  use 'phaazon/hop.nvim'
-  use 'MattesGroeger/vim-bookmarks'
-  use 'lambdalisue/suda.vim'
-  use 'skywind3000/asynctasks.vim'
-  use 'skywind3000/asyncrun.vim'
-  use 'voldikss/vim-floaterm'
-  use 'tpope/vim-surround'
-  use 'AndrewRadev/splitjoin.vim'
-  use 'terrortylor/nvim-comment'
-  use 'tpope/vim-repeat'
-  use 'brooth/far.vim'
+  use { 'junegunn/vim-easy-align' }
+  use { 'kshenoy/vim-signature' }
+  use { 'phaazon/hop.nvim' }
+  use { 'MattesGroeger/vim-bookmarks' }
+  use { 'lambdalisue/suda.vim' }
+  use { 'skywind3000/asynctasks.vim' }
+  use { 'skywind3000/asyncrun.vim' }
+  use { 'voldikss/vim-floaterm' }
+  use { 'tpope/vim-surround' }
+  use { 'AndrewRadev/splitjoin.vim' }
+  use { 'terrortylor/nvim-comment' }
+  use { 'tpope/vim-repeat' }
+  use { 'brooth/far.vim' }
   use { 'pechorin/any-jump.vim', cmd = {'AnyJump'} }
   use { 'drmikehenry/vim-headerguard', ft = {'c', 'cpp'}, cmd = {'HeaderguardAdd'} }
   use { 'mbbill/undotree', cmd = {'UndotreeToggle'} }
-  use 'rhysd/accelerated-jk'
-  use 'mhartington/formatter.nvim'
-  use 'monaqa/dial.nvim'
-  use 'metakirby5/codi.vim'
-  use 'michaelb/sniprun'
-  use 'mfussenegger/nvim-dap'
-  use 'theHamsta/nvim-dap-virtual-text'
-  use 'nvim-telescope/telescope-dap.nvim'
-  use 'kevinhwang91/nvim-bqf'
+  use { 'rhysd/accelerated-jk' }
+  use { 'mhartington/formatter.nvim' }
+  use { 'monaqa/dial.nvim' }
+  use { 'metakirby5/codi.vim' }
+  use { 'michaelb/sniprun' }
+  use { 'mfussenegger/nvim-dap' }
+  use { 'theHamsta/nvim-dap-virtual-text' }
+  use { 'nvim-telescope/telescope-dap.nvim' }
+  use { 'kevinhwang91/nvim-bqf' }
   use {'kkoomen/vim-doge', run = ':call doge#install()'}
-  use 'michaeljsmith/vim-indent-object'
-  use 'alpertuna/vim-header'
-  use 'kevinhwang91/rnvimr'
-  use 'famiu/nvim-reload'
-  use 'windwp/nvim-spectre'
-  use 'marcushwz/nvim-workbench'
-  use 'haringsrob/nvim_context_vt'
-  use 'dkarter/bullets.vim'
-  use 'triglav/vim-visual-increment'
-  use 'nvim-telescope/telescope-project.nvim'
-  use 'mg979/vim-visual-multi'
+  use { 'michaeljsmith/vim-indent-object' }
+  use { 'alpertuna/vim-header' }
+  use { 'kevinhwang91/rnvimr' }
+  use { 'famiu/nvim-reload' }
+  use { 'windwp/nvim-spectre' }
+  use { 'marcushwz/nvim-workbench' }
+  use { 'haringsrob/nvim_context_vt' }
+  use { 'dkarter/bullets.vim' }
+  use { 'triglav/vim-visual-increment' }
+  use { 'nvim-telescope/telescope-project.nvim' }
+  use { 'mg979/vim-visual-multi' }
+  use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
+  use { 'folke/zen-mode.nvim' }
 
   -- lsp
-  use 'neovim/nvim-lspconfig'
-  use 'onsails/lspkind-nvim'
-  use 'ray-x/lsp_signature.nvim'
-  use 'simrat39/symbols-outline.nvim'
+  use { 'neovim/nvim-lspconfig' }
+  use { 'onsails/lspkind-nvim' }
+  use { 'ray-x/lsp_signature.nvim' }
+  use { 'simrat39/symbols-outline.nvim' }
   use { 'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}} }
-  use 'RRethy/vim-illuminate'
+  use { 'RRethy/vim-illuminate' }
+  use { "folke/lua-dev.nvim" }
 
   -- autocompletor
-  use 'hrsh7th/nvim-compe'
-  use 'hrsh7th/vim-vsnip'
-  use "rafamadriz/friendly-snippets"
-  use 'hrsh7th/vim-vsnip-integ'
+  use { 'hrsh7th/nvim-compe' }
+  use { 'hrsh7th/vim-vsnip' }
+  use { "rafamadriz/friendly-snippets" }
+  use { 'hrsh7th/vim-vsnip-integ' }
 
   -- themes
-  use 'tjdevries/colorbuddy.nvim'
-  use 'morhetz/gruvbox'
-  use 'joshdick/onedark.vim'
-  use 'ajmwagar/vim-deus'
+  use { 'tjdevries/colorbuddy.nvim' }
+  use { 'morhetz/gruvbox' }
+  use { 'joshdick/onedark.vim' }
+  use { 'ajmwagar/vim-deus' }
 end)

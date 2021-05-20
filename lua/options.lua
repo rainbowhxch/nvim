@@ -8,7 +8,6 @@ local function createdir()
     cache_dir..'view',
     cache_dir..'undo',
     cache_dir..'vimtex',
-    cache_dir..'vista',
   }
   -- There only check once that If cache_dir exists
   -- Then i don't want to check subs dir exists
@@ -21,8 +20,6 @@ local function createdir()
     end
   end
 end
-
-createdir();
 
 local function bind_option(options)
   for k, v in pairs(options) do
@@ -79,6 +76,7 @@ local function load_options()
     inccommand     = "split";
     showmode       = false;
     tags           = "./.tags;,.tags";
+    guifont        = "JetBrainsMono\\ Nerd\\ Font:h15";
     backup         = true;
     backupext      = ".bak";
     undofile       = true;
@@ -90,6 +88,7 @@ local function load_options()
     shadafile      = cache_dir .. "shada";
   }
 
+  createdir();
   bind_option(options);
 end
 
