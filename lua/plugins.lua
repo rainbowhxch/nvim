@@ -819,6 +819,9 @@ require('nvim-comment-frame').setup({
     multiline_keymap = '<leader>C',
 })
 
+-- headlines.nvim
+require("headlines").setup()
+
 -- colorscheme
 
 -- onedark
@@ -915,6 +918,7 @@ return require('packer').startup(function(use)
   use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
   use { 'folke/zen-mode.nvim' }
   use { 's1n7ax/nvim-comment-frame' }
+  use { "lukas-reineke/headlines.nvim" }
 
   -- lsp
   use { 'neovim/nvim-lspconfig' }
