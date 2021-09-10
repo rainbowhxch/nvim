@@ -5,22 +5,11 @@ local vsnip_path = fn.stdpath('config') .. '/snippets/'
 local cache_dir = os.getenv("HOME") .. '/.cache/nvim/'
 
 if fn.empty(fn.glob(install_path)) > 0 then
-    vim.api.nvim_command('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
     vim.api.nvim_command('packadd packer.nvim')
 end
 
 vim.cmd('autocmd BufWritePost plugins.lua PackerCompile') -- Auto compile when there are changes in plugins.lua
-
--- gruvbox
-vim.g.gruvbox_italic = 1
-vim.g.gruvbox_italicize_strings = 1
-vim.g.gruvbox_invert_signs = 1
-vim.g.gruvbox_invert_indent_guides = 1
-vim.g.gruvbox_invert_tabline = 1
--- vim.g.gruvbox_improved_strings = 1
-vim.g.gruvbox_improved_warnings = 1
-
-vim.cmd('colorscheme onedark')
 
 -- nvim-autopairs
 require('nvim-autopairs').setup()
@@ -38,7 +27,7 @@ require'colorizer'.setup()
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
-    enable = false,              -- false will disable the whole extension
+    enable = true,              -- false will disable the whole extension
     disable = {},  -- list of language that will be disabled
   },
   rainbow = {
@@ -166,12 +155,12 @@ require('nvim_comment').setup({
 })
 
 -- nvim-hlslens
-utils.nnoremap('n', '<Cmd>execute(\'normal! \' . v:count1 . \'n\')<CR><Cmd>lua require(\'hlslens\').start()<CR>')
-utils.nnoremap('N', '<Cmd>execute(\'normal! \' . v:count1 . \'N\')<CR><Cmd>lua require(\'hlslens\').start()<CR>')
-utils.nnoremap('*', '*<Cmd>lua require(\'hlslens\').start()<CR>')
-utils.nnoremap('#', '#<Cmd>lua require(\'hlslens\').start()<CR>')
-utils.nnoremap('g*', 'g*<Cmd>lua require(\'hlslens\').start()<CR>')
-utils.nnoremap('g#', 'g#<Cmd>lua require(\'hlslens\').start()<CR>')
+-- utils.nnoremap('n', '<Cmd>execute(\'normal! \' . v:count1 . \'n\')<CR><Cmd>lua require(\'hlslens\').start()<CR>')
+-- utils.nnoremap('N', '<Cmd>execute(\'normal! \' . v:count1 . \'N\')<CR><Cmd>lua require(\'hlslens\').start()<CR>')
+-- utils.nnoremap('*', '*<Cmd>lua require(\'hlslens\').start()<CR>')
+-- utils.nnoremap('#', '#<Cmd>lua require(\'hlslens\').start()<CR>')
+-- utils.nnoremap('g*', 'g*<Cmd>lua require(\'hlslens\').start()<CR>')
+-- utils.nnoremap('g#', 'g#<Cmd>lua require(\'hlslens\').start()<CR>')
 
 -- galaxyline.nvim
 require('eviline')
@@ -398,12 +387,11 @@ vim.g.indent_blankline_context_patterns = {
 
 -- nvim-telescope
 local actions = require('telescope.actions')
-  require('telescope').load_extension('media_files')
-  require'telescope'.load_extension('project')
-  require('telescope').setup {
+require('telescope').load_extension('media_files')
+require'telescope'.load_extension('project')
+require('telescope').setup {
   defaults = {
     vimgrep_arguments = {'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case'},
-    prompt_position = "top",
     prompt_prefix = " ",
     selection_caret = " ",
     entry_prefix = "  ",
@@ -411,16 +399,17 @@ local actions = require('telescope.actions')
     selection_strategy = "reset",
     sorting_strategy = "descending",
     layout_strategy = "horizontal",
-    layout_defaults = {horizontal = {mirror = false}, vertical = {mirror = false}},
+    layout_config = {
+      horizontal = {mirror = false},
+      vertical = {mirror = false},
+      prompt_position = "top",
+      preview_cut = 120,
+    },
     file_sorter = require'telescope.sorters'.get_fuzzy_file,
     file_ignore_patterns = {},
     generic_sorter = require'telescope.sorters'.get_generic_fuzzy_sorter,
-    shorten_path = true,
+    path_display = "shorten",
     winblend = 0,
-    width = 0.75,
-    preview_cutoff = 120,
-    results_height = 1,
-    results_width = 0.8,
     border = {},
     borderchars = {'─', '│', '─', '│', '╭', '╮', '╯', '╰'},
     color_devicons = true,
@@ -486,31 +475,32 @@ vim.g.nvim_tree_disable_netrw = 0 --"1 by default, disables netrw
 vim.g.nvim_tree_hide_dotfiles = 1 --0 by default, this option hides files and folders starting with a dot `.`
 vim.g.nvim_tree_indent_markers = 1 --"0 by default, this option shows indent markers when folders are open
 vim.g.nvim_tree_follow = 1 --"0 by default, this option allows the cursor to be updated when entering a buffer
+vim.g.nvim_tree_disable_default_keybindings = 1
 local tree_cb = require'nvim-tree.config'.nvim_tree_callback
 vim.g.nvim_tree_bindings = {
-  ["<CR>"]   = tree_cb("edit"),
-  ["o"]      = tree_cb("edit"),
-  ["l"]      = tree_cb("cd"),
-  ["<C-v>"]  = tree_cb("vsplit"),
-  ["x"]      = tree_cb("split"),
-  ["t"]      = tree_cb("tabnew"),
-  ["<BS>"]   = tree_cb("close_node"),
-  ["<S-CR>"] = tree_cb("close_node"),
-  ["<Tab>"]  = tree_cb("preview"),
-  ["I"]      = tree_cb("toggle_ignored"),
-  ["H"]      = tree_cb("toggle_dotfiles"),
-  ["<C-r>"]  = tree_cb("refresh"),
-  ["a"]      = tree_cb("create"),
-  ["d"]      = tree_cb("remove"),
-  ["r"]      = tree_cb("rename"),
-  ["R"]      = tree_cb("full_rename"),
-  ["c"]      = tree_cb("cut"),
-  ["y"]      = tree_cb("copy"),
-  ["p"]      = tree_cb("paste"),
-  ["[g"]     = tree_cb("prev_git_item"),
-  ["]g"]     = tree_cb("next_git_item"),
-  ["h"]      = tree_cb("dir_up"),
-  ["q"]      = tree_cb("close"),
+  { key = "<CR>",   cb = tree_cb("edit") },
+  { key = "o",      cb = tree_cb("edit") },
+  { key = "l",      cb = tree_cb("cd") },
+  { key = "<C-v>",  cb = tree_cb("vsplit") },
+  { key = "x",      cb = tree_cb("split") },
+  { key = "t",      cb = tree_cb("tabnew") },
+  { key = "<BS>",   cb = tree_cb("close_node") },
+  { key = "<S-CR>", cb = tree_cb("close_node") },
+  { key = "<Tab>",  cb = tree_cb("preview") },
+  { key = "I",      cb = tree_cb("toggle_ignored") },
+  { key = "H",      cb = tree_cb("toggle_dotfiles") },
+  { key = "<C-r>",  cb = tree_cb("refresh") },
+  { key = "a",      cb = tree_cb("create") },
+  { key = "d",      cb = tree_cb("remove") },
+  { key = "r",      cb = tree_cb("rename") },
+  { key = "R",      cb = tree_cb("full_rename") },
+  { key = "c",      cb = tree_cb("cut") },
+  { key = "y",      cb = tree_cb("copy") },
+  { key = "p",      cb = tree_cb("paste") },
+  { key = "[g",     cb = tree_cb("prev_git_item") },
+  { key = ",g",     cb = tree_cb("next_git_item") },
+  { key = "h",      cb = tree_cb("dir_up") },
+  { key = "q",      cb = tree_cb("close") },
 }
 vim.g.nvim_tree_icons = {
   default = '',
@@ -565,100 +555,100 @@ utils.nmap('<C-a>', '<Plug>(dial-increment)')
 utils.nmap('<C-x>', '<Plug>(dial-decrement)')
 
 -- nvim-compe
-vim.o.completeopt = "menuone,noselect"
-require'compe'.setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'enable';
-  throttle_time = 80;
-  source_timeout = 200;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
-  source = {
-    path = {kind = "  "},
-    buffer = {kind = "  "},
-    calc = {kind = "  "},
-    vsnip = {kind = "  "},
-    nvim_lsp = {kind = "  "},
-    nvim_lua = {kind = "  "},
-    spell = {kind = "  "},
-    tags = true,
-    -- snippets_nvim = {kind = "  "},
-    -- ultisnips = {kind = "  "},
-    -- treesitter = {kind = "  "},
-    emoji = {kind = " ﲃ ", filetypes={"markdown"}}
-  };
-}
-
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-        return true
-    else
-        return false
-    end
-end
+-- vim.o.completeopt = "menuone,noselect"
+-- require'compe'.setup {
+--   enabled = true;
+--   autocomplete = true;
+--   debug = false;
+--   min_length = 1;
+--   preselect = 'enable';
+--   throttle_time = 80;
+--   source_timeout = 200;
+--   incomplete_delay = 400;
+--   max_abbr_width = 100;
+--   max_kind_width = 100;
+--   max_menu_width = 100;
+--   documentation = true;
+--   source = {
+--     path = {kind = "  "},
+--     buffer = {kind = "  "},
+--     calc = {kind = "  "},
+--     vsnip = {kind = "  "},
+--     nvim_lsp = {kind = "  "},
+--     nvim_lua = {kind = "  "},
+--     spell = {kind = "  "},
+--     tags = true,
+--     -- snippets_nvim = {kind = "  "},
+--     -- ultisnips = {kind = "  "},
+--     -- treesitter = {kind = "  "},
+--     emoji = {kind = " ﲃ ", filetypes={"markdown"}}
+--   };
+-- }
+--
+-- local t = function(str)
+--   return vim.api.nvim_replace_termcodes(str, true, true, true)
+-- end
+--
+-- local check_back_space = function()
+--     local col = vim.fn.col('.') - 1
+--     if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+--         return true
+--     else
+--         return false
+--     end
+-- end
 
 -- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-n>"
-  elseif vim.fn.call("vsnip#available", {1}) == 1 then
-    return t "<Plug>(vsnip-expand-or-jump)"
-  elseif check_back_space() then
-    return t "<Tab>"
-  else
-    return vim.fn['compe#complete']()
-  end
-end
-_G.s_tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-p>"
-  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-    return t "<Plug>(vsnip-jump-prev)"
-  else
-    return t "<S-Tab>"
-  end
-end
-
-utils.imap_with_expr("<Tab>", "v:lua.tab_complete()")
-utils.smap_with_expr("<Tab>", "v:lua.tab_complete()")
-utils.imap_with_expr("<S-Tab>", "v:lua.s_tab_complete()")
-utils.smap_with_expr("<S-Tab>", "v:lua.s_tab_complete()")
+-- move to prev/next item in completion menuone
+-- jump to prev/next snippet's placeholder
+-- _G.tab_complete = function()
+--   if vim.fn.pumvisible() == 1 then
+--     return t "<C-n>"
+--   elseif vim.fn.call("vsnip#available", {1}) == 1 then
+--     return t "<Plug>(vsnip-expand-or-jump)"
+--   elseif check_back_space() then
+--     return t "<Tab>"
+--   else
+--     return vim.fn['compe#complete']()
+--   end
+-- end
+-- _G.s_tab_complete = function()
+--   if vim.fn.pumvisible() == 1 then
+--     return t "<C-p>"
+--   elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+--     return t "<Plug>(vsnip-jump-prev)"
+--   else
+--     return t "<S-Tab>"
+--   end
+-- end
+--
+-- utils.imap_with_expr("<Tab>", "v:lua.tab_complete()")
+-- utils.smap_with_expr("<Tab>", "v:lua.tab_complete()")
+-- utils.imap_with_expr("<S-Tab>", "v:lua.s_tab_complete()")
+-- utils.smap_with_expr("<S-Tab>", "v:lua.s_tab_complete()")
 
 -- compatible with nvim-autopairs
-local npairs = require('nvim-autopairs')
-_G.MUtils= {}
-vim.g.completion_confirm_key = ""
-
-MUtils.completion_confirm=function()
-  if vim.fn.pumvisible() ~= 0  then
-    if vim.fn.complete_info()["selected"] ~= -1 then
-      vim.fn["compe#confirm"]()
-      return npairs.esc("<c-y>")
-    else
-      vim.defer_fn(function()
-        vim.fn["compe#confirm"]("<cr>")
-      end, 20)
-      return npairs.esc("<c-n>")
-    end
-  else
-    return npairs.check_break_line_char()
-  end
-end
-
-utils.inoremap_with_expr('<CR>','v:lua.MUtils.completion_confirm()')
+-- local npairs = require('nvim-autopairs')
+-- _G.MUtils= {}
+-- vim.g.completion_confirm_key = ""
+--
+-- MUtils.completion_confirm=function()
+--   if vim.fn.pumvisible() ~= 0  then
+--     if vim.fn.complete_info()["selected"] ~= -1 then
+--       vim.fn["compe#confirm"]()
+--       return npairs.esc("<c-y>")
+--     else
+--       vim.defer_fn(function()
+--         vim.fn["compe#confirm"]("<cr>")
+--       end, 20)
+--       return npairs.esc("<c-n>")
+--     end
+--   else
+--     return npairs.check_break_line_char()
+--   end
+-- end
+--
+-- utils.inoremap_with_expr('<CR>','v:lua.MUtils.completion_confirm()')
 
 -- vim-vsnip
 vim.g.vsnip_snippet_dir = vsnip_path
@@ -751,63 +741,55 @@ utils.nnoremap('<LEADER>S', '<CMD>lua require(\'spectre\').open()<CR>')
 
 -- symbols-outline.nvim
 vim.g.symbols_outline = {
-    highlight_hovered_item = true,
-    show_guides = true,
-    auto_preview = true, -- experimental
-    position = 'right',
-    keymaps = {
-        close = "<ESC>",
-        goto_location = "<CR>",
-        focus_location = "o",
-        hover_symbol = "g;",
-        rename_symbol = "gr",
-        code_actions = "ga",
-    },
-    lsp_blacklist = {},
+  highlight_hovered_item = true,
+  show_guides = true,
+  auto_preview = true,
+  position = 'right',
+  width = 25,
+  show_numbers = false,
+  show_relative_numbers = false,
+  show_symbol_details = true,
+  keymaps = { -- These keymaps can be a string or a table for multiple keys
+    close = {"<Esc>", "Q"},
+    goto_location = "<CR>",
+    focus_location = "o",
+    hover_symbol = "g;",
+    toggle_preview = "p",
+    rename_symbol = "gr",
+    code_actions = "ga",
+  },
+  lsp_blacklist = {},
+  symbol_blacklist = {},
+  symbols = {
+    File = {icon = "", hl = "TSURI"},
+    Module = {icon = "", hl = "TSNamespace"},
+    Namespace = {icon = "", hl = "TSNamespace"},
+    Package = {icon = "", hl = "TSNamespace"},
+    Class = {icon = "𝓒", hl = "TSType"},
+    Method = {icon = "ƒ", hl = "TSMethod"},
+    Property = {icon = "", hl = "TSMethod"},
+    Field = {icon = "", hl = "TSField"},
+    Constructor = {icon = "", hl = "TSConstructor"},
+    Enum = {icon = "ℰ", hl = "TSType"},
+    Interface = {icon = "ﰮ", hl = "TSType"},
+    Function = {icon = "", hl = "TSFunction"},
+    Variable = {icon = "", hl = "TSConstant"},
+    Constant = {icon = "", hl = "TSConstant"},
+    String = {icon = "𝓐", hl = "TSString"},
+    Number = {icon = "#", hl = "TSNumber"},
+    Boolean = {icon = "⊨", hl = "TSBoolean"},
+    Array = {icon = "", hl = "TSConstant"},
+    Object = {icon = "⦿", hl = "TSType"},
+    Key = {icon = "🔐", hl = "TSType"},
+    Null = {icon = "NULL", hl = "TSType"},
+    EnumMember = {icon = "", hl = "TSField"},
+    Struct = {icon = "𝓢", hl = "TSType"},
+    Event = {icon = "🗲", hl = "TSType"},
+    Operator = {icon = "+", hl = "TSOperator"},
+    TypeParameter = {icon = "𝙏", hl = "TSParameter"}
+  }
 }
 utils.nnoremap('T', '<CMD>SymbolsOutline<CR>')
-
--- which-key.nvim
-require("which-key").setup{
-  plugins = {
-    marks = true, -- shows a list of your marks on ' and `
-    registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
-    -- the presets plugin, adds help for a bunch of default keybindings in Neovim
-    -- No actual key bindings are created
-    presets = {
-      operators = false, -- adds help for operators like d, y, ... and registers them for motion / text object completion
-      motions = true, -- adds help for motions
-      text_objects = true, -- help for text objects triggered after entering an operator
-      windows = true, -- default bindings on <c-w>
-      nav = true, -- misc bindings to work with windows
-      z = true, -- bindings for folds, spelling and others prefixed with z
-      g = true, -- bindings for prefixed with g
-    },
-  },
-  -- add operators that will trigger motion and text object completion
-  -- to enable all native operators, set the preset / operators plugin above
-  operators = { gc = "Comments" },
-  icons = {
-    breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
-    separator = "➜", -- symbol used between a key and it's label
-    group = "+", -- symbol prepended to a group
-  },
-  window = {
-    border = "none", -- none, single, double, shadow
-    position = "bottom", -- bottom, top
-    margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
-    padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
-  },
-  layout = {
-    height = { min = 4, max = 25 }, -- min and max height of the columns
-    width = { min = 20, max = 50 }, -- min and max width of the columns
-    spacing = 3, -- spacing between columns
-  },
-  hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ "}, -- hide mapping boilerplate
-  show_help = false, -- show help message on the command line when the popup is visible
-  triggers = "auto", -- automatically setup triggers
-  -- triggers = {"<leader>"} -- or specifiy a list manually
-}
 
 -- nvim-workbench
 vim.g.workbench_storage_path = os.getenv("HOME") .. "/Documents/Notes/"
@@ -838,6 +820,28 @@ require("zen-mode").setup{
 }
 utils.nnoremap('<LEADER>zm', '<CMD>ZenMode<CR>')
 
+-- nvim-comment-frame
+require('nvim-comment-frame').setup({
+    keymap = '<leader>cc',
+    multiline_keymap = '<leader>C',
+})
+
+-- colorscheme
+
+-- onedark
+vim.g.onedark_disable_toggle_style = true
+require('onedark').setup()
+
+-- gruvbox
+vim.g.gruvbox_italic = 1
+vim.g.gruvbox_italicize_strings = 1
+vim.g.gruvbox_invert_signs = 1
+vim.g.gruvbox_invert_indent_guides = 1
+vim.g.gruvbox_invert_tabline = 1
+-- vim.g.gruvbox_improved_strings = 1
+vim.g.gruvbox_improved_warnings = 1
+-- vim.cmd('colorscheme gruvbox')
+
 return require('packer').startup(function(use)
   -- packer.nvim itself
   use { 'wbthomason/packer.nvim' }
@@ -861,7 +865,6 @@ return require('packer').startup(function(use)
   use { 'karb94/neoscroll.nvim' }
   use { 'Shougo/echodoc.vim' }
   use { 'kevinhwang91/nvim-hlslens' }
-  use { 'folke/which-key.nvim' }
   use { 'andymass/vim-matchup', event = 'VimEnter' }
   use { 'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'} }
   use { 'unblevable/quick-scope' }
@@ -885,6 +888,7 @@ return require('packer').startup(function(use)
   use { 'lambdalisue/suda.vim' }
   use { 'skywind3000/asynctasks.vim' }
   use { 'skywind3000/asyncrun.vim' }
+  use { 'skywind3000/asyncrun.extra' }
   use { 'voldikss/vim-floaterm' }
   use { 'tpope/vim-surround' }
   use { 'AndrewRadev/splitjoin.vim' }
@@ -917,6 +921,7 @@ return require('packer').startup(function(use)
   use { 'mg979/vim-visual-multi' }
   use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
   use { 'folke/zen-mode.nvim' }
+  use { 's1n7ax/nvim-comment-frame' }
 
   -- lsp
   use { 'neovim/nvim-lspconfig' }
@@ -928,14 +933,16 @@ return require('packer').startup(function(use)
   use { "folke/lua-dev.nvim" }
 
   -- autocompletor
-  use { 'hrsh7th/nvim-compe' }
+  use { 'ms-jpq/coq_nvim', branch = 'coq'} -- main one
+  use { 'ms-jpq/coq.artifacts', branch= 'artifacts'} -- 9000+ Snippets
+  -- use { 'hrsh7th/nvim-compe' }
   use { 'hrsh7th/vim-vsnip' }
   use { "rafamadriz/friendly-snippets" }
   use { 'hrsh7th/vim-vsnip-integ' }
 
   -- themes
   use { 'tjdevries/colorbuddy.nvim' }
-  use { 'morhetz/gruvbox' }
-  use { 'joshdick/onedark.vim' }
+  use 'monsonjeremy/onedark.nvim'
   use { 'ajmwagar/vim-deus' }
+  use { "ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"} }
 end)

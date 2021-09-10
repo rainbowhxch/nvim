@@ -21,14 +21,17 @@ local function load_autocmds()
     };
     AutoRelativeLineNums = {
       { [[ BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set relativenumber | endif ]] };
-      { [[ BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu          | endif ]] }
+      { [[ BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu          | endif ]] };
     };
     AutoTextYank = {
-      { [[ TextYankPost * silent! lua vim.highlight.on_yank{ timeout=100 } ]] }
+      { [[ TextYankPost * silent! lua vim.highlight.on_yank{ timeout=100 } ]] };
     };
     AutoCursorLine = {
       { [[ WinEnter,BufEnter * setlocal cursorline ]] };
       { [[ WinLeave,BufLeave * setlocal nocursorline ]] };
+    };
+    AutoVsnip = {
+      { [[ FileType * call vsnip#get_complete_items(bufnr()) ]] };
     };
   }
 
