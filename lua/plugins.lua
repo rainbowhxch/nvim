@@ -554,101 +554,94 @@ vim.g.dashboard_custom_footer = { "Welcome to RainbowCh's Nvim!" }
 utils.nmap('<C-a>', '<Plug>(dial-increment)')
 utils.nmap('<C-x>', '<Plug>(dial-decrement)')
 
--- nvim-compe
--- vim.o.completeopt = "menuone,noselect"
--- require'compe'.setup {
---   enabled = true;
---   autocomplete = true;
---   debug = false;
---   min_length = 1;
---   preselect = 'enable';
---   throttle_time = 80;
---   source_timeout = 200;
---   incomplete_delay = 400;
---   max_abbr_width = 100;
---   max_kind_width = 100;
---   max_menu_width = 100;
---   documentation = true;
---   source = {
---     path = {kind = "  "},
---     buffer = {kind = "  "},
---     calc = {kind = "  "},
---     vsnip = {kind = "  "},
---     nvim_lsp = {kind = "  "},
---     nvim_lua = {kind = "  "},
---     spell = {kind = "  "},
---     tags = true,
---     -- snippets_nvim = {kind = "  "},
---     -- ultisnips = {kind = "  "},
---     -- treesitter = {kind = "  "},
---     emoji = {kind = " ﲃ ", filetypes={"markdown"}}
---   };
--- }
---
--- local t = function(str)
---   return vim.api.nvim_replace_termcodes(str, true, true, true)
--- end
---
--- local check_back_space = function()
---     local col = vim.fn.col('.') - 1
---     if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
---         return true
---     else
---         return false
---     end
--- end
+-- nvim-cmp
+vim.o.completeopt = "menuone,noselect"
 
--- Use (s-)tab to:
--- move to prev/next item in completion menuone
--- jump to prev/next snippet's placeholder
--- _G.tab_complete = function()
---   if vim.fn.pumvisible() == 1 then
---     return t "<C-n>"
---   elseif vim.fn.call("vsnip#available", {1}) == 1 then
---     return t "<Plug>(vsnip-expand-or-jump)"
---   elseif check_back_space() then
---     return t "<Tab>"
---   else
---     return vim.fn['compe#complete']()
---   end
--- end
--- _G.s_tab_complete = function()
---   if vim.fn.pumvisible() == 1 then
---     return t "<C-p>"
---   elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
---     return t "<Plug>(vsnip-jump-prev)"
---   else
---     return t "<S-Tab>"
---   end
--- end
---
--- utils.imap_with_expr("<Tab>", "v:lua.tab_complete()")
--- utils.smap_with_expr("<Tab>", "v:lua.tab_complete()")
--- utils.imap_with_expr("<S-Tab>", "v:lua.s_tab_complete()")
--- utils.smap_with_expr("<S-Tab>", "v:lua.s_tab_complete()")
+local tabnine = require('cmp_tabnine.config')
+tabnine:setup({
+        max_lines = 1000;
+        max_num_results = 20;
+        sort = true;
+})
 
--- compatible with nvim-autopairs
--- local npairs = require('nvim-autopairs')
--- _G.MUtils= {}
--- vim.g.completion_confirm_key = ""
---
--- MUtils.completion_confirm=function()
---   if vim.fn.pumvisible() ~= 0  then
---     if vim.fn.complete_info()["selected"] ~= -1 then
---       vim.fn["compe#confirm"]()
---       return npairs.esc("<c-y>")
---     else
---       vim.defer_fn(function()
---         vim.fn["compe#confirm"]("<cr>")
---       end, 20)
---       return npairs.esc("<c-n>")
---     end
---   else
---     return npairs.check_break_line_char()
---   end
--- end
---
--- utils.inoremap_with_expr('<CR>','v:lua.MUtils.completion_confirm()')
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+end
+
+local cmp = require('cmp')
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
+  mapping = {
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    }),
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if vim.fn.pumvisible() == 1 then
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n', true)
+      elseif has_words_before() and vim.fn['vsnip#available']() == 1 then
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-expand-or-jump)', true, true, true), '', true)
+      else
+        fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+      end
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function()
+      if vim.fn.pumvisible() == 1 then
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n', true)
+      elseif vim.fn['vsnip#jumpable'](-1) == 1 then
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-jump-prev)', true, true, true), '', true)
+      end
+    end, { 'i', 's' }),
+  },
+  sources = {
+    {name = "buffer"},
+    {name = "path"},
+    {name = "nvim_lsp"},
+    {name = "nvim_lua"},
+    {name = "vsnip"},
+    {name = "calc"},
+    {name = "spell"},
+    {name = "emoji"},
+    {name = "cmp_tabnine"},
+  },
+  formatting = {
+    format = function(entry, vim_item)
+      -- fancy icons and a name of kind
+      vim_item.kind = require("lspkind").presets.default[vim_item.kind] .. " " .. vim_item.kind
+
+      -- set a name for each source
+      vim_item.menu =
+        ({
+        buffer = "[Buffer]",
+        path = "[Path]",
+        nvim_lsp = "[LSP]",
+        nvim_lua = "[Lua]",
+        vsnip = "[Vsnip]",
+        calc = "[Calc]",
+        emoji = "[Emoji]",
+        cmp_tabnine = "[TabNine]",
+        latex_symbols = "[Latex]"
+      })[entry.source.name]
+      return vim_item
+    end
+  }
+}
+
+-- nvim-autopairs
+require("nvim-autopairs.completion.cmp").setup({
+  map_cr = true, --  map <CR> on insert mode
+  map_complete = true, -- it will auto insert `(` after select function or method item
+  auto_select = true -- automatically select the first item
+})
 
 -- vim-vsnip
 vim.g.vsnip_snippet_dir = vsnip_path
@@ -933,9 +926,19 @@ return require('packer').startup(function(use)
   use { "folke/lua-dev.nvim" }
 
   -- autocompletor
-  use { 'ms-jpq/coq_nvim', branch = 'coq'} -- main one
-  use { 'ms-jpq/coq.artifacts', branch= 'artifacts'} -- 9000+ Snippets
-  -- use { 'hrsh7th/nvim-compe' }
+  use {
+    "hrsh7th/nvim-cmp",
+    requires = {
+      { "hrsh7th/cmp-buffer" },
+      { "hrsh7th/cmp-path" },
+      { "hrsh7th/cmp-nvim-lsp" },
+      { "hrsh7th/cmp-nvim-lua" },
+      { "hrsh7th/cmp-vsnip" },
+      { "hrsh7th/cmp-calc" },
+      { "hrsh7th/cmp-emoji" },
+      { "tzachar/cmp-tabnine", run = "./install.sh", },
+    }
+  }
   use { 'hrsh7th/vim-vsnip' }
   use { "rafamadriz/friendly-snippets" }
   use { 'hrsh7th/vim-vsnip-integ' }

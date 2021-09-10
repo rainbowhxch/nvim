@@ -103,6 +103,38 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/bullets.vim"
   },
+  ["cmp-buffer"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/cmp-buffer"
+  },
+  ["cmp-calc"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/cmp-calc"
+  },
+  ["cmp-emoji"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/cmp-emoji"
+  },
+  ["cmp-nvim-lsp"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp"
+  },
+  ["cmp-nvim-lua"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/cmp-nvim-lua"
+  },
+  ["cmp-path"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/cmp-path"
+  },
+  ["cmp-tabnine"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/cmp-tabnine"
+  },
+  ["cmp-vsnip"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/cmp-vsnip"
+  },
   ["codi.vim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/codi.vim"
@@ -110,14 +142,6 @@ _G.packer_plugins = {
   ["colorbuddy.nvim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/colorbuddy.nvim"
-  },
-  ["coq.artifacts"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/coq.artifacts"
-  },
-  coq_nvim = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/coq_nvim"
   },
   ["dashboard-nvim"] = {
     loaded = true,
@@ -204,6 +228,10 @@ _G.packer_plugins = {
   ["nvim-bqf"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/nvim-bqf"
+  },
+  ["nvim-cmp"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/nvim-cmp"
   },
   ["nvim-colorizer.lua"] = {
     loaded = true,
@@ -477,12 +505,12 @@ vim.cmd [[au VimEnter * ++once lua require("packer.load")({'vim-matchup'}, { eve
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]
-time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]], true)
-vim.cmd [[source /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]]
-time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]], false)
 time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tex.vim]], true)
 vim.cmd [[source /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tex.vim]]
 time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tex.vim]], false)
+time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]], true)
+vim.cmd [[source /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]]
+time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end
 
