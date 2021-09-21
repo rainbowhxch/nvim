@@ -368,8 +368,6 @@ require('gitsigns').setup {
   sign_priority = 6,
   update_debounce = 100,
   status_formatter = nil, -- Use default
-  use_decoration_api = true,
-  use_internal_diff = true,  -- If luajit is present
 }
 
 -- indentLine
@@ -646,6 +644,10 @@ require("nvim-autopairs.completion.cmp").setup({
 -- vim-vsnip
 vim.g.vsnip_snippet_dir = vsnip_path
 utils.nnoremap('gs', '<CMD>VsnipOpenSplit<CR>')
+utils.imap_with_expr('<C-j>', 'vsnip#available(1) ? "<Plug>(vsnip-expand-or-jump)" : "<C-j>"')
+utils.smap_with_expr('<C-j>', 'vsnip#available(1) ? "<Plug>(vsnip-expand-or-jump)" : "<C-j>"')
+utils.imap_with_expr('<C-k>', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<C-k>"')
+utils.smap_with_expr('<C-k>', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<C-k>"')
 
 -- nvim-dap
 local dap = require('dap')
@@ -824,6 +826,12 @@ require("headlines").setup()
 
 -- colorscheme
 
+-- github
+-- require('github-theme').setup({
+--   theme_style = 'light_default',
+-- }
+-- )
+
 -- onedark
 vim.g.onedark_disable_toggle_style = true
 require('onedark').setup()
@@ -844,7 +852,7 @@ return require('packer').startup(function(use)
 
   -- decoration
   use { 'windwp/nvim-autopairs' }
-  use { 'lukas-reineke/indent-blankline.nvim', branch = 'lua' }
+  use { 'lukas-reineke/indent-blankline.nvim' }
   use { 'kyazdani42/nvim-web-devicons' }
   use { 'glepnir/dashboard-nvim' }
   use { 'glepnir/galaxyline.nvim' }
@@ -952,4 +960,5 @@ return require('packer').startup(function(use)
   use 'monsonjeremy/onedark.nvim'
   use { 'ajmwagar/vim-deus' }
   use { "ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"} }
+  use { "projekt0n/github-nvim-theme" }
 end)

@@ -171,6 +171,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/galaxyline.nvim"
   },
+  ["github-nvim-theme"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/github-nvim-theme"
+  },
   ["gitsigns.nvim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
@@ -509,9 +513,15 @@ vim.cmd [[au VimEnter * ++once lua require("packer.load")({'vim-matchup'}, { eve
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]
+time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/cls.vim]], true)
+vim.cmd [[source /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/cls.vim]]
+time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/cls.vim]], false)
 time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tex.vim]], true)
 vim.cmd [[source /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tex.vim]]
 time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tex.vim]], false)
+time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tikz.vim]], true)
+vim.cmd [[source /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tikz.vim]]
+time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tikz.vim]], false)
 time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]], true)
 vim.cmd [[source /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]]
 time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]], false)
