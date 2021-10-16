@@ -1,14 +1,6 @@
 local utils = require('utils')
 local lspconfig = require('lspconfig')
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  }
-}
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 local function dorename(win)
   local new_name = vim.trim(vim.fn.getline('.'))
@@ -29,10 +21,12 @@ local function rename()
   local cword = vim.fn.expand('<cword>')
   local buf = vim.api.nvim_create_buf(false, true)
   local win = vim.api.nvim_open_win(buf, true, opts)
-  local fmt =  '<cmd>lua Rename.dorename(%d)<CR>'
+  local rename_fmt =  '<cmd>lua Rename.dorename(%d)<CR>'
+  local close_fmt =  '<cmd>lua vim.api.nvim_win_close(%d)<CR>'
 
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, {cword})
-  vim.api.nvim_buf_set_keymap(buf, 'i', '<CR>', string.format(fmt, win), {silent=true})
+  vim.api.nvim_buf_set_keymap(buf, 'i', '<CR>', string.format(rename_fmt, win), {silent=true})
+  vim.api.nvim_buf_set_keymap(buf, 'n', '<ESC>', string.format(close_fmt, win), {silent=true})
 end
 
 _G.Rename = {
@@ -149,46 +143,22 @@ lspconfig.yamlls.setup{
 }
 
 -- xml
-if not lspconfig.xmlls then
-    require'lspconfig/configs'.xmlls = {
-      default_config = {
-        cmd = {'xml-language-server', '--stdio'};
-        filetypes = {'xml'};
-        root_dir = function(fname)
-          return require'lspconfig'.util.find_git_ancestor(fname) or vim.loop.os_homedir()
-        end;
-        settings = {};
-      };
-    }
-end
-lspconfig.xmlls.setup{
+lspconfig.lemminx.setup{
+  cmd = { "/usr/bin/lemminx" };
   capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
--- lspkind-nvim
-require('lspkind').init({
-  with_text = false,
-  symbol_map = {
-    Text = '  ',
-    Method = '  ',
-    Function = '  ',
-    Constructor = '  ',
-    Variable = '[]',
-    Class = '  ',
-    Interface = ' 蘒',
-    Module = '  ',
-    Property = '  ',
-    Unit = ' 塞 ',
-    Value = '  ',
-    Enum = ' 練',
-    Keyword = '  ',
-    Snippet = '  ',
-    Color = ' ',
-    File = '  ',
-    Folder = ' ﱮ ',
-    EnumMember = '  ',
-    Constant = '  ',
-    Struct = '   '
-  },
-})
+-- emf
+lspconfig.efm.setup{
+  filetypes = { 'python', 'lua' };
+  init_options = {documentFormatting = true},
+  settings = {
+    rootMarkers = {".git/"},
+    languages = {
+      lua = {
+        {formatCommand = "lua-format -i", formatStdin = true}
+      }
+    }
+  }
+}

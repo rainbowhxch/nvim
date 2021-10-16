@@ -63,12 +63,14 @@ local function load_options()
     listchars      = "tab:▸\\ ,trail:▫";
     conceallevel   = 2;
     concealcursor  = "nc";
-    scrolloff      = 16;
+    scrolloff      = 6;
     autoindent     = true;
     smartindent    = true;
     backspace      = "indent,eol,start";
+    sessionoptions = "blank,buffers,curdir,folds,help,options,tabpages,winsize,resize,winpos,terminal";
     foldmethod     = "indent";
     foldlevel      = 99;
+    mouse          = "n";
     laststatus     = 2;
     autochdir      = true;
     lazyredraw     = true;

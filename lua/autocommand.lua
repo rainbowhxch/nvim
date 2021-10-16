@@ -30,8 +30,8 @@ local function load_autocmds()
       { [[ WinEnter,BufEnter * setlocal cursorline ]] };
       { [[ WinLeave,BufLeave * setlocal nocursorline ]] };
     };
-    AutoVsnip = {
-      { [[ FileType * call vsnip#get_complete_items(bufnr()) ]] };
+    AutoFormat = {
+      { [[ BufWritePost *.c,*.cpp,*.md,*.json,*.py silent FormatWrite ]] };
     };
   }
 

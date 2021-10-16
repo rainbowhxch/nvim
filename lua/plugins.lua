@@ -469,55 +469,7 @@ utils.nnoremap('<LEADER>fp', '<CMD>Telescope media_files<CR>')
 
 -- nvim-tree
 utils.nnoremap('<LEADER>n', '<CMD>NvimTreeToggle<CR>')
-vim.g.nvim_tree_disable_netrw = 0 --"1 by default, disables netrw
-vim.g.nvim_tree_hide_dotfiles = 1 --0 by default, this option hides files and folders starting with a dot `.`
-vim.g.nvim_tree_indent_markers = 1 --"0 by default, this option shows indent markers when folders are open
-vim.g.nvim_tree_follow = 1 --"0 by default, this option allows the cursor to be updated when entering a buffer
-vim.g.nvim_tree_disable_default_keybindings = 1
-local tree_cb = require'nvim-tree.config'.nvim_tree_callback
-vim.g.nvim_tree_bindings = {
-  { key = "<CR>",   cb = tree_cb("edit") },
-  { key = "o",      cb = tree_cb("edit") },
-  { key = "l",      cb = tree_cb("cd") },
-  { key = "<C-v>",  cb = tree_cb("vsplit") },
-  { key = "x",      cb = tree_cb("split") },
-  { key = "t",      cb = tree_cb("tabnew") },
-  { key = "<BS>",   cb = tree_cb("close_node") },
-  { key = "<S-CR>", cb = tree_cb("close_node") },
-  { key = "<Tab>",  cb = tree_cb("preview") },
-  { key = "I",      cb = tree_cb("toggle_ignored") },
-  { key = "H",      cb = tree_cb("toggle_dotfiles") },
-  { key = "<C-r>",  cb = tree_cb("refresh") },
-  { key = "a",      cb = tree_cb("create") },
-  { key = "d",      cb = tree_cb("remove") },
-  { key = "r",      cb = tree_cb("rename") },
-  { key = "R",      cb = tree_cb("full_rename") },
-  { key = "c",      cb = tree_cb("cut") },
-  { key = "y",      cb = tree_cb("copy") },
-  { key = "p",      cb = tree_cb("paste") },
-  { key = "[g",     cb = tree_cb("prev_git_item") },
-  { key = ",g",     cb = tree_cb("next_git_item") },
-  { key = "h",      cb = tree_cb("dir_up") },
-  { key = "q",      cb = tree_cb("close") },
-}
-vim.g.nvim_tree_icons = {
-  default = '',
-  symlink = '',
-  git = {
-    unstaged = "",
-    staged = "✓",
-    unmerged = "",
-    renamed = "➜",
-    untracked = ""
-  },
-  folder = {
-    default = "",
-    open = "",
-    empty = "",
-    empty_open = "",
-    symlink = ""
-  }
-}
+require'nvim-tree'.setup()
 
 -- dashboard-nvim
 vim.g.dashboard_default_executive ='telescope'
@@ -564,7 +516,11 @@ tabnine:setup({
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+local feedkey = function(key, mode)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
 local cmp = require('cmp')
@@ -575,6 +531,8 @@ cmp.setup {
     end,
   },
   mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
@@ -583,22 +541,25 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     }),
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n', true)
-      elseif has_words_before() and vim.fn['vsnip#available']() == 1 then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-expand-or-jump)', true, true, true), '', true)
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif vim.fn["vsnip#available"]() == 1 then
+        feedkey("<Plug>(vsnip-expand-or-jump)", "")
+      elseif has_words_before() then
+        cmp.complete()
       else
         fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
       end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function()
-      if vim.fn.pumvisible() == 1 then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n', true)
-      elseif vim.fn['vsnip#jumpable'](-1) == 1 then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-jump-prev)', true, true, true), '', true)
+    end, { "i", "s" }),
+
+    ["<S-Tab>"] = cmp.mapping(function()
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+        feedkey("<Plug>(vsnip-jump-prev)", "")
       end
-    end, { 'i', 's' }),
+    end, { "i", "s" }),
   },
   sources = {
     {name = "buffer"},
@@ -612,13 +573,7 @@ cmp.setup {
     {name = "cmp_tabnine"},
   },
   formatting = {
-    format = function(entry, vim_item)
-      -- fancy icons and a name of kind
-      vim_item.kind = require("lspkind").presets.default[vim_item.kind] .. " " .. vim_item.kind
-
-      -- set a name for each source
-      vim_item.menu =
-        ({
+    format = require("lspkind").cmp_format({with_text = true, menu = ({
         buffer = "[Buffer]",
         path = "[Path]",
         nvim_lsp = "[LSP]",
@@ -628,10 +583,8 @@ cmp.setup {
         emoji = "[Emoji]",
         cmp_tabnine = "[TabNine]",
         latex_symbols = "[Latex]"
-      })[entry.source.name]
-      return vim_item
-    end
-  }
+      })}),
+  },
 }
 
 -- nvim-autopairs
@@ -697,6 +650,9 @@ utils.nnoremap('<F9>', '<CMD>lua require\'dap\'.toggle_breakpoint()<CR>')
 utils.nnoremap('<F10>', '<CMD>lua require\'dap\'.step_over()<CR>')
 utils.nnoremap('<F11>', '<CMD>lua require\'dap\'.step_into()<CR>')
 utils.nnoremap('<F12>', '<CMD>lua require\'dap\'.step_out()<CR>')
+
+-- nvim-dap-ui
+require("dapui").setup()
 
 -- nvim-dap-virtual-text
 vim.g.dap_virtual_text = true
@@ -824,6 +780,16 @@ require('nvim-comment-frame').setup({
 -- headlines.nvim
 require("headlines").setup()
 
+-- auto-session
+require('auto-session').setup({
+  log_level = 'info',
+  auto_session_enable_last_session = true,
+  auto_session_root_dir = vim.fn.stdpath('data').."/sessions/",
+  auto_session_enabled = true,
+  auto_save_enabled = true,
+  auto_restore_enabled = true,
+})
+
 -- colorscheme
 
 -- github
@@ -908,6 +874,7 @@ return require('packer').startup(function(use)
   use { 'metakirby5/codi.vim' }
   use { 'michaelb/sniprun' }
   use { 'mfussenegger/nvim-dap' }
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
   use { 'theHamsta/nvim-dap-virtual-text' }
   use { 'nvim-telescope/telescope-dap.nvim' }
   use { 'kevinhwang91/nvim-bqf' }
@@ -927,6 +894,7 @@ return require('packer').startup(function(use)
   use { 'folke/zen-mode.nvim' }
   use { 's1n7ax/nvim-comment-frame' }
   use { "lukas-reineke/headlines.nvim" }
+  use { "rmagatti/auto-session" }
 
   -- lsp
   use { 'neovim/nvim-lspconfig' }
