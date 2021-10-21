@@ -24,11 +24,11 @@ end
 local function bind_option(options)
   for k, v in pairs(options) do
     if v == true or v == nil then
-      vim.cmd(string.format('set %s', k))
+      vim.o[k] = true;
     elseif v == false then
-      vim.cmd(string.format('set no%s', k))
+      vim.o[k] = false
     else
-      vim.cmd(string.format('set %s=%s', k, v))
+      vim.o[k] = v;
     end
   end
 end
@@ -42,7 +42,7 @@ local function load_options()
     number         = true;
     relativenumber = true;
     cursorline     = true;
-    colorcolumn    = 80;
+    colorcolumn    = '80';
     wrap           = true;
     showcmd        = true;
     ruler          = true;

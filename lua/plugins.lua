@@ -76,58 +76,6 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 
--- formatter.nvim
-require('formatter').setup({
-  logging = false,
-  filetype = {
-    c = {
-       function()
-          return {
-            exe = "clang-format",
-            args = {"--style=Google"},
-            stdin = true
-          }
-        end
-    },
-    cpp = {
-      function()
-        return {
-          exe = "clang-format",
-          args = {"--style=Google"},
-          stdin = true
-        }
-      end
-    },
-    python =  {
-      function()
-        return {
-          exe = "autopep8",
-          args = {""},
-          stdin = true
-        }
-      end
-    },
-    json =  {
-      function()
-        return {
-          exe = "fixjson",
-          args = {""},
-          stdin = true
-        }
-      end
-    },
-    markdown =  {
-      function()
-        return {
-          exe = "remark",
-          args = {""},
-          stdin = true
-        }
-      end
-    },
-  }
-})
-
 -- vim-bookmarks
 vim.g.bookmark_sign = ''
 vim.g.bookmark_annotation_sign = '☰'
@@ -291,31 +239,6 @@ vim.g.table_mode_corner = '|'
 utils.nmap('<LEADER>al', '<Plug>(EasyAlign)')
 utils.xmap('<LEADER>al', '<Plug>(EasyAlign)')
 
--- vim-signature
-vim.g.SignatureMap = {
-  Leader             =  'm';
-  PlaceNextMark      =  'm,';
-  ToggleMarkAtLine   =  'm.';
-  PurgeMarksAtLine   =  'm-';
-  DeleteMark         =  'dm';
-  PurgeMarks         =  'm<SPACE>';
-  PurgeMarkers       =  'm<BS>';
-  GotoNextLineAlpha  =  '';
-  GotoPrevLineAlpha  =  '';
-  GotoNextSpotAlpha  =  '';
-  GotoPrevSpotAlpha  =  '';
-  GotoNextLineByPos  =  '';
-  GotoPrevLineByPos  =  '';
-  GotoNextSpotByPos  =  '';
-  GotoPrevSpotByPos  =  '';
-  GotoNextMarker     =  ']-';
-  GotoPrevMarker     =  '[-';
-  GotoNextMarkerAny  =  '';
-  GotoPrevMarkerAny  =  '';
-  ListBufferMarks    =  'm/';
-  ListBufferMarkers  =  'm?';
-}
-
 -- hop.nvim
 -- sf{char} to move to {char}
 utils.nnoremap('sf', '<CMD>HopChar1<CR>')
@@ -387,6 +310,7 @@ vim.g.indent_blankline_context_patterns = {
 local actions = require('telescope.actions')
 require('telescope').load_extension('media_files')
 require'telescope'.load_extension('project')
+require('telescope').load_extension('neoclip')
 require('telescope').setup {
   defaults = {
     vimgrep_arguments = {'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case'},
@@ -401,7 +325,6 @@ require('telescope').setup {
       horizontal = {mirror = false},
       vertical = {mirror = false},
       prompt_position = "top",
-      preview_cut = 120,
     },
     file_sorter = require'telescope.sorters'.get_fuzzy_file,
     file_ignore_patterns = {},
@@ -571,6 +494,7 @@ cmp.setup {
     {name = "spell"},
     {name = "emoji"},
     {name = "cmp_tabnine"},
+    { max_item_count = 5 },
   },
   formatting = {
     format = require("lspkind").cmp_format({with_text = true, menu = ({
@@ -590,7 +514,7 @@ cmp.setup {
 -- nvim-autopairs
 require("nvim-autopairs.completion.cmp").setup({
   map_cr = true, --  map <CR> on insert mode
-  map_complete = true, -- it will auto insert `(` after select function or method item
+  map_complete = false, -- it will auto insert `(` after select function or method item
   auto_select = true -- automatically select the first item
 })
 
@@ -758,7 +682,7 @@ vim.g.bullets_enabled_file_types = {
 
 -- todo-comments.nvim
 require("todo-comments").setup{}
-utils.nnoremap('<LEADER>td', '<CMD>TodoQuickFix<CR>')
+utils.nnoremap('<LEADER>td', '<CMD>TodoTelescope<CR>')
 
 -- zen-mode.nvim
 require("zen-mode").setup{
@@ -789,6 +713,40 @@ require('auto-session').setup({
   auto_save_enabled = true,
   auto_restore_enabled = true,
 })
+
+-- marks.nvim
+require'marks'.setup {
+  -- whether to map keybinds or not. default true
+  default_mappings = true,
+  -- which builtin marks to show. default {}
+  builtin_marks = { ".", "<", ">", "^" },
+  -- whether movements cycle back to the beginning/end of buffer. default true
+  cyclic = true,
+  -- whether the shada file is updated after modifying uppercase marks. default false
+  force_write_shada = false,
+  -- how often (in ms) to redraw signs/recompute mark positions.
+  -- higher values will have better performance but may cause visual lag,
+  -- while lower values may cause performance penalties. default 150.
+  refresh_interval = 250,
+  -- sign priorities for each type of mark - builtin marks, uppercase marks, lowercase
+  -- marks, and bookmarks.
+  -- can be either a table with all/none of the keys, or a single number, in which case
+  -- the priority applies to all marks.
+  -- default 10.
+  sign_priority = { lower=10, upper=15, builtin=8, bookmark=20 },
+  -- marks.nvim allows you to configure up to 10 bookmark groups, each with its own
+  -- sign/virttext. Bookmarks can be used to group together positions and quickly move
+  -- across multiple buffers. default sign is '!@#$%^&*()' (from 0 to 9), and
+  -- default virt_text is "".
+  bookmark_0 = {
+    sign = "⚑",
+    virt_text = "hello world"
+  },
+  mappings = {}
+}
+
+-- nvim-neoclip.lua
+require('neoclip').setup()
 
 -- colorscheme
 
@@ -852,7 +810,7 @@ return require('packer').startup(function(use)
   use { 'dhruvasagar/vim-table-mode', ft = {'markdown'} }
   use { 'lervag/vimtex', ft = {'tex'} }
   use { 'junegunn/vim-easy-align' }
-  use { 'kshenoy/vim-signature' }
+  -- use { 'kshenoy/vim-signature' }
   use { 'phaazon/hop.nvim' }
   use { 'MattesGroeger/vim-bookmarks' }
   use { 'lambdalisue/suda.vim' }
@@ -869,7 +827,6 @@ return require('packer').startup(function(use)
   use { 'drmikehenry/vim-headerguard', ft = {'c', 'cpp'}, cmd = {'HeaderguardAdd'} }
   use { 'mbbill/undotree', cmd = {'UndotreeToggle'} }
   use { 'rhysd/accelerated-jk' }
-  use { 'mhartington/formatter.nvim' }
   use { 'monaqa/dial.nvim' }
   use { 'metakirby5/codi.vim' }
   use { 'michaelb/sniprun' }
@@ -895,6 +852,8 @@ return require('packer').startup(function(use)
   use { 's1n7ax/nvim-comment-frame' }
   use { "lukas-reineke/headlines.nvim" }
   use { "rmagatti/auto-session" }
+  use { "chentau/marks.nvim" }
+  use { "AckslD/nvim-neoclip.lua", requires = {'tami5/sqlite.lua', module = 'sqlite'} }
 
   -- lsp
   use { 'neovim/nvim-lspconfig' }

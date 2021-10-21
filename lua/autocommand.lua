@@ -30,9 +30,6 @@ local function load_autocmds()
       { [[ WinEnter,BufEnter * setlocal cursorline ]] };
       { [[ WinLeave,BufLeave * setlocal nocursorline ]] };
     };
-    AutoFormat = {
-      { [[ BufWritePost *.c,*.cpp,*.md,*.json,*.py silent FormatWrite ]] };
-    };
   }
 
   create_augroups(autocmds)

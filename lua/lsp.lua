@@ -35,6 +35,7 @@ _G.Rename = {
 }
 
 local function common_on_attach(client, bufnr)
+  client.resolved_capabilities.document_formatting = false
 
   vim.fn.sign_define("LspDiagnosticsSignError",
                      {texthl = "LspDiagnosticsSignError", text = "", numhl = "LspDiagnosticsSignError"})
@@ -59,6 +60,8 @@ local function common_on_attach(client, bufnr)
   utils.nnoremap('g;', '<CMD>lua vim.lsp.buf.hover()<CR>')
   utils.nnoremap('gI', '<CMD>lua vim.lsp.buf.signature_help()<CR>')
   utils.nnoremap('gh', '<CMD>ClangdSwitchSourceHeader<CR>')
+  utils.nnoremap('<LeftMouse>', '<LeftMouse><CMD>lua vim.lsp.buf.hover()<CR>')
+  utils.nnoremap('<RightMouse>', '<LeftMouse><CMD>lua vim.lsp.buf.definition()<CR>')
 
   require'lsp_signature'.on_attach()
   require 'illuminate'.on_attach(client)
@@ -151,14 +154,44 @@ lspconfig.lemminx.setup{
 
 -- emf
 lspconfig.efm.setup{
-  filetypes = { 'python', 'lua' };
+  filetypes = { 'cpp', 'python', 'lua' };
   init_options = {documentFormatting = true},
   settings = {
     rootMarkers = {".git/"},
     languages = {
-      lua = {
-        {formatCommand = "lua-format -i", formatStdin = true}
-      }
+      c = {
+        {formatCommand = "clang-format --style=Google", formatStdin = true}
+      };
+      cpp = {
+        {formatCommand = "clang-format --style=Google", formatStdin = true}
+      };
+      python = {
+        {formatCommand = "autopep8", formatStdin = true}
+      };
+      json = {
+        {formatCommand = "prettier", formatStdin = true}
+      };
+      markdown = {
+        {formatCommand = "prettier", formatStdin = true}
+      };
+      html = {
+        {formatCommand = "prettier", formatStdin = true}
+      };
+      yaml = {
+        {formatCommand = "prettier", formatStdin = true}
+      };
+      css = {
+        {formatCommand = "prettier", formatStdin = true}
+      };
     }
-  }
+  };
+  capabilities = capabilities;
+  on_attach = function(client)
+    if client.resolved_capabilities.document_formatting then
+      vim.api.nvim_command [[augroup Format]]
+      vim.api.nvim_command [[autocmd! * <buffer>]]
+      vim.api.nvim_command [[autocmd BufWritePost <buffer> lua vim.lsp.buf.formatting()]]
+      vim.api.nvim_command [[augroup END]]
+    end
+  end
 }

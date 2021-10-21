@@ -225,6 +225,10 @@ _G.packer_plugins = {
     needs_bufread = false,
     path = "/home/ch/.local/share/nvim/site/pack/packer/opt/markdown-preview.nvim"
   },
+  ["marks.nvim"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/marks.nvim"
+  },
   ["minimap.vim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/minimap.vim"
@@ -280,6 +284,10 @@ _G.packer_plugins = {
   ["nvim-lsputils"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/nvim-lsputils"
+  },
+  ["nvim-neoclip.lua"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/nvim-neoclip.lua"
   },
   ["nvim-reload"] = {
     loaded = true,
@@ -369,6 +377,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/splitjoin.vim"
   },
+  ["sqlite.lua"] = {
+    loaded = true,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/start/sqlite.lua"
+  },
   ["suda.vim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/suda.vim"
@@ -455,10 +467,6 @@ _G.packer_plugins = {
   ["vim-repeat"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-repeat"
-  },
-  ["vim-signature"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-signature"
   },
   ["vim-surround"] = {
     loaded = true,
