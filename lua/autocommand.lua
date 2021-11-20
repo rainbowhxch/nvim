@@ -30,6 +30,9 @@ local function load_autocmds()
       { [[ WinEnter,BufEnter * setlocal cursorline ]] };
       { [[ WinLeave,BufLeave * setlocal nocursorline ]] };
     };
+    AutoPackerInstall = {
+      { [[ BufWritePost plugins.lua source <afile> | PackerCompile ]] };
+    };
   }
 
   create_augroups(autocmds)

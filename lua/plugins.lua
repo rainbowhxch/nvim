@@ -5,11 +5,138 @@ local vsnip_path = fn.stdpath('config') .. '/snippets/'
 local cache_dir = os.getenv("HOME") .. '/.cache/nvim/'
 
 if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-    vim.api.nvim_command('packadd packer.nvim')
+  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
 
-vim.cmd('autocmd BufWritePost plugins.lua PackerCompile') -- Auto compile when there are changes in plugins.lua
+require('packer').startup(function(use)
+  -- packer.nvim itself
+  use { 'wbthomason/packer.nvim' }
+
+  -- decoration
+  use { 'windwp/nvim-autopairs' }
+  use { 'lukas-reineke/indent-blankline.nvim' }
+  use { 'kyazdani42/nvim-web-devicons' }
+  use { 'glepnir/dashboard-nvim' }
+  use { 'glepnir/galaxyline.nvim' }
+  use { 'romgrk/barbar.nvim' }
+  use { 'aklt/plantuml-syntax' }
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use { 'p00f/nvim-ts-rainbow', requires = {'nvim-treesitter/nvim-treesitter'} }
+  use { 'windwp/nvim-ts-autotag', requires = {'nvim-treesitter/nvim-treesitter'} }
+  use { 'JoosepAlviste/nvim-ts-context-commentstring', requires = {'nvim-treesitter/nvim-treesitter'} }
+  use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = {'nvim-treesitter/nvim-treesitter'} }
+  use { 'romgrk/nvim-treesitter-context', requires = {'nvim-treesitter/nvim-treesitter'} }
+  use { 'norcalli/nvim-colorizer.lua' }
+  use { 'wfxr/minimap.vim' }
+  use { 'karb94/neoscroll.nvim' }
+  use { 'Shougo/echodoc.vim' }
+  use { 'kevinhwang91/nvim-hlslens' }
+  use { 'andymass/vim-matchup', event = 'VimEnter' }
+  use { 'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'} }
+  -- use { 'unblevable/quick-scope' }
+  use { 'danilamihailov/beacon.nvim' }
+  use { 'yamatsum/nvim-nonicons' }
+
+  -- reading mode
+  use { 'junegunn/limelight.vim' }
+
+  -- functional
+  use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}} }
+  use { 'nvim-telescope/telescope-media-files.nvim', requires = {'nvim-telescope/telescope.nvim'} }
+  use { 'kyazdani42/nvim-tree.lua', requires = {'kyazdani42/nvim-web-devicons'} }
+  use {'iamcco/markdown-preview.nvim', ft = {'markdown'}, run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
+  use { 'mzlogin/vim-markdown-toc', ft = {'markdown'} }
+  use { 'dhruvasagar/vim-table-mode', ft = {'markdown'} }
+  use { 'lervag/vimtex', ft = {'tex'} }
+  use { 'junegunn/vim-easy-align' }
+  use { 'phaazon/hop.nvim' }
+  use { 'MattesGroeger/vim-bookmarks' }
+  use { 'lambdalisue/suda.vim' }
+  use { 'skywind3000/asynctasks.vim' }
+  use { 'skywind3000/asyncrun.vim' }
+  use { 'skywind3000/asyncrun.extra' }
+  use { 'voldikss/vim-floaterm' }
+  use { 'tpope/vim-surround' }
+  use { 'AndrewRadev/splitjoin.vim' }
+  use { 'terrortylor/nvim-comment' }
+  use { 'tpope/vim-repeat' }
+  use { 'brooth/far.vim' }
+  use { 'pechorin/any-jump.vim', cmd = {'AnyJump'} }
+  use { 'drmikehenry/vim-headerguard', ft = {'c', 'cpp'}, cmd = {'HeaderguardAdd'} }
+  use { 'mbbill/undotree', cmd = {'UndotreeToggle'} }
+  use { 'rhysd/accelerated-jk' }
+  use { 'monaqa/dial.nvim' }
+  use { 'metakirby5/codi.vim' }
+  use { 'michaelb/sniprun', run = 'bash ./install.sh'}
+  use { 'mfussenegger/nvim-dap' }
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+  use { 'theHamsta/nvim-dap-virtual-text' }
+  use { 'nvim-telescope/telescope-dap.nvim' }
+  use { 'kevinhwang91/nvim-bqf' }
+  use {'kkoomen/vim-doge', run = ':call doge#install()'}
+  use { 'michaeljsmith/vim-indent-object' }
+  use { 'alpertuna/vim-header' }
+  use { 'kevinhwang91/rnvimr' }
+  use { 'famiu/nvim-reload' }
+  use { 'windwp/nvim-spectre' }
+  use { 'marcushwz/nvim-workbench' }
+  use { 'haringsrob/nvim_context_vt' }
+  use { 'dkarter/bullets.vim' }
+  use { 'triglav/vim-visual-increment' }
+  use { 'nvim-telescope/telescope-project.nvim' }
+  use { 'mg979/vim-visual-multi' }
+  use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
+  use { 'folke/zen-mode.nvim' }
+  use { 's1n7ax/nvim-comment-frame' }
+  use { "lukas-reineke/headlines.nvim" }
+  use { "rmagatti/auto-session" }
+  use { "chentau/marks.nvim" }
+  use { "AckslD/nvim-neoclip.lua", requires = {'tami5/sqlite.lua', module = 'sqlite'} }
+  use { "junegunn/vim-peekaboo" }
+  use { "github/copilot.vim" }
+  use { "hrsh7th/cmp-copilot" }
+  use { "rcarriga/nvim-notify" }
+  use { "lifepillar/vim-gruvbox8" }
+
+  -- lsp
+  use { 'neovim/nvim-lspconfig' }
+  use { 'onsails/lspkind-nvim' }
+  use { 'ray-x/lsp_signature.nvim' }
+  use { 'simrat39/symbols-outline.nvim' }
+  use { 'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}} }
+  use { 'RRethy/vim-illuminate' }
+  use { "folke/lua-dev.nvim" }
+
+  -- autocompletor
+  use {
+    "hrsh7th/nvim-cmp",
+    requires = {
+      { "hrsh7th/cmp-buffer" },
+      { "hrsh7th/cmp-path" },
+      { "hrsh7th/cmp-nvim-lsp" },
+      { "hrsh7th/cmp-nvim-lua" },
+      { "hrsh7th/cmp-vsnip" },
+      { "hrsh7th/cmp-calc" },
+      { "hrsh7th/cmp-emoji" },
+      { "tzachar/cmp-tabnine", run = "./install.sh", },
+    }
+  }
+  use { 'hrsh7th/vim-vsnip' }
+  use { "rafamadriz/friendly-snippets" }
+  use { 'hrsh7th/vim-vsnip-integ' }
+
+  -- themes
+  use { 'tjdevries/colorbuddy.nvim' }
+  use 'monsonjeremy/onedark.nvim'
+  use { 'ajmwagar/vim-deus' }
+  use { "ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"} }
+  use { "projekt0n/github-nvim-theme" }
+  use { 'rmehri01/onenord.nvim' }
+
+  if packer_bootstrap then
+    require('packer').sync()
+  end
+end)
 
 -- nvim-autopairs
 require('nvim-autopairs').setup()
@@ -102,16 +229,8 @@ require('nvim_comment').setup({
   operator_mapping = "<LEADER>cc"
 })
 
--- nvim-hlslens
--- utils.nnoremap('n', '<Cmd>execute(\'normal! \' . v:count1 . \'n\')<CR><Cmd>lua require(\'hlslens\').start()<CR>')
--- utils.nnoremap('N', '<Cmd>execute(\'normal! \' . v:count1 . \'N\')<CR><Cmd>lua require(\'hlslens\').start()<CR>')
--- utils.nnoremap('*', '*<Cmd>lua require(\'hlslens\').start()<CR>')
--- utils.nnoremap('#', '#<Cmd>lua require(\'hlslens\').start()<CR>')
--- utils.nnoremap('g*', 'g*<Cmd>lua require(\'hlslens\').start()<CR>')
--- utils.nnoremap('g#', 'g#<Cmd>lua require(\'hlslens\').start()<CR>')
-
 -- galaxyline.nvim
-require('eviline')
+require('bubbles')
 
 -- accelerated-jk
 utils.nmap('j', '<Plug>(accelerated_jk_gj)')
@@ -137,7 +256,7 @@ vim.g.any_jump_disable_default_keybindings = 1
 utils.nnoremap('gj', '<CMD>AnyJump<CR>')
 
 -- far.vim
-utils.nnoremap('ss', '<CMD>Farp<CR>')
+utils.nnoremap('sp', '<CMD>Farp<CR>')
 vim.g['far#default_mappings'] = 1
 vim.g['far#enable_undo'] = 1
 vim.g['far#mapping'] = {
@@ -240,6 +359,7 @@ utils.nmap('<LEADER>al', '<Plug>(EasyAlign)')
 utils.xmap('<LEADER>al', '<Plug>(EasyAlign)')
 
 -- hop.nvim
+require'hop'.setup()
 -- sf{char} to move to {char}
 utils.nnoremap('sf', '<CMD>HopChar1<CR>')
 utils.vnoremap('sf', '<CMD>HopChar1<CR>')
@@ -301,9 +421,9 @@ vim.g.indent_blankline_use_treesitter = true
 vim.g.indent_blankline_show_trailing_blankline_indent = false
 vim.g.indent_blankline_show_current_context = true
 vim.g.indent_blankline_context_patterns = {
-    'class', 'return', 'function', 'method', '^if', '^while', 'jsx_element', '^for', '^object', '^table', 'block',
-    'arguments', 'if_statement', 'else_clause', 'jsx_element', 'jsx_self_closing_element', 'try_statement',
-    'catch_clause', 'import_statement', 'operation_type'
+  'class', 'return', 'function', 'method', '^if', '^while', 'jsx_element', '^for', '^object', '^table', 'block',
+  'arguments', 'if_statement', 'else_clause', 'jsx_element', 'jsx_self_closing_element', 'try_statement',
+  'catch_clause', 'import_statement', 'operation_type'
 }
 
 -- nvim-telescope
@@ -428,7 +548,7 @@ utils.nmap('<C-a>', '<Plug>(dial-increment)')
 utils.nmap('<C-x>', '<Plug>(dial-decrement)')
 
 -- nvim-cmp
-vim.o.completeopt = "menuone,noselect"
+vim.o.completeopt = "menu,menuone,noselect"
 
 local tabnine = require('cmp_tabnine.config')
 tabnine:setup({
@@ -446,7 +566,9 @@ local feedkey = function(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local cmp = require('cmp')
+cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
 cmp.setup {
   snippet = {
     expand = function(args)
@@ -454,16 +576,12 @@ cmp.setup {
     end,
   },
   mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
     ['<CR>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Replace,
       select = true,
+      behavior = cmp.ConfirmBehavior.Replace,
     }),
+    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i' }),
+    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i' }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -494,6 +612,7 @@ cmp.setup {
     {name = "spell"},
     {name = "emoji"},
     {name = "cmp_tabnine"},
+    { name = 'copilot' },
     { max_item_count = 5 },
   },
   formatting = {
@@ -510,13 +629,6 @@ cmp.setup {
       })}),
   },
 }
-
--- nvim-autopairs
-require("nvim-autopairs.completion.cmp").setup({
-  map_cr = true, --  map <CR> on insert mode
-  map_complete = false, -- it will auto insert `(` after select function or method item
-  auto_select = true -- automatically select the first item
-})
 
 -- vim-vsnip
 vim.g.vsnip_snippet_dir = vsnip_path
@@ -579,7 +691,7 @@ utils.nnoremap('<F12>', '<CMD>lua require\'dap\'.step_out()<CR>')
 require("dapui").setup()
 
 -- nvim-dap-virtual-text
-vim.g.dap_virtual_text = true
+require("nvim-dap-virtual-text").setup()
 
 -- neoscroll.vim
 require('neoscroll').setup({
@@ -748,7 +860,29 @@ require'marks'.setup {
 -- nvim-neoclip.lua
 require('neoclip').setup()
 
+-- copilot.vim
+utils.imap_with_expr('<C-Space>', 'copilot#Accept("\\<CR>")')
+vim.g.copilot_no_tab_map = true
+
 -- colorscheme
+
+require('onenord').setup({
+  borders = true, -- Split window borders
+  italics = {
+    comments = true, -- Italic comments
+    strings = false, -- Italic strings
+    keywords = true, -- Italic keywords
+    functions = false, -- Italic functions
+    variables = false, -- Italic variables
+  },
+  disable = {
+    background = false, -- Disable setting the background color
+    cursorline = false, -- Disable the cursorline
+    eob_lines = true, -- Hide the end-of-buffer lines
+  },
+  custom_highlights = {}, -- Overwrite default highlight groups
+})
+-- vim.cmd [[colorscheme onenord]]
 
 -- github
 -- require('github-theme').setup({
@@ -758,7 +892,9 @@ require('neoclip').setup()
 
 -- onedark
 vim.g.onedark_disable_toggle_style = true
-require('onedark').setup()
+-- require('onedark').setup()
+
+vim.cmd [[colorscheme gruvbox8]]
 
 -- gruvbox
 vim.g.gruvbox_italic = 1
@@ -769,123 +905,3 @@ vim.g.gruvbox_invert_tabline = 1
 -- vim.g.gruvbox_improved_strings = 1
 vim.g.gruvbox_improved_warnings = 1
 -- vim.cmd('colorscheme gruvbox')
-
-return require('packer').startup(function(use)
-  -- packer.nvim itself
-  use { 'wbthomason/packer.nvim' }
-
-  -- decoration
-  use { 'windwp/nvim-autopairs' }
-  use { 'lukas-reineke/indent-blankline.nvim' }
-  use { 'kyazdani42/nvim-web-devicons' }
-  use { 'glepnir/dashboard-nvim' }
-  use { 'glepnir/galaxyline.nvim' }
-  use { 'romgrk/barbar.nvim' }
-  use { 'aklt/plantuml-syntax' }
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-  use { 'p00f/nvim-ts-rainbow', requires = {'nvim-treesitter/nvim-treesitter'} }
-  use { 'windwp/nvim-ts-autotag', requires = {'nvim-treesitter/nvim-treesitter'} }
-  use { 'JoosepAlviste/nvim-ts-context-commentstring', requires = {'nvim-treesitter/nvim-treesitter'} }
-  use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = {'nvim-treesitter/nvim-treesitter'} }
-  use { 'romgrk/nvim-treesitter-context', requires = {'nvim-treesitter/nvim-treesitter'} }
-  use { 'norcalli/nvim-colorizer.lua' }
-  use { 'wfxr/minimap.vim' }
-  use { 'karb94/neoscroll.nvim' }
-  use { 'Shougo/echodoc.vim' }
-  use { 'kevinhwang91/nvim-hlslens' }
-  use { 'andymass/vim-matchup', event = 'VimEnter' }
-  use { 'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'} }
-  use { 'unblevable/quick-scope' }
-  use { 'danilamihailov/beacon.nvim' }
-
-  -- reading mode
-  use { 'junegunn/limelight.vim' }
-
-  -- functional
-  use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}} }
-  use { 'nvim-telescope/telescope-media-files.nvim', requires = {'nvim-telescope/telescope.nvim'} }
-  use { 'kyazdani42/nvim-tree.lua', requires = {'kyazdani42/nvim-web-devicons'} }
-  use {'iamcco/markdown-preview.nvim', ft = {'markdown'}, run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
-  use { 'mzlogin/vim-markdown-toc', ft = {'markdown'} }
-  use { 'dhruvasagar/vim-table-mode', ft = {'markdown'} }
-  use { 'lervag/vimtex', ft = {'tex'} }
-  use { 'junegunn/vim-easy-align' }
-  -- use { 'kshenoy/vim-signature' }
-  use { 'phaazon/hop.nvim' }
-  use { 'MattesGroeger/vim-bookmarks' }
-  use { 'lambdalisue/suda.vim' }
-  use { 'skywind3000/asynctasks.vim' }
-  use { 'skywind3000/asyncrun.vim' }
-  use { 'skywind3000/asyncrun.extra' }
-  use { 'voldikss/vim-floaterm' }
-  use { 'tpope/vim-surround' }
-  use { 'AndrewRadev/splitjoin.vim' }
-  use { 'terrortylor/nvim-comment' }
-  use { 'tpope/vim-repeat' }
-  use { 'brooth/far.vim' }
-  use { 'pechorin/any-jump.vim', cmd = {'AnyJump'} }
-  use { 'drmikehenry/vim-headerguard', ft = {'c', 'cpp'}, cmd = {'HeaderguardAdd'} }
-  use { 'mbbill/undotree', cmd = {'UndotreeToggle'} }
-  use { 'rhysd/accelerated-jk' }
-  use { 'monaqa/dial.nvim' }
-  use { 'metakirby5/codi.vim' }
-  use { 'michaelb/sniprun' }
-  use { 'mfussenegger/nvim-dap' }
-  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
-  use { 'theHamsta/nvim-dap-virtual-text' }
-  use { 'nvim-telescope/telescope-dap.nvim' }
-  use { 'kevinhwang91/nvim-bqf' }
-  use {'kkoomen/vim-doge', run = ':call doge#install()'}
-  use { 'michaeljsmith/vim-indent-object' }
-  use { 'alpertuna/vim-header' }
-  use { 'kevinhwang91/rnvimr' }
-  use { 'famiu/nvim-reload' }
-  use { 'windwp/nvim-spectre' }
-  use { 'marcushwz/nvim-workbench' }
-  use { 'haringsrob/nvim_context_vt' }
-  use { 'dkarter/bullets.vim' }
-  use { 'triglav/vim-visual-increment' }
-  use { 'nvim-telescope/telescope-project.nvim' }
-  use { 'mg979/vim-visual-multi' }
-  use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
-  use { 'folke/zen-mode.nvim' }
-  use { 's1n7ax/nvim-comment-frame' }
-  use { "lukas-reineke/headlines.nvim" }
-  use { "rmagatti/auto-session" }
-  use { "chentau/marks.nvim" }
-  use { "AckslD/nvim-neoclip.lua", requires = {'tami5/sqlite.lua', module = 'sqlite'} }
-
-  -- lsp
-  use { 'neovim/nvim-lspconfig' }
-  use { 'onsails/lspkind-nvim' }
-  use { 'ray-x/lsp_signature.nvim' }
-  use { 'simrat39/symbols-outline.nvim' }
-  use { 'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}} }
-  use { 'RRethy/vim-illuminate' }
-  use { "folke/lua-dev.nvim" }
-
-  -- autocompletor
-  use {
-    "hrsh7th/nvim-cmp",
-    requires = {
-      { "hrsh7th/cmp-buffer" },
-      { "hrsh7th/cmp-path" },
-      { "hrsh7th/cmp-nvim-lsp" },
-      { "hrsh7th/cmp-nvim-lua" },
-      { "hrsh7th/cmp-vsnip" },
-      { "hrsh7th/cmp-calc" },
-      { "hrsh7th/cmp-emoji" },
-      { "tzachar/cmp-tabnine", run = "./install.sh", },
-    }
-  }
-  use { 'hrsh7th/vim-vsnip' }
-  use { "rafamadriz/friendly-snippets" }
-  use { 'hrsh7th/vim-vsnip-integ' }
-
-  -- themes
-  use { 'tjdevries/colorbuddy.nvim' }
-  use 'monsonjeremy/onedark.nvim'
-  use { 'ajmwagar/vim-deus' }
-  use { "ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"} }
-  use { "projekt0n/github-nvim-theme" }
-end)

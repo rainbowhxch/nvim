@@ -36,6 +36,7 @@ _G.Rename = {
 
 local function common_on_attach(client, bufnr)
   client.resolved_capabilities.document_formatting = false
+  client.resolved_capabilities.document_range_formatting = false
 
   vim.fn.sign_define("LspDiagnosticsSignError",
                      {texthl = "LspDiagnosticsSignError", text = "", numhl = "LspDiagnosticsSignError"})
@@ -185,7 +186,6 @@ lspconfig.efm.setup{
       };
     }
   };
-  capabilities = capabilities;
   on_attach = function(client)
     if client.resolved_capabilities.document_formatting then
       vim.api.nvim_command [[augroup Format]]
