@@ -35,21 +35,30 @@ _G.Rename = {
 }
 
 local function common_on_attach(client, bufnr)
-  client.resolved_capabilities.document_formatting = false
-  client.resolved_capabilities.document_range_formatting = false
+  if (client.name ~= 'clangd') then
+    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_range_formatting = false
+  end
 
-  vim.fn.sign_define("LspDiagnosticsSignError",
-                     {texthl = "LspDiagnosticsSignError", text = "", numhl = "LspDiagnosticsSignError"})
-  vim.fn.sign_define("LspDiagnosticsSignWarning",
-                     {texthl = "LspDiagnosticsSignWarning", text = "", numhl = "LspDiagnosticsSignWarning"})
-  vim.fn.sign_define("LspDiagnosticsSignHint",
-                     {texthl = "LspDiagnosticsSignHint", text = "ﯦ", numhl = "LspDiagnosticsSignHint"})
-  vim.fn.sign_define("LspDiagnosticsSignInformation",
-                     {texthl = "LspDiagnosticsSignInformation", text = "", numhl = "LspDiagnosticsSignInformation"})
+  if client.resolved_capabilities.document_formatting then
+    vim.api.nvim_command [[augroup Format]]
+    vim.api.nvim_command [[autocmd! * <buffer>]]
+    vim.api.nvim_command [[autocmd BufWritePost <buffer> lua vim.lsp.buf.formatting()]]
+    vim.api.nvim_command [[augroup END]]
+  end
+
+  vim.fn.sign_define("DiagnosticsSignError",
+                     {texthl = "DiagnosticsSignError", text = "✗", numhl = "DiagnosticsSignError"})
+  vim.fn.sign_define("DiagnosticsSignWarning",
+                     {texthl = "DiagnosticsSignWarning", text = "!", numhl = "DiagnosticsSignWarning"})
+  vim.fn.sign_define("DiagnosticsSignHint",
+                     {texthl = "DiagnosticsSignHint", text = "", numhl = "DiagnosticsSignHint"})
+  vim.fn.sign_define("DiagnosticsSignInformation",
+                     {texthl = "DiagnosticsSignInformation", text = "", numhl = "DiagnosticsSignInformation"})
 
   vim.api.nvim_command('set omnifunc=v:lua.vim.lsp.omnifunc')
-  utils.nnoremap('[d', '<CMD>lua vim.lsp.diagnostic.goto_prev()<CR>')
-  utils.nnoremap(']d', '<CMD>lua vim.lsp.diagnostic.goto_next()<CR>')
+  utils.nnoremap('[d', '<CMD>lua vim.diagnostic.goto_prev()<CR>')
+  utils.nnoremap(']d', '<CMD>lua vim.diagnostic.goto_next()<CR>')
   utils.nnoremap('gt', '<CMD>lua vim.lsp.buf.type_definition()<CR>')
   utils.nnoremap('gT', '<CMD>lua vim.lsp.buf.workspace_symbol()<CR>')
   utils.nnoremap('gD', '<CMD>lua vim.lsp.buf.declaration()<CR>')
@@ -155,7 +164,7 @@ lspconfig.lemminx.setup{
 
 -- emf
 lspconfig.efm.setup{
-  filetypes = { 'cpp', 'python', 'lua' };
+  filetypes = { 'python', 'lua' };
   init_options = {documentFormatting = true},
   settings = {
     rootMarkers = {".git/"},

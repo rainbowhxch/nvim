@@ -2,11 +2,6 @@ local cache_dir = os.getenv("HOME") .. '/.cache/nvim/'
 
 local function createdir()
   local data_dir = {
-    cache_dir..'backup',
-    cache_dir..'undo',
-    cache_dir..'swap',
-    cache_dir..'view',
-    cache_dir..'undo',
     cache_dir..'vimtex',
   }
   -- There only check once that If cache_dir exists
@@ -83,11 +78,10 @@ local function load_options()
     backupext      = ".bak";
     undofile       = true;
     shada          = "!,'100,<50,s10,h";
-    directory      = cache_dir .. "swag/";
-    undodir        = cache_dir .. "undo/";
-    backupdir      = cache_dir .. "backup/";
-    viewdir        = cache_dir .. "view/";
-    shadafile      = cache_dir .. "shada";
+    directory      = cache_dir .. "swap//";
+    undodir        = cache_dir .. "undo//";
+    backupdir      = cache_dir .. "backup//";
+    viewdir        = cache_dir .. "view//";
   }
 
   createdir();
