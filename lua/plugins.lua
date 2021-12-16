@@ -41,7 +41,7 @@ require('packer').startup(function(use)
   use { 'junegunn/limelight.vim' }
 
   -- functional
-  use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}} }
+  use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}} }
   use { 'nvim-telescope/telescope-media-files.nvim', requires = {'nvim-telescope/telescope.nvim'} }
   use { 'kyazdani42/nvim-tree.lua', requires = {'kyazdani42/nvim-web-devicons'} }
   use {'iamcco/markdown-preview.nvim', ft = {'markdown'}, run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
@@ -88,16 +88,14 @@ require('packer').startup(function(use)
   use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
   use { 'folke/zen-mode.nvim' }
   use { 's1n7ax/nvim-comment-frame' }
-  use { "lukas-reineke/headlines.nvim" }
-  use { "rmagatti/auto-session" }
+  -- use { "rmagatti/auto-session" }
   use { "chentau/marks.nvim" }
   use { "AckslD/nvim-neoclip.lua", requires = {'tami5/sqlite.lua', module = 'sqlite'} }
   use { "junegunn/vim-peekaboo" }
   use { "github/copilot.vim" }
   use { "hrsh7th/cmp-copilot" }
   use { "rcarriga/nvim-notify" }
-  use { "lifepillar/vim-gruvbox8" }
-  use { "lifepillar/vim-solarized8" }
+  use { "numToStr/FTerm.nvim" }
 
   -- lsp
   use { 'neovim/nvim-lspconfig' }
@@ -133,6 +131,8 @@ require('packer').startup(function(use)
   use { "ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"} }
   use { "projekt0n/github-nvim-theme" }
   use { 'rmehri01/onenord.nvim' }
+  use { "lifepillar/vim-gruvbox8" }
+  use { "lifepillar/vim-solarized8" }
 
   if packer_bootstrap then
     require('packer').sync()
@@ -310,11 +310,6 @@ vim.g.matchup_override_vimtex = 1
 utils.xmap('a%', '<plug>(matchup-%)')
 utils.xmap('i%', '<plug>(matchup-%)')
 
--- vim-floaterm
-vim.g.floaterm_keymap_toggle = '<F1>'
-utils.nnoremap('<LEADER>gi', '<CMD>FloatermNew --autoclose=1 lazygit<CR>')
-utils.nnoremap('<LEADER>rg', '<CMD>FloatermNew --autoclose=1 --width=0.8 --height=0.8 rg<CR>')
-
 -- vim-surround
 utils.nmap('<LEADER>"', 'ysiW"')
 utils.nmap('<LEADER>\'', 'ysiW\'')
@@ -449,35 +444,9 @@ require('telescope').load_extension('project')
 require('telescope').load_extension('neoclip')
 require('telescope').setup {
   defaults = {
-    vimgrep_arguments = {'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case'},
     prompt_prefix = " ",
     selection_caret = " ",
-    entry_prefix = "  ",
-    initial_mode = "insert",
-    selection_strategy = "reset",
-    sorting_strategy = "descending",
-    layout_strategy = "horizontal",
-    layout_config = {
-      horizontal = {mirror = false},
-      vertical = {mirror = false},
-      prompt_position = "top",
-    },
-    file_sorter = require'telescope.sorters'.get_fuzzy_file,
-    file_ignore_patterns = {},
-    generic_sorter = require'telescope.sorters'.get_generic_fuzzy_sorter,
-    path_display = "shorten",
-    winblend = 0,
-    border = {},
-    borderchars = {'─', '│', '─', '│', '╭', '╮', '╯', '╰'},
-    color_devicons = true,
-    use_less = true,
-    set_env = {['COLORTERM'] = 'truecolor'}, -- default = nil,
-    file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
-    grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
-    qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
-
-    -- Developer configurations: Not meant for general override
-    buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker,
+    -- set_env = {['COLORTERM'] = 'truecolor'}, -- default = nil,
     mappings = {
       i = {
         ["<C-j>"] = actions.move_selection_next,
@@ -500,6 +469,8 @@ require('telescope').setup {
       n = {
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
+        ["<space>"] = actions.toggle_selection,
+        ["<V>"] = actions.toggle_all,
         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
         -- ["<C-i>"] = my_cool_custom_action,
       }
@@ -830,18 +801,15 @@ require('nvim-comment-frame').setup({
     multiline_keymap = '<leader>C',
 })
 
--- headlines.nvim
-require("headlines").setup()
-
 -- auto-session
-require('auto-session').setup({
-  log_level = 'info',
-  auto_session_enable_last_session = true,
-  auto_session_root_dir = vim.fn.stdpath('data').."/sessions/",
-  auto_session_enabled = true,
-  auto_save_enabled = true,
-  auto_restore_enabled = true,
-})
+-- require('auto-session').setup({
+--   log_level = 'info',
+--   auto_session_enable_last_session = true,
+--   auto_session_root_dir = vim.fn.stdpath('data').."/sessions/",
+--   auto_session_enabled = false,
+--   auto_save_enabled = true,
+--   auto_restore_enabled = true,
+-- })
 
 -- marks.nvim
 require'marks'.setup {
@@ -880,6 +848,15 @@ require('neoclip').setup()
 -- copilot.vim
 utils.imap_with_expr('<C-Space>', 'copilot#Accept("\\<CR>")')
 vim.g.copilot_no_tab_map = true
+
+-- FTerm.nvim
+utils.nnoremap('<F1>', '<CMD>lua require("FTerm").toggle()<CR>')
+utils.tnoremap('<F1>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
+
+-- vim-floaterm
+utils.nnoremap('<LEADER>gi', '<CMD>FloatermNew --autoclose=1 lazygit<CR>')
+utils.nnoremap('<LEADER>rg', '<CMD>FloatermNew --autoclose=1 --width=0.8 --height=0.8 rg<CR>')
+
 
 -- colorscheme
 -- vim.cmd [[colorscheme solarized8]]
