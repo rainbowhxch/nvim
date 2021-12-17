@@ -3,3 +3,4 @@ autoload/
 
 .netrwhist
 ftplugin/markdown.vim
+problem-list.md

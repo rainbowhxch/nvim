@@ -105,7 +105,6 @@ function M.file_run()
     vim.api.nvim_command('VimtexStop')
     vim.api.nvim_command('VimtexCompile')
   else
-    vim.api.nvim_command('AsyncTask file-run')
   end
 end
 

@@ -95,7 +95,6 @@ lspconfig.bashls.setup{
   on_attach = common_on_attach;
 }
 
-
 -- lua
 local luadev = require("lua-dev").setup({
   library = {
@@ -121,24 +120,6 @@ lspconfig.texlab.setup{
 
 -- vim
 lspconfig.vimls.setup{
-  capabilities = capabilities;
-  on_attach = common_on_attach;
-}
-
--- html
-lspconfig.html.setup {
-  capabilities = capabilities;
-  on_attach = common_on_attach;
-}
-
--- css
-lspconfig.cssls.setup{
-  capabilities = capabilities;
-  on_attach = common_on_attach;
-}
-
--- tsserver
-lspconfig.tsserver.setup{
   capabilities = capabilities;
   on_attach = common_on_attach;
 }
@@ -184,13 +165,7 @@ lspconfig.efm.setup{
       markdown = {
         {formatCommand = "prettier", formatStdin = true}
       };
-      html = {
-        {formatCommand = "prettier", formatStdin = true}
-      };
       yaml = {
-        {formatCommand = "prettier", formatStdin = true}
-      };
-      css = {
         {formatCommand = "prettier", formatStdin = true}
       };
     }

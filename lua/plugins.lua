@@ -15,9 +15,8 @@ require('packer').startup(function(use)
   -- decoration
   use { 'windwp/nvim-autopairs' }
   use { 'lukas-reineke/indent-blankline.nvim' }
-  use { 'kyazdani42/nvim-web-devicons' }
   use { 'glepnir/dashboard-nvim' }
-  use { 'glepnir/galaxyline.nvim' }
+  use { 'glepnir/galaxyline.nvim', requires = { 'yamatsum/nvim-nonicons' } }
   use { 'romgrk/barbar.nvim' }
   use { 'aklt/plantuml-syntax' }
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -29,66 +28,49 @@ require('packer').startup(function(use)
   use { 'norcalli/nvim-colorizer.lua' }
   use { 'wfxr/minimap.vim' }
   use { 'karb94/neoscroll.nvim' }
-  use { 'Shougo/echodoc.vim' }
   use { 'kevinhwang91/nvim-hlslens' }
-  use { 'andymass/vim-matchup', event = 'VimEnter' }
   use { 'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'} }
-  -- use { 'unblevable/quick-scope' }
-  use { 'danilamihailov/beacon.nvim' }
-  use { 'yamatsum/nvim-nonicons' }
+  -- use { 'danilamihailov/beacon.nvim' }
 
   -- reading mode
   use { 'junegunn/limelight.vim' }
 
   -- functional
   use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}} }
-  use { 'nvim-telescope/telescope-media-files.nvim', requires = {'nvim-telescope/telescope.nvim'} }
   use { 'kyazdani42/nvim-tree.lua', requires = {'kyazdani42/nvim-web-devicons'} }
   use {'iamcco/markdown-preview.nvim', ft = {'markdown'}, run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
-  use { 'mzlogin/vim-markdown-toc', ft = {'markdown'} }
+  use { 'mzlogin/vim-markdown-toc', ft = {'markdown'}, cmd = {'GenTocGFM'} }
   use { 'dhruvasagar/vim-table-mode', ft = {'markdown'} }
   use { 'lervag/vimtex', ft = {'tex'} }
   use { 'junegunn/vim-easy-align' }
   use { 'phaazon/hop.nvim' }
   use { 'MattesGroeger/vim-bookmarks' }
   use { 'lambdalisue/suda.vim' }
-  use { 'skywind3000/asynctasks.vim' }
-  use { 'skywind3000/asyncrun.vim' }
-  use { 'skywind3000/asyncrun.extra' }
   use { 'voldikss/vim-floaterm' }
   use { 'tpope/vim-surround' }
-  use { 'AndrewRadev/splitjoin.vim' }
   use { 'terrortylor/nvim-comment' }
-  use { 'tpope/vim-repeat' }
-  use { 'brooth/far.vim' }
-  use { 'pechorin/any-jump.vim', cmd = {'AnyJump'} }
+  use { 'brooth/far.vim', cmd = {'Farp'} }
   use { 'drmikehenry/vim-headerguard', ft = {'c', 'cpp'}, cmd = {'HeaderguardAdd'} }
   use { 'mbbill/undotree', cmd = {'UndotreeToggle'} }
   use { 'rhysd/accelerated-jk' }
   use { 'monaqa/dial.nvim' }
   use { 'metakirby5/codi.vim' }
-  use { 'michaelb/sniprun', run = 'bash ./install.sh'}
   use { 'mfussenegger/nvim-dap' }
   use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
   use { 'theHamsta/nvim-dap-virtual-text' }
-  use { 'nvim-telescope/telescope-dap.nvim' }
   use { 'kevinhwang91/nvim-bqf' }
-  use {'kkoomen/vim-doge', run = ':call doge#install()'}
+  use { 'kkoomen/vim-doge', run = ':call doge#install()' }
   use { 'michaeljsmith/vim-indent-object' }
   use { 'alpertuna/vim-header' }
-  use { 'kevinhwang91/rnvimr' }
-  use { 'famiu/nvim-reload' }
   use { 'windwp/nvim-spectre' }
   use { 'marcushwz/nvim-workbench' }
   use { 'haringsrob/nvim_context_vt' }
   use { 'dkarter/bullets.vim' }
   use { 'triglav/vim-visual-increment' }
-  use { 'nvim-telescope/telescope-project.nvim' }
   use { 'mg979/vim-visual-multi' }
   use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
   use { 'folke/zen-mode.nvim' }
   use { 's1n7ax/nvim-comment-frame' }
-  -- use { "rmagatti/auto-session" }
   use { "chentau/marks.nvim" }
   use { "AckslD/nvim-neoclip.lua", requires = {'tami5/sqlite.lua', module = 'sqlite'} }
   use { "junegunn/vim-peekaboo" }
@@ -101,7 +83,6 @@ require('packer').startup(function(use)
   use { 'neovim/nvim-lspconfig' }
   use { 'onsails/lspkind-nvim' }
   use { 'ray-x/lsp_signature.nvim' }
-  use { 'simrat39/symbols-outline.nvim' }
   use { 'RishabhRD/nvim-lsputils', requires = {{'RishabhRD/popfix'}} }
   use { 'RRethy/vim-illuminate' }
   use { "folke/lua-dev.nvim" }
@@ -115,7 +96,6 @@ require('packer').startup(function(use)
       { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/cmp-nvim-lua" },
       { "hrsh7th/cmp-vsnip" },
-      { "hrsh7th/cmp-calc" },
       { "hrsh7th/cmp-emoji" },
       { "tzachar/cmp-tabnine", run = "./install.sh", },
     }
@@ -125,14 +105,9 @@ require('packer').startup(function(use)
   use { 'hrsh7th/vim-vsnip-integ' }
 
   -- themes
-  use { 'tjdevries/colorbuddy.nvim' }
-  use 'monsonjeremy/onedark.nvim'
+  use { 'monsonjeremy/onedark.nvim' }
   use { 'ajmwagar/vim-deus' }
-  use { "ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"} }
-  use { "projekt0n/github-nvim-theme" }
-  use { 'rmehri01/onenord.nvim' }
   use { "lifepillar/vim-gruvbox8" }
-  use { "lifepillar/vim-solarized8" }
 
   if packer_bootstrap then
     require('packer').sync()
@@ -252,9 +227,6 @@ require('bubbles')
 utils.nmap('j', '<Plug>(accelerated_jk_gj)')
 utils.nmap('k', '<Plug>(accelerated_jk_gk)')
 
--- echodoc.vim
-vim.g.echodoc_enable_at_startup = 1
-
 -- undotree.vim
 utils.nnoremap('U', '<CMD>UndotreeToggle<CR>')
 vim.cmd([[
@@ -266,10 +238,6 @@ vim.cmd([[
 
 -- vim-headerguard.vim
 utils.nnoremap('<LEADER>ah', '<CMD>HeaderguardAdd<CR>')
-
--- any-jump.vim
-vim.g.any_jump_disable_default_keybindings = 1
-utils.nnoremap('gj', '<CMD>AnyJump<CR>')
 
 -- far.vim
 utils.nnoremap('sp', '<CMD>Farp<CR>')
@@ -302,13 +270,6 @@ vim.g['far#mapping'] = {
 	replace_undo_all = 'U';
 	quit = 'q';
 }
-
--- vim-matchup
-vim.g.matchup_text_obj_enabled = 0
-vim.g.matchup_mappings_enabled = 1
-vim.g.matchup_override_vimtex = 1
-utils.xmap('a%', '<plug>(matchup-%)')
-utils.xmap('i%', '<plug>(matchup-%)')
 
 -- vim-surround
 utils.nmap('<LEADER>"', 'ysiW"')
@@ -382,16 +343,7 @@ utils.vnoremap('sL', '<CMD>HopLine<CR>')
 vim.g['suda#prompt'] = '(. > .) password please: '
 vim.g.suda_smart_edit = 1
 
--- asyncrun.vim
-vim.g.asyncrun_open = 6
-vim.g.asyncrun_rootmarks = {'.git', '.svn', '.root', '.project' }
-
--- asynctasks.vim
-vim.g.asynctasks_term_pos = 'floaterm_reuse'
-utils.nnoremap('<F6>', '<CMD>AsyncTask file-build<CR>')
 utils.nnoremap('<F7>', '<CMD>lua require(\'utils\').file_run()<CR>')
-utils.nnoremap('<LEADER><F6>', '<CMD>AsyncTask project-build<CR>')
-utils.nnoremap('<LEADER><F7>', '<CMD>AsyncTask project-run<CR>')
 
 -- gitsigns.nvim
 require('gitsigns').setup {
@@ -439,8 +391,6 @@ vim.g.indent_blankline_context_patterns = {
 
 -- nvim-telescope
 local actions = require('telescope.actions')
-require('telescope').load_extension('media_files')
-require('telescope').load_extension('project')
 require('telescope').load_extension('neoclip')
 require('telescope').setup {
   defaults = {
@@ -452,19 +402,8 @@ require('telescope').setup {
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
-        -- To disable a keymap, put [map] = false
-        -- So, to not map "<C-n>", just put
-        -- ["<c-x>"] = false,
         ["<esc>"] = actions.close,
-
-        -- Otherwise, just set the mapping to the function that you want it to be.
-        -- ["<C-i>"] = actions.select_horizontal,
-
-        -- Add up multiple actions
         ["<CR>"] = actions.select_default + actions.center
-
-        -- You can perform as many actions in a row as you like
-        -- ["<CR>"] = actions.select_default + actions.center + my_cool_custom_action,
       },
       n = {
         ["<C-j>"] = actions.move_selection_next,
@@ -472,16 +411,13 @@ require('telescope').setup {
         ["<space>"] = actions.toggle_selection,
         ["<V>"] = actions.toggle_all,
         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
-        -- ["<C-i>"] = my_cool_custom_action,
       }
     }
   },
   extensions = {
     media_files = {
-      -- filetypes whitelist
-      -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
-      filetypes = {"png", "webp", "jpg", "jpeg"},
-      find_cmd = "rg" -- find command (defaults to `fd`)
+      filetypes = {"png", "webp", "jpg", "jpeg", "pdf"},
+      find_cmd = "rg"
     }
   }
 }
@@ -596,12 +532,10 @@ cmp.setup {
     {name = "nvim_lsp"},
     {name = "nvim_lua"},
     {name = "vsnip"},
-    {name = "calc"},
-    {name = "spell"},
     {name = "emoji"},
     {name = "cmp_tabnine"},
-    { name = 'copilot' },
-    { max_item_count = 5 },
+    {name = 'copilot'},
+    {max_item_count = 5},
   },
   formatting = {
     format = require("lspkind").cmp_format({with_text = true, menu = ({
@@ -610,7 +544,6 @@ cmp.setup {
         nvim_lsp = "[LSP]",
         nvim_lua = "[Lua]",
         vsnip = "[Vsnip]",
-        calc = "[Calc]",
         emoji = "[Emoji]",
         cmp_tabnine = "[TabNine]",
         latex_symbols = "[Latex]"
@@ -704,67 +637,8 @@ vim.g.header_field_license_id = 'MIT'
 vim.g.header_field_modified_by = 0
 vim.g.header_field_modified_timestamp = 0
 
--- rnvimr
-vim.g.rnvimr_enable_picker = 1
-utils.nnoremap('<LEADER>R', '<CMD>RnvimrToggle<CR>')
-
--- nvim-reload
-utils.nnoremap('R', '<CMD>Reload<CR>')
-
 -- nvim-spectre
 utils.nnoremap('<LEADER>S', '<CMD>lua require(\'spectre\').open()<CR>')
-
--- symbols-outline.nvim
-vim.g.symbols_outline = {
-  highlight_hovered_item = true,
-  show_guides = true,
-  auto_preview = true,
-  position = 'right',
-  width = 25,
-  show_numbers = false,
-  show_relative_numbers = false,
-  show_symbol_details = true,
-  keymaps = { -- These keymaps can be a string or a table for multiple keys
-    close = {"<Esc>", "Q"},
-    goto_location = "<CR>",
-    focus_location = "o",
-    hover_symbol = "g;",
-    toggle_preview = "p",
-    rename_symbol = "gr",
-    code_actions = "ga",
-  },
-  lsp_blacklist = {},
-  symbol_blacklist = {},
-  symbols = {
-    File = {icon = "", hl = "TSURI"},
-    Module = {icon = "", hl = "TSNamespace"},
-    Namespace = {icon = "", hl = "TSNamespace"},
-    Package = {icon = "", hl = "TSNamespace"},
-    Class = {icon = "𝓒", hl = "TSType"},
-    Method = {icon = "ƒ", hl = "TSMethod"},
-    Property = {icon = "", hl = "TSMethod"},
-    Field = {icon = "", hl = "TSField"},
-    Constructor = {icon = "", hl = "TSConstructor"},
-    Enum = {icon = "ℰ", hl = "TSType"},
-    Interface = {icon = "ﰮ", hl = "TSType"},
-    Function = {icon = "", hl = "TSFunction"},
-    Variable = {icon = "", hl = "TSConstant"},
-    Constant = {icon = "", hl = "TSConstant"},
-    String = {icon = "𝓐", hl = "TSString"},
-    Number = {icon = "#", hl = "TSNumber"},
-    Boolean = {icon = "⊨", hl = "TSBoolean"},
-    Array = {icon = "", hl = "TSConstant"},
-    Object = {icon = "⦿", hl = "TSType"},
-    Key = {icon = "🔐", hl = "TSType"},
-    Null = {icon = "NULL", hl = "TSType"},
-    EnumMember = {icon = "", hl = "TSField"},
-    Struct = {icon = "𝓢", hl = "TSType"},
-    Event = {icon = "🗲", hl = "TSType"},
-    Operator = {icon = "+", hl = "TSOperator"},
-    TypeParameter = {icon = "𝙏", hl = "TSParameter"}
-  }
-}
-utils.nnoremap('T', '<CMD>SymbolsOutline<CR>')
 
 -- nvim-workbench
 vim.g.workbench_storage_path = os.getenv("HOME") .. "/Documents/Notes/"
@@ -800,16 +674,6 @@ require('nvim-comment-frame').setup({
     keymap = '<leader>cc',
     multiline_keymap = '<leader>C',
 })
-
--- auto-session
--- require('auto-session').setup({
---   log_level = 'info',
---   auto_session_enable_last_session = true,
---   auto_session_root_dir = vim.fn.stdpath('data').."/sessions/",
---   auto_session_enabled = false,
---   auto_save_enabled = true,
---   auto_restore_enabled = true,
--- })
 
 -- marks.nvim
 require'marks'.setup {
@@ -859,48 +723,12 @@ utils.nnoremap('<LEADER>rg', '<CMD>FloatermNew --autoclose=1 --width=0.8 --heigh
 
 
 -- colorscheme
--- vim.cmd [[colorscheme solarized8]]
-
-require('onenord').setup({
-  borders = true, -- Split window borders
-  italics = {
-    comments = true, -- Italic comments
-    strings = false, -- Italic strings
-    keywords = true, -- Italic keywords
-    functions = false, -- Italic functions
-    variables = false, -- Italic variables
-  },
-  disable = {
-    background = false, -- Disable setting the background color
-    cursorline = false, -- Disable the cursorline
-    eob_lines = true, -- Hide the end-of-buffer lines
-  },
-  custom_highlights = {}, -- Overwrite default highlight groups
-})
--- vim.cmd [[colorscheme onenord]]
-
--- github
--- require('github-theme').setup({
---   theme_style = 'light_default',
--- }
--- )
-
 -- onedark
 vim.g.onedark_disable_toggle_style = true
--- require('onedark').setup()
+require('onedark').setup()
 
 -- gruvbox8
-vim.cmd [[colorscheme gruvbox8]]
+-- vim.cmd [[colorscheme gruvbox8]]
 
 -- deus
 -- vim.cmd [[colorscheme deus]]
-
--- gruvbox
-vim.g.gruvbox_italic = 1
-vim.g.gruvbox_italicize_strings = 1
-vim.g.gruvbox_invert_signs = 1
-vim.g.gruvbox_invert_indent_guides = 1
-vim.g.gruvbox_invert_tabline = 1
--- vim.g.gruvbox_improved_strings = 1
-vim.g.gruvbox_improved_warnings = 1
--- vim.cmd('colorscheme gruvbox')

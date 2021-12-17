@@ -111,3 +111,6 @@ utils.nnoremap('<LEADER>tj', '<CMD>+tabmove<CR>')
 
 -- Make terminal exiting easy
 utils.tnoremap('<ESC>', '<C-\\><C-n>')
+
+-- Run file
+utils.nnoremap('<F7>', '<CMD>lua require(\'utils\').file_run()<CR>')

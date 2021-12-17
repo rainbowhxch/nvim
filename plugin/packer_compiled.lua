@@ -79,38 +79,10 @@ _G.packer_plugins = {
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/accelerated-jk",
     url = "https://github.com/rhysd/accelerated-jk"
   },
-  ["any-jump.vim"] = {
-    commands = { "AnyJump" },
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/opt/any-jump.vim",
-    url = "https://github.com/pechorin/any-jump.vim"
-  },
-  ["asyncrun.extra"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/asyncrun.extra",
-    url = "https://github.com/skywind3000/asyncrun.extra"
-  },
-  ["asyncrun.vim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/asyncrun.vim",
-    url = "https://github.com/skywind3000/asyncrun.vim"
-  },
-  ["asynctasks.vim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/asynctasks.vim",
-    url = "https://github.com/skywind3000/asynctasks.vim"
-  },
   ["barbar.nvim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/barbar.nvim",
     url = "https://github.com/romgrk/barbar.nvim"
-  },
-  ["beacon.nvim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/beacon.nvim",
-    url = "https://github.com/danilamihailov/beacon.nvim"
   },
   ["bullets.vim"] = {
     loaded = true,
@@ -121,11 +93,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/cmp-buffer",
     url = "https://github.com/hrsh7th/cmp-buffer"
-  },
-  ["cmp-calc"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/cmp-calc",
-    url = "https://github.com/hrsh7th/cmp-calc"
   },
   ["cmp-copilot"] = {
     loaded = true,
@@ -167,11 +134,6 @@ _G.packer_plugins = {
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/codi.vim",
     url = "https://github.com/metakirby5/codi.vim"
   },
-  ["colorbuddy.nvim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/colorbuddy.nvim",
-    url = "https://github.com/tjdevries/colorbuddy.nvim"
-  },
   ["copilot.vim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/copilot.vim",
@@ -187,14 +149,12 @@ _G.packer_plugins = {
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/dial.nvim",
     url = "https://github.com/monaqa/dial.nvim"
   },
-  ["echodoc.vim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/echodoc.vim",
-    url = "https://github.com/Shougo/echodoc.vim"
-  },
   ["far.vim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/far.vim",
+    commands = { "Farp" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/ch/.local/share/nvim/site/pack/packer/opt/far.vim",
     url = "https://github.com/brooth/far.vim"
   },
   ["friendly-snippets"] = {
@@ -207,20 +167,10 @@ _G.packer_plugins = {
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/galaxyline.nvim",
     url = "https://github.com/glepnir/galaxyline.nvim"
   },
-  ["github-nvim-theme"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/github-nvim-theme",
-    url = "https://github.com/projekt0n/github-nvim-theme"
-  },
   ["gitsigns.nvim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
-  },
-  ["gruvbox.nvim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/gruvbox.nvim",
-    url = "https://github.com/ellisonleao/gruvbox.nvim"
   },
   ["hop.nvim"] = {
     loaded = true,
@@ -251,11 +201,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/lua-dev.nvim",
     url = "https://github.com/folke/lua-dev.nvim"
-  },
-  ["lush.nvim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/lush.nvim",
-    url = "https://github.com/rktjmp/lush.nvim"
   },
   ["markdown-preview.nvim"] = {
     commands = { "MarkdownPreview" },
@@ -355,11 +300,6 @@ _G.packer_plugins = {
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/nvim-notify",
     url = "https://github.com/rcarriga/nvim-notify"
   },
-  ["nvim-reload"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/nvim-reload",
-    url = "https://github.com/famiu/nvim-reload"
-  },
   ["nvim-spectre"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/nvim-spectre",
@@ -420,11 +360,6 @@ _G.packer_plugins = {
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/onedark.nvim",
     url = "https://github.com/monsonjeremy/onedark.nvim"
   },
-  ["onenord.nvim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/onenord.nvim",
-    url = "https://github.com/rmehri01/onenord.nvim"
-  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/packer.nvim",
@@ -445,21 +380,6 @@ _G.packer_plugins = {
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/popfix",
     url = "https://github.com/RishabhRD/popfix"
   },
-  rnvimr = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/rnvimr",
-    url = "https://github.com/kevinhwang91/rnvimr"
-  },
-  sniprun = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/sniprun",
-    url = "https://github.com/michaelb/sniprun"
-  },
-  ["splitjoin.vim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/splitjoin.vim",
-    url = "https://github.com/AndrewRadev/splitjoin.vim"
-  },
   ["sqlite.lua"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/sqlite.lua",
@@ -469,26 +389,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/suda.vim",
     url = "https://github.com/lambdalisue/suda.vim"
-  },
-  ["symbols-outline.nvim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/symbols-outline.nvim",
-    url = "https://github.com/simrat39/symbols-outline.nvim"
-  },
-  ["telescope-dap.nvim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/telescope-dap.nvim",
-    url = "https://github.com/nvim-telescope/telescope-dap.nvim"
-  },
-  ["telescope-media-files.nvim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/telescope-media-files.nvim",
-    url = "https://github.com/nvim-telescope/telescope-media-files.nvim"
-  },
-  ["telescope-project.nvim"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/telescope-project.nvim",
-    url = "https://github.com/nvim-telescope/telescope-project.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,
@@ -562,34 +462,17 @@ _G.packer_plugins = {
     url = "https://github.com/michaeljsmith/vim-indent-object"
   },
   ["vim-markdown-toc"] = {
+    commands = { "GenTocGFM" },
     loaded = false,
     needs_bufread = true,
     only_cond = false,
     path = "/home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc",
     url = "https://github.com/mzlogin/vim-markdown-toc"
   },
-  ["vim-matchup"] = {
-    after_files = { "/home/ch/.local/share/nvim/site/pack/packer/opt/vim-matchup/after/plugin/matchit.vim" },
-    loaded = false,
-    needs_bufread = true,
-    only_cond = false,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/opt/vim-matchup",
-    url = "https://github.com/andymass/vim-matchup"
-  },
   ["vim-peekaboo"] = {
     loaded = true,
     path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-peekaboo",
     url = "https://github.com/junegunn/vim-peekaboo"
-  },
-  ["vim-repeat"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-repeat",
-    url = "https://github.com/tpope/vim-repeat"
-  },
-  ["vim-solarized8"] = {
-    loaded = true,
-    path = "/home/ch/.local/share/nvim/site/pack/packer/start/vim-solarized8",
-    url = "https://github.com/lifepillar/vim-solarized8"
   },
   ["vim-surround"] = {
     loaded = true,
@@ -641,27 +524,27 @@ time([[Defining packer_plugins]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file AnyJump lua require("packer.load")({'any-jump.vim'}, { cmd = "AnyJump", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file UndotreeToggle lua require("packer.load")({'undotree'}, { cmd = "UndotreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file MarkdownPreview lua require("packer.load")({'markdown-preview.nvim'}, { cmd = "MarkdownPreview", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file HeaderguardAdd lua require("packer.load")({'vim-headerguard'}, { cmd = "HeaderguardAdd", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file GenTocGFM lua require("packer.load")({'vim-markdown-toc'}, { cmd = "GenTocGFM", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file UndotreeToggle lua require("packer.load")({'undotree'}, { cmd = "UndotreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Farp lua require("packer.load")({'far.vim'}, { cmd = "Farp", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
 time([[Defining lazy-load commands]], false)
 
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-table-mode', 'markdown-preview.nvim', 'vim-markdown-toc'}, { ft = "markdown" }, _G.packer_plugins)]]
 vim.cmd [[au FileType tex ++once lua require("packer.load")({'vimtex'}, { ft = "tex" }, _G.packer_plugins)]]
 vim.cmd [[au FileType cpp ++once lua require("packer.load")({'vim-headerguard'}, { ft = "cpp" }, _G.packer_plugins)]]
 vim.cmd [[au FileType c ++once lua require("packer.load")({'vim-headerguard'}, { ft = "c" }, _G.packer_plugins)]]
+vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-markdown-toc', 'vim-table-mode', 'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
-  -- Event lazy-loads
-time([[Defining lazy-load event autocommands]], true)
-vim.cmd [[au VimEnter * ++once lua require("packer.load")({'vim-matchup'}, { event = "VimEnter *" }, _G.packer_plugins)]]
-time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]
+time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]], true)
+vim.cmd [[source /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]]
+time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]], false)
 time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/cls.vim]], true)
 vim.cmd [[source /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/cls.vim]]
 time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/cls.vim]], false)
@@ -671,9 +554,6 @@ time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/
 time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tikz.vim]], true)
 vim.cmd [[source /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tikz.vim]]
 time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vimtex/ftdetect/tikz.vim]], false)
-time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]], true)
-vim.cmd [[source /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]]
-time([[Sourcing ftdetect script at: /home/ch/.local/share/nvim/site/pack/packer/opt/vim-markdown-toc/ftdetect/markdown.vim]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end
 
