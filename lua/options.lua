@@ -54,6 +54,7 @@ local function load_options()
     tabstop        = 4;
     softtabstop    = 4;
     expandtab      = true;
+    shiftround      = true;
     list           = true;
     listchars      = "tab:▸\\ ,trail:▫";
     conceallevel   = 2;
@@ -65,7 +66,7 @@ local function load_options()
     sessionoptions = "blank,buffers,curdir,folds,help,options,tabpages,winsize,resize,winpos,terminal";
     foldmethod     = "indent";
     foldlevel      = 99;
-    mouse          = "n";
+    mouse          = "a";
     laststatus     = 2;
     autochdir      = true;
     lazyredraw     = true;
@@ -88,6 +89,34 @@ local function load_options()
   bind_option(options);
 end
 
+local function disable_buildin_plugins()
+  local disabled_built_ins = {
+      "netrw",
+      "netrwPlugin",
+      "netrwSettings",
+      "netrwFileHandlers",
+      "gzip",
+      "zip",
+      "zipPlugin",
+      "tar",
+      "tarPlugin",
+      "getscript",
+      "getscriptPlugin",
+      "vimball",
+      "vimballPlugin",
+      "2html_plugin",
+      "logipat",
+      "rrhelper",
+      "spellfile_plugin",
+      "matchit"
+  }
+
+  for _, plugin in pairs(disabled_built_ins) do
+      vim.g["loaded_" .. plugin] = 1
+  end
+end
+
 vim.api.nvim_command('filetype plugin indent on')
 vim.api.nvim_command('syntax enable')
 load_options();
+disable_buildin_plugins();

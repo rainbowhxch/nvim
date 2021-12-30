@@ -16,7 +16,7 @@ require('packer').startup(function(use)
   use { 'windwp/nvim-autopairs' }
   use { 'lukas-reineke/indent-blankline.nvim' }
   use { 'glepnir/dashboard-nvim' }
-  use { 'glepnir/galaxyline.nvim', requires = { 'yamatsum/nvim-nonicons' } }
+  use { 'glepnir/galaxyline.nvim' }
   use { 'romgrk/barbar.nvim' }
   use { 'aklt/plantuml-syntax' }
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -24,21 +24,22 @@ require('packer').startup(function(use)
   use { 'windwp/nvim-ts-autotag', requires = {'nvim-treesitter/nvim-treesitter'} }
   use { 'JoosepAlviste/nvim-ts-context-commentstring', requires = {'nvim-treesitter/nvim-treesitter'} }
   use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = {'nvim-treesitter/nvim-treesitter'} }
-  use { 'romgrk/nvim-treesitter-context', requires = {'nvim-treesitter/nvim-treesitter'} }
+  -- use { 'romgrk/nvim-treesitter-context', requires = {'nvim-treesitter/nvim-treesitter'} }
   use { 'norcalli/nvim-colorizer.lua' }
-  use { 'wfxr/minimap.vim' }
+  use { 'wfxr/minimap.vim', cmd = {'MinimapToggle'} }
   use { 'karb94/neoscroll.nvim' }
   use { 'kevinhwang91/nvim-hlslens' }
   use { 'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'} }
   -- use { 'danilamihailov/beacon.nvim' }
 
   -- reading mode
+  use { 'folke/zen-mode.nvim' }
   use { 'junegunn/limelight.vim' }
 
   -- functional
   use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}} }
   use { 'kyazdani42/nvim-tree.lua', requires = {'kyazdani42/nvim-web-devicons'} }
-  use {'iamcco/markdown-preview.nvim', ft = {'markdown'}, run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
+  use { 'iamcco/markdown-preview.nvim', ft = {'markdown'}, run = 'cd app && yarn install', cmd = 'MarkdownPreview' }
   use { 'mzlogin/vim-markdown-toc', ft = {'markdown'}, cmd = {'GenTocGFM'} }
   use { 'dhruvasagar/vim-table-mode', ft = {'markdown'} }
   use { 'lervag/vimtex', ft = {'tex'} }
@@ -53,7 +54,6 @@ require('packer').startup(function(use)
   use { 'drmikehenry/vim-headerguard', ft = {'c', 'cpp'}, cmd = {'HeaderguardAdd'} }
   use { 'mbbill/undotree', cmd = {'UndotreeToggle'} }
   use { 'rhysd/accelerated-jk' }
-  use { 'monaqa/dial.nvim' }
   use { 'metakirby5/codi.vim' }
   use { 'mfussenegger/nvim-dap' }
   use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
@@ -64,12 +64,10 @@ require('packer').startup(function(use)
   use { 'alpertuna/vim-header' }
   use { 'windwp/nvim-spectre' }
   use { 'marcushwz/nvim-workbench' }
-  use { 'haringsrob/nvim_context_vt' }
   use { 'dkarter/bullets.vim' }
   use { 'triglav/vim-visual-increment' }
   use { 'mg979/vim-visual-multi' }
   use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
-  use { 'folke/zen-mode.nvim' }
   use { 's1n7ax/nvim-comment-frame' }
   use { "chentau/marks.nvim" }
   use { "AckslD/nvim-neoclip.lua", requires = {'tami5/sqlite.lua', module = 'sqlite'} }
@@ -78,6 +76,9 @@ require('packer').startup(function(use)
   use { "hrsh7th/cmp-copilot" }
   use { "rcarriga/nvim-notify" }
   use { "numToStr/FTerm.nvim" }
+  use { "rcarriga/vim-ultest", requires = {"vim-test/vim-test"}, run = ":UpdateRemotePlugins" }
+  use { 'liuchengxu/vista.vim' }
+  use { 'ray-x/starry.nvim' }
 
   -- lsp
   use { 'neovim/nvim-lspconfig' }
@@ -97,7 +98,7 @@ require('packer').startup(function(use)
       { "hrsh7th/cmp-nvim-lua" },
       { "hrsh7th/cmp-vsnip" },
       { "hrsh7th/cmp-emoji" },
-      { "tzachar/cmp-tabnine", run = "./install.sh", },
+      { "tzachar/cmp-tabnine", run = "./install.sh" },
     }
   }
   use { 'hrsh7th/vim-vsnip' }
@@ -221,7 +222,7 @@ require('nvim_comment').setup({
 })
 
 -- galaxyline.nvim
-require('bubbles')
+require('eviline')
 
 -- accelerated-jk
 utils.nmap('j', '<Plug>(accelerated_jk_gj)')
@@ -378,10 +379,11 @@ require('gitsigns').setup {
 
 -- indentLine
 vim.g.indent_blankline_buftype_exclude = {'terminal'}
-vim.g.indent_blankline_filetype_exclude = {'help', 'startify', 'dashboard', 'packer', 'neogitstatus'}
+vim.g.indent_blankline_filetype_exclude = {'help', 'startify', 'dashboard', 'packer', 'neogitstatus', ''}
 vim.g.indent_blankline_char = '▏'
+vim.g.indent_blankline_context_char = '┃'
+-- vim.g.indent_blankline_char_list = {'|', '¦', '┆', '┊'}
 vim.g.indent_blankline_use_treesitter = true
-vim.g.indent_blankline_show_trailing_blankline_indent = false
 vim.g.indent_blankline_show_current_context = true
 vim.g.indent_blankline_context_patterns = {
   'class', 'return', 'function', 'method', '^if', '^while', 'jsx_element', '^for', '^object', '^table', 'block',
@@ -435,7 +437,10 @@ utils.nnoremap('<LEADER>fp', '<CMD>Telescope media_files<CR>')
 
 -- nvim-tree
 utils.nnoremap('<LEADER>n', '<CMD>NvimTreeToggle<CR>')
-require'nvim-tree'.setup()
+require'nvim-tree'.setup({
+  auto_close          = true,
+  update_cwd          = true,
+})
 
 -- dashboard-nvim
 vim.g.dashboard_default_executive ='telescope'
@@ -461,15 +466,8 @@ vim.g.dashboard_custom_header = {
 vim.g.dashboard_custom_section = {
   a = {description = {' Find File          '}, command = 'Telescope find_files'},
   b = {description = {' Recently Used Files'}, command = 'Telescope oldfiles'},
-  c = {description = {' Load Last Session  '}, command = 'SessionLoad'},
-  d = {description = {' Find Word          '}, command = 'Telescope live_grep'},
-  e = {description = {' Settings           '}, command = ':e ~/.config/nvim/init.lua'}
 }
-vim.g.dashboard_custom_footer = { "Welcome to RainbowCh's Nvim!" }
-
--- dial.nvim
-utils.nmap('<C-a>', '<Plug>(dial-increment)')
-utils.nmap('<C-x>', '<Plug>(dial-decrement)')
+vim.g.dashboard_custom_footer = { "Hello, pete" }
 
 -- nvim-cmp
 vim.o.completeopt = "menu,menuone,noselect"
@@ -721,14 +719,21 @@ utils.tnoremap('<F1>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
 utils.nnoremap('<LEADER>gi', '<CMD>FloatermNew --autoclose=1 lazygit<CR>')
 utils.nnoremap('<LEADER>rg', '<CMD>FloatermNew --autoclose=1 --width=0.8 --height=0.8 rg<CR>')
 
+-- vista.vim
+vim.g.vista_icon_indent = {"╰─▸ ", "├─▸ "}
+vim.g.vista_default_executive = 'nvim_lsp'
+vim.g['vista#renderer#enable_icon'] = 1
 
 -- colorscheme
 -- onedark
 vim.g.onedark_disable_toggle_style = true
-require('onedark').setup()
+-- require('onedark').setup()
 
 -- gruvbox8
 -- vim.cmd [[colorscheme gruvbox8]]
 
 -- deus
 -- vim.cmd [[colorscheme deus]]
+
+-- starry.nvim
+vim.cmd [[colorscheme earlysummer]]

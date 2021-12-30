@@ -13,10 +13,10 @@
 - 🌋 Debug (using [nvim-dap](https://github.com/mfussenegger/nvim-dap))
 - 🎹 Two keyboard lawyer in **Insert Mode**: `qwerty` and `colemak`
 - 📢 `coc` or `built-in` LSP
-- 🚠 Many other useful stuff, check the [plugins](https://github.com/rainbowhxch/nvim/blob/lua/lua/plugins.lua#L709-L791)
+- 🚠 Many other useful stuff, check the [plugins](https://github.com/rainbowhxch/nvim/blob/lua/lua/plugins.lua)
 
 # Lua
-A few days ago, I just changed from `init.vim` to `init.lua`, which's in the `lua` branch. It works well and is faster and more modular than Vimscript.
+A few days ago, I just changed from `init.vim` to `init.lua`, check the `lua` branch.
 
 # LSP
 Now this configuration contains two different LSP clients, built-in LSP and coc. Coc is in `master` branch, and `lua` branch contains another one.

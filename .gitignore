@@ -4,3 +4,4 @@ autoload/
 .netrwhist
 ftplugin/markdown.vim
 problem-list.md
+plugin/packer_compiled.lua
