@@ -88,6 +88,10 @@ function M.smap_with_expr(lhs, rhs)
   M.map_with_expr('s', lhs, rhs)
 end
 
+function M.nnoremap_with_expr(lhs, rhs)
+  M.noremap_with_expr('n', lhs, rhs)
+end
+
 function M.inoremap_with_expr(lhs, rhs)
   M.noremap_with_expr('i', lhs, rhs)
 end

@@ -15,9 +15,10 @@ require('packer').startup(function(use)
   -- decoration
   use { 'windwp/nvim-autopairs' }
   use { 'lukas-reineke/indent-blankline.nvim' }
-  use { 'glepnir/dashboard-nvim' }
-  use { 'glepnir/galaxyline.nvim' }
-  use { 'romgrk/barbar.nvim' }
+  -- use { 'glepnir/dashboard-nvim' }
+  -- use { 'glepnir/galaxyline.nvim' }
+  use { 'nvim-lualine/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons'} }
+  use { 'romgrk/barbar.nvim', requires = {'kyazdani42/nvim-web-devicons'} }
   use { 'aklt/plantuml-syntax' }
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use { 'p00f/nvim-ts-rainbow', requires = {'nvim-treesitter/nvim-treesitter'} }
@@ -33,8 +34,7 @@ require('packer').startup(function(use)
   -- use { 'danilamihailov/beacon.nvim' }
 
   -- reading mode
-  use { 'folke/zen-mode.nvim' }
-  use { 'junegunn/limelight.vim' }
+  use { 'folke/zen-mode.nvim', requires = {'folke/twilight.nvim'} }
 
   -- functional
   use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}} }
@@ -44,13 +44,10 @@ require('packer').startup(function(use)
   use { 'dhruvasagar/vim-table-mode', ft = {'markdown'} }
   use { 'lervag/vimtex', ft = {'tex'} }
   use { 'junegunn/vim-easy-align' }
-  use { 'phaazon/hop.nvim' }
   use { 'MattesGroeger/vim-bookmarks' }
   use { 'lambdalisue/suda.vim' }
-  use { 'voldikss/vim-floaterm' }
   use { 'tpope/vim-surround' }
   use { 'terrortylor/nvim-comment' }
-  use { 'brooth/far.vim', cmd = {'Farp'} }
   use { 'drmikehenry/vim-headerguard', ft = {'c', 'cpp'}, cmd = {'HeaderguardAdd'} }
   use { 'mbbill/undotree', cmd = {'UndotreeToggle'} }
   use { 'rhysd/accelerated-jk' }
@@ -59,7 +56,6 @@ require('packer').startup(function(use)
   use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
   use { 'theHamsta/nvim-dap-virtual-text' }
   use { 'kevinhwang91/nvim-bqf' }
-  use { 'kkoomen/vim-doge', run = ':call doge#install()' }
   use { 'michaeljsmith/vim-indent-object' }
   use { 'alpertuna/vim-header' }
   use { 'windwp/nvim-spectre' }
@@ -72,13 +68,19 @@ require('packer').startup(function(use)
   use { "chentau/marks.nvim" }
   use { "AckslD/nvim-neoclip.lua", requires = {'tami5/sqlite.lua', module = 'sqlite'} }
   use { "junegunn/vim-peekaboo" }
-  use { "github/copilot.vim" }
-  use { "hrsh7th/cmp-copilot" }
   use { "rcarriga/nvim-notify" }
-  use { "numToStr/FTerm.nvim" }
   use { "rcarriga/vim-ultest", requires = {"vim-test/vim-test"}, run = ":UpdateRemotePlugins" }
-  use { 'liuchengxu/vista.vim' }
-  use { 'ray-x/starry.nvim' }
+  use { "danymat/neogen", requires = "nvim-treesitter/nvim-treesitter" }
+  use { "ThePrimeagen/refactoring.nvim", requires = {{"nvim-lua/plenary.nvim"}, {"nvim-treesitter/nvim-treesitter"}} }
+  use { "Julian/vim-textobj-variable-segment", requires = {"kana/vim-textobj-user"} }
+  use { 'ggandor/lightspeed.nvim' }
+  use { 'akinsho/toggleterm.nvim' }
+  use { "Badhi/nvim-treesitter-cpp-tools", requires = {{"nvim-treesitter/nvim-treesitter"}} }
+  use { 'ray-x/go.nvim' }
+  use { 'olimorris/onedarkpro.nvim' }
+  use { 'natecraddock/workspaces.nvim' }
+  use { 'natecraddock/sessions.nvim' }
+  use { 'RRethy/nvim-treesitter-endwise' }
 
   -- lsp
   use { 'neovim/nvim-lspconfig' }
@@ -98,17 +100,25 @@ require('packer').startup(function(use)
       { "hrsh7th/cmp-nvim-lua" },
       { "hrsh7th/cmp-vsnip" },
       { "hrsh7th/cmp-emoji" },
+      { "hrsh7th/cmp-copilot" },
+      { "hrsh7th/cmp-cmdline" },
+      { 'uga-rosa/cmp-dictionary' },
       { "tzachar/cmp-tabnine", run = "./install.sh" },
+      { 'andersevenrud/cmp-tmux' },
     }
   }
+  use { "github/copilot.vim" }
   use { 'hrsh7th/vim-vsnip' }
   use { "rafamadriz/friendly-snippets" }
-  use { 'hrsh7th/vim-vsnip-integ' }
+  use { 'liuchengxu/vista.vim' }
 
   -- themes
   use { 'monsonjeremy/onedark.nvim' }
-  use { 'ajmwagar/vim-deus' }
+  -- use { 'ajmwagar/vim-deus' }
   use { "lifepillar/vim-gruvbox8" }
+  use { "projekt0n/github-nvim-theme" }
+  use { 'folke/tokyonight.nvim' }
+  use { 'theniceboy/nvim-deus' }
 
   if packer_bootstrap then
     require('packer').sync()
@@ -117,9 +127,37 @@ end)
 
 -- nvim-autopairs
 require('nvim-autopairs').setup()
+-- add space rule to autopairs
+local npairs = require'nvim-autopairs'
+local Rule   = require'nvim-autopairs.rule'
+npairs.add_rules {
+  Rule(' ', ' ')
+    :with_pair(function (opts)
+      local pair = opts.line:sub(opts.col - 1, opts.col)
+      return vim.tbl_contains({ '()', '[]', '{}' }, pair)
+    end),
+  Rule('( ', ' )')
+      :with_pair(function() return false end)
+      :with_move(function(opts)
+          return opts.prev_char:match('.%)') ~= nil
+      end)
+      :use_key(')'),
+  Rule('{ ', ' }')
+      :with_pair(function() return false end)
+      :with_move(function(opts)
+          return opts.prev_char:match('.%}') ~= nil
+      end)
+      :use_key('}'),
+  Rule('[ ', ' ]')
+      :with_pair(function() return false end)
+      :with_move(function(opts)
+          return opts.prev_char:match('.%]') ~= nil
+      end)
+      :use_key(']')
+}
 
 -- barbar.nvim
-utils.nnoremap('sb', '<Cmd>BufferPick<CR>')
+utils.nnoremap(';b', '<Cmd>BufferPick<CR>')
 utils.nnoremap(']b', '<Cmd>BufferNext<CR>')
 utils.nnoremap('[b', '<Cmd>BufferPrevious<CR>')
 utils.nnoremap('H', '<Cmd>BufferClose<CR>')
@@ -136,6 +174,7 @@ require'nvim-treesitter.configs'.setup {
   },
   rainbow = {
     enable = true,
+    extended_mode = true,
   },
   autotag = {
     enable = true,
@@ -184,14 +223,8 @@ require'nvim-treesitter.configs'.setup {
   matchup = {
     enable = true;
   },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = '<CR>',
-      scope_incremental = '<CR>',
-      node_incremental = '<TAB>',
-      node_decremental = '<S-TAB>',
-    },
+  endwise = {
+      enable = true,
   },
 }
 
@@ -221,8 +254,13 @@ require('nvim_comment').setup({
   operator_mapping = "<LEADER>cc"
 })
 
--- galaxyline.nvim
-require('eviline')
+-- lualine.nvim
+require('bubbles')
+-- require('lualine').setup {
+--   options = {
+--     theme = 'tokyonight'
+--   }
+-- }
 
 -- accelerated-jk
 utils.nmap('j', '<Plug>(accelerated_jk_gj)')
@@ -239,38 +277,6 @@ vim.cmd([[
 
 -- vim-headerguard.vim
 utils.nnoremap('<LEADER>ah', '<CMD>HeaderguardAdd<CR>')
-
--- far.vim
-utils.nnoremap('sp', '<CMD>Farp<CR>')
-vim.g['far#default_mappings'] = 1
-vim.g['far#enable_undo'] = 1
-vim.g['far#mapping'] = {
-	exclude = '';
-	include = '';
-	toggle_exclude = '';
-	exclude_all = '';
-	include_all = '';
-	toggle_exclude_all = '';
-	expand = '';
-	collapse = '';
-	toggle_expand = '';
-	expand_all = '';
-	collapse_all = '';
-	toggle_expand_all = '';
-	stoggle_exclude = 'e';
-	stoggle_exclude_all = 'E';
-	jump_to_source = '<CR>';
-	open_preview = 'p';
-	close_preview = 'P';
-	preview_scroll_up = '<C-k>';
-	preview_scroll_down = '<C-j>';
-	stoggle_expand = 'za';
-	stoggle_expand_all = 'zA';
-	replace_do = 'r';
-	replace_undo = 'u';
-	replace_undo_all = 'U';
-	quit = 'q';
-}
 
 -- vim-surround
 utils.nmap('<LEADER>"', 'ysiW"')
@@ -331,19 +337,10 @@ vim.g.table_mode_corner = '|'
 utils.nmap('<LEADER>al', '<Plug>(EasyAlign)')
 utils.xmap('<LEADER>al', '<Plug>(EasyAlign)')
 
--- hop.nvim
-require'hop'.setup()
--- sf{char} to move to {char}
-utils.nnoremap('sf', '<CMD>HopChar1<CR>')
-utils.vnoremap('sf', '<CMD>HopChar1<CR>')
--- Move to line
-utils.nnoremap('sL', '<CMD>HopLine<CR>')
-utils.vnoremap('sL', '<CMD>HopLine<CR>')
-
 -- suda.vim
 vim.g['suda#prompt'] = '(. > .) password please: '
-vim.g.suda_smart_edit = 1
 
+-- custom file_run function
 utils.nnoremap('<F7>', '<CMD>lua require(\'utils\').file_run()<CR>')
 
 -- gitsigns.nvim
@@ -353,28 +350,17 @@ require('gitsigns').setup {
     change       = {hl = 'GitSignsChange', text = '▎', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
     delete       = {hl = 'GitSignsDelete', text = '契', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
     topdelete    = {hl = 'GitSignsDelete', text = '契', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-    changedelete = {hl = 'GitSignsChange', text = '▎', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
   },
-  numhl = false,
-  linehl = false,
   keymaps = {
-    -- Default keymap options
     noremap = true,
     buffer = true,
-
     ['n ]g'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'"},
     ['n [g'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_hunk()<CR>'"},
-
     -- Text objects
     ['o ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
     ['x ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>'
   },
-  watch_index = {
-    interval = 1000
-  },
-  sign_priority = 6,
-  update_debounce = 100,
-  status_formatter = nil, -- Use default
 }
 
 -- indentLine
@@ -382,6 +368,7 @@ vim.g.indent_blankline_buftype_exclude = {'terminal'}
 vim.g.indent_blankline_filetype_exclude = {'help', 'startify', 'dashboard', 'packer', 'neogitstatus', ''}
 vim.g.indent_blankline_char = '▏'
 vim.g.indent_blankline_context_char = '┃'
+-- vim.g.indent_blankline_space_char_blankline = ' '
 -- vim.g.indent_blankline_char_list = {'|', '¦', '┆', '┊'}
 vim.g.indent_blankline_use_treesitter = true
 vim.g.indent_blankline_show_current_context = true
@@ -394,6 +381,7 @@ vim.g.indent_blankline_context_patterns = {
 -- nvim-telescope
 local actions = require('telescope.actions')
 require('telescope').load_extension('neoclip')
+require('telescope').load_extension("workspaces")
 require('telescope').setup {
   defaults = {
     prompt_prefix = " ",
@@ -429,6 +417,7 @@ utils.nnoremap('<LEADER>fb', '<CMD>Telescope buffers<CR>')
 utils.nnoremap('<LEADER>fc', '<CMD>Telescope colorscheme<CR>')
 utils.nnoremap('<LEADER>fs', '<CMD>Telescope current_buffer_fuzzy_find<CR>')
 utils.nnoremap('<LEADER>fS', '<CMD>Telescope grep_string<CR>')
+utils.nnoremap('<LEADER>fw', '<CMD>Telescope workspaces<CR>')
 utils.nnoremap('<LEADER>ft', '<CMD>Telescope tags<CR>')
 utils.nnoremap('<LEADER>fm', '<CMD>Telescope marks<CR>')
 utils.nnoremap('<LEADER>fo', '<CMD>Telescope oldfiles<CR>')
@@ -437,37 +426,37 @@ utils.nnoremap('<LEADER>fp', '<CMD>Telescope media_files<CR>')
 
 -- nvim-tree
 utils.nnoremap('<LEADER>n', '<CMD>NvimTreeToggle<CR>')
+vim.g.nvim_tree_quit_on_open = 1
 require'nvim-tree'.setup({
   auto_close          = true,
-  update_cwd          = true,
 })
 
 -- dashboard-nvim
-vim.g.dashboard_default_executive ='telescope'
-vim.g.dashboard_custom_header = {
-    '',
-    '⡿⠋⠄⣀⣀⣤⣴⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣌⠻⣿⣿',
-    '⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠹⣿',
-    '⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠹',
-    '⣿⣿⡟⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡛⢿⣿⣿⣿⣮⠛⣿⣿⣿⣿⣿⣿⡆',
-    '⡟⢻⡇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣣⠄⡀⢬⣭⣻⣷⡌⢿⣿⣿⣿⣿⣿',
-    '⠃⣸⡀⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠈⣆⢹⣿⣿⣿⡈⢿⣿⣿⣿⣿',
-    '⠄⢻⡇⠄⢛⣛⣻⣿⣿⣿⣿⣿⣿⣿⣿⡆⠹⣿⣆⠸⣆⠙⠛⠛⠃⠘⣿⣿⣿⣿',
-    '⠄⠸⣡⠄⡈⣿⣿⣿⣿⣿⣿⣿⣿⠿⠟⠁⣠⣉⣤⣴⣿⣿⠿⠿⠿⡇⢸⣿⣿⣿',
-    '⠄⡄⢿⣆⠰⡘⢿⣿⠿⢛⣉⣥⣴⣶⣿⣿⣿⣿⣻⠟⣉⣤⣶⣶⣾⣿⡄⣿⡿⢸',
-    '⠄⢰⠸⣿⠄⢳⣠⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣼⣿⣿⣿⣿⣿⣿⡇⢻⡇⢸',
-    '⢷⡈⢣⣡⣶⠿⠟⠛⠓⣚⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⢸⠇⠘',
-    '⡀⣌⠄⠻⣧⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠛⠛⠛⢿⣿⣿⣿⣿⣿⡟⠘⠄⠄',
-    '⣷⡘⣷⡀⠘⣿⣿⣿⣿⣿⣿⣿⣿⡋⢀⣠⣤⣶⣶⣾⡆⣿⣿⣿⠟⠁⠄⠄⠄⠄',
-    '⣿⣷⡘⣿⡀⢻⣿⣿⣿⣿⣿⣿⣿⣧⠸⣿⣿⣿⣿⣿⣷⡿⠟⠉⠄⠄⠄⠄⡄⢀',
-    '⣿⣿⣷⡈⢷⡀⠙⠛⠻⠿⠿⠿⠿⠿⠷⠾⠿⠟⣛⣋⣥⣶⣄⠄⢀⣄⠹⣦⢹⣿',
-    '',
-}
-vim.g.dashboard_custom_section = {
-  a = {description = {' Find File          '}, command = 'Telescope find_files'},
-  b = {description = {' Recently Used Files'}, command = 'Telescope oldfiles'},
-}
-vim.g.dashboard_custom_footer = { "Hello, pete" }
+-- vim.g.dashboard_default_executive ='telescope'
+-- vim.g.dashboard_custom_header = {
+--     '',
+--     '⡿⠋⠄⣀⣀⣤⣴⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣌⠻⣿⣿',
+--     '⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠹⣿',
+--     '⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠹',
+--     '⣿⣿⡟⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡛⢿⣿⣿⣿⣮⠛⣿⣿⣿⣿⣿⣿⡆',
+--     '⡟⢻⡇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣣⠄⡀⢬⣭⣻⣷⡌⢿⣿⣿⣿⣿⣿',
+--     '⠃⣸⡀⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠈⣆⢹⣿⣿⣿⡈⢿⣿⣿⣿⣿',
+--     '⠄⢻⡇⠄⢛⣛⣻⣿⣿⣿⣿⣿⣿⣿⣿⡆⠹⣿⣆⠸⣆⠙⠛⠛⠃⠘⣿⣿⣿⣿',
+--     '⠄⠸⣡⠄⡈⣿⣿⣿⣿⣿⣿⣿⣿⠿⠟⠁⣠⣉⣤⣴⣿⣿⠿⠿⠿⡇⢸⣿⣿⣿',
+--     '⠄⡄⢿⣆⠰⡘⢿⣿⠿⢛⣉⣥⣴⣶⣿⣿⣿⣿⣻⠟⣉⣤⣶⣶⣾⣿⡄⣿⡿⢸',
+--     '⠄⢰⠸⣿⠄⢳⣠⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣼⣿⣿⣿⣿⣿⣿⡇⢻⡇⢸',
+--     '⢷⡈⢣⣡⣶⠿⠟⠛⠓⣚⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⢸⠇⠘',
+--     '⡀⣌⠄⠻⣧⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠛⠛⠛⢿⣿⣿⣿⣿⣿⡟⠘⠄⠄',
+--     '⣷⡘⣷⡀⠘⣿⣿⣿⣿⣿⣿⣿⣿⡋⢀⣠⣤⣶⣶⣾⡆⣿⣿⣿⠟⠁⠄⠄⠄⠄',
+--     '⣿⣷⡘⣿⡀⢻⣿⣿⣿⣿⣿⣿⣿⣧⠸⣿⣿⣿⣿⣿⣷⡿⠟⠉⠄⠄⠄⠄⡄⢀',
+--     '⣿⣿⣷⡈⢷⡀⠙⠛⠻⠿⠿⠿⠿⠿⠷⠾⠿⠟⣛⣋⣥⣶⣄⠄⢀⣄⠹⣦⢹⣿',
+--     '',
+-- }
+-- vim.g.dashboard_custom_section = {
+--   a = {description = {' Find File          '}, command = 'Telescope find_files'},
+--   b = {description = {' Recently Used Files'}, command = 'Telescope oldfiles'},
+-- }
+-- vim.g.dashboard_custom_footer = { "Hello, pete" }
 
 -- nvim-cmp
 vim.o.completeopt = "menu,menuone,noselect"
@@ -490,8 +479,9 @@ end
 
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local cmp = require('cmp')
+local neogen = require('neogen')
 cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
-cmp.setup {
+cmp.setup({
   snippet = {
     expand = function(args)
       vim.fn["vsnip#anonymous"](args.body)
@@ -502,11 +492,13 @@ cmp.setup {
       select = true,
       behavior = cmp.ConfirmBehavior.Replace,
     }),
-    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i' }),
-    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i' }),
+    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
+      elseif neogen.jumpable() then
+        feedkey("<cmd>lua require('neogen').jump_next()<CR>", "")
       elseif vim.fn["vsnip#available"]() == 1 then
         feedkey("<Plug>(vsnip-expand-or-jump)", "")
       elseif has_words_before() then
@@ -521,10 +513,12 @@ cmp.setup {
         cmp.select_prev_item()
       elseif vim.fn["vsnip#jumpable"](-1) == 1 then
         feedkey("<Plug>(vsnip-jump-prev)", "")
+      else
+        fallback()
       end
     end, { "i", "s" }),
   },
-  sources = {
+  sources = cmp.config.sources({
     {name = "buffer"},
     {name = "path"},
     {name = "nvim_lsp"},
@@ -532,9 +526,14 @@ cmp.setup {
     {name = "vsnip"},
     {name = "emoji"},
     {name = "cmp_tabnine"},
+    {
+      name = "dictionary",
+      keyword_length = 2,
+    },
     {name = 'copilot'},
+    {name = 'tmux'},
     {max_item_count = 5},
-  },
+  }),
   formatting = {
     format = require("lspkind").cmp_format({with_text = true, menu = ({
         buffer = "[Buffer]",
@@ -544,10 +543,23 @@ cmp.setup {
         vsnip = "[Vsnip]",
         emoji = "[Emoji]",
         cmp_tabnine = "[TabNine]",
-        latex_symbols = "[Latex]"
+        latex_symbols = "[Latex]",
+        dictionary = "[Dictionary]",
+        copilot = "[Copilot]",
+        tmux = "[Tmux]",
       })}),
   },
-}
+})
+cmp.setup.cmdline('/', {
+  sources = {
+    { name = 'buffer' }
+  }
+})
+cmp.setup.cmdline(':', {
+  sources = {
+    { name = 'cmdline' }
+  }
+})
 
 -- vim-vsnip
 vim.g.vsnip_snippet_dir = vsnip_path
@@ -615,17 +627,16 @@ require("nvim-dap-virtual-text").setup()
 -- neoscroll.vim
 require('neoscroll').setup({
   -- All these keys will be mapped. Pass an empty table ({}) for no mappings
-  mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>'},
+  mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>', 'zt', 'zz', 'zb'},
   hide_cursor = true,          -- Hide cursor while scrolling
   stop_eof = true,             -- Stop at <EOF> when scrolling downwards
   respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
   cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
   easing = false,              -- easing_function will be used in all scrolling animations with some defaults
-  easing_function = function(x) return math.pow(x, 2) end -- default easing function
+  easing_function = function(x) return math.pow(x, 2) end, -- default easing function
+  pre_hook = nil,                  -- Function to run before the scrolling animation starts
+  post_hook = nil,                 -- Function to run after the scrolling animation ends
 })
-
--- vim-doge
-vim.g.doge_mapping = '<LEADER>d'
 
 -- vim-header
 vim.g.header_auto_add_header = 0
@@ -657,14 +668,7 @@ require("todo-comments").setup{}
 utils.nnoremap('<LEADER>td', '<CMD>TodoTelescope<CR>')
 
 -- zen-mode.nvim
-require("zen-mode").setup{
-  on_open = function()
-    vim.api.nvim_command('Limelight')
-  end;
-  on_close = function()
-    vim.api.nvim_command('Limelight!')
-  end;
-}
+require("zen-mode").setup{}
 utils.nnoremap('<LEADER>zm', '<CMD>ZenMode<CR>')
 
 -- nvim-comment-frame
@@ -706,34 +710,118 @@ require'marks'.setup {
 
 -- nvim-neoclip.lua
 require('neoclip').setup()
+utils.nnoremap('<LEADER>fy', '<CMD>Telescope neoclip<CR>')
 
 -- copilot.vim
 utils.imap_with_expr('<C-Space>', 'copilot#Accept("\\<CR>")')
 vim.g.copilot_no_tab_map = true
 
--- FTerm.nvim
-utils.nnoremap('<F1>', '<CMD>lua require("FTerm").toggle()<CR>')
-utils.tnoremap('<F1>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
-
--- vim-floaterm
-utils.nnoremap('<LEADER>gi', '<CMD>FloatermNew --autoclose=1 lazygit<CR>')
-utils.nnoremap('<LEADER>rg', '<CMD>FloatermNew --autoclose=1 --width=0.8 --height=0.8 rg<CR>')
-
 -- vista.vim
 vim.g.vista_icon_indent = {"╰─▸ ", "├─▸ "}
 vim.g.vista_default_executive = 'nvim_lsp'
 vim.g['vista#renderer#enable_icon'] = 1
+utils.nnoremap('<C-t>', '<CMD>Vista!!<CR>')
 
+-- neogen
+require('neogen').setup{}
+
+-- nvim-notify
+vim.notify = require("notify")
+
+-- toggleterm.nvim
+local Terminal  = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new({
+  dir = "git_dir",
+  direction = "float",
+  cmd = "lazygit",
+  hidden = true
+})
+function _lazygit_toggle()
+  lazygit:toggle()
+end
+utils.nnoremap('<LEADER>gi', '<CMD>lua _lazygit_toggle()<CR>')
+utils.nnoremap('<F1>', '<CMD>ToggleTerm direction="float"<CR>')
+utils.tnoremap('<F1>', '<CMD>ToggleTerm direction="float"<CR>')
+require("toggleterm").setup{
+  open_mapping = [[<C-\>]],
+  direction = 'horizontal',
+}
+
+-- go.nvim
+require('go').setup()
+
+-- workspace.nvim
+require("workspaces").setup({
+  hooks = {
+    open_pre = {
+      "SessionsStop",
+      "silent %bdelete!",
+    },
+    open = {
+      function()
+        require("sessions").load(nil, { silent = true })
+      end
+    }
+  },
+})
+
+-- sessions.nvim
+require("sessions").setup({
+    session_filepath = ".sessions",
+  }
+)
+-- lightspeed.nvim
+utils.nmap('s', '<Plug>Lightspeed_omni_s')
+
+require("cmp_dictionary").setup({
+    dic = {
+        ["text"] = { "/home/ch/.config/nvim/dict/en.dict" },
+    },
+})
 -- colorscheme
--- onedark
-vim.g.onedark_disable_toggle_style = true
--- require('onedark').setup()
 
 -- gruvbox8
--- vim.cmd [[colorscheme gruvbox8]]
+vim.cmd [[colorscheme gruvbox8]]
 
 -- deus
 -- vim.cmd [[colorscheme deus]]
 
--- starry.nvim
-vim.cmd [[colorscheme earlysummer]]
+-- vim.cmd[[colorscheme tokyonight]]
+
+local onedarkpro = require("onedarkpro")
+onedarkpro.setup({
+  -- Theme can be overwritten with 'onedark' or 'onelight' as a string
+  theme = function()
+    if vim.o.background == "dark" then
+      return "onedark"
+    else
+      return "onelight"
+    end
+  end,
+  colors = {}, -- Override default colors by specifying colors for 'onelight' or 'onedark' themes
+  hlgroups = {}, -- Override default highlight groups
+  filetype_hlgroups = {}, -- Override default highlight groups for specific filetypes
+  plugins = { -- Override which plugins highlight groups are loaded
+      native_lsp = true,
+      polygot = true,
+      treesitter = true,
+  },
+  styles = {
+      strings = "NONE", -- Style that is applied to strings
+      comments = "italic", -- Style that is applied to comments
+      keywords = "bold", -- Style that is applied to keywords
+      functions = "NONE", -- Style that is applied to functions
+      variables = "NONE", -- Style that is applied to variables
+  },
+  options = {
+      bold = true, -- Use the themes opinionated bold styles?
+      italic = true, -- Use the themes opinionated italic styles?
+      underline = true, -- Use the themes opinionated underline styles?
+      undercurl = true, -- Use the themes opinionated undercurl styles?
+      cursorline = true, -- Use cursorline highlighting?
+      transparency = false, -- Use a transparent background?
+      terminal_colors = true, -- Use the theme's colors for Neovim's :terminal?
+      window_unfocussed_color = true, -- When the window is out of focus, change the normal background?
+  }
+})
+-- onedarkpro.load()

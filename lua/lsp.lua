@@ -16,7 +16,7 @@ local function rename()
     width = 30,
     height = 1,
     style = 'minimal',
-    border = 'single'
+    border = 'rounded'
   }
   local cword = vim.fn.expand('<cword>')
   local buf = vim.api.nvim_create_buf(false, true)
@@ -48,13 +48,13 @@ local function common_on_attach(client, bufnr)
   end
 
   vim.fn.sign_define("DiagnosticsSignError",
-                     {texthl = "DiagnosticsSignError", text = "✗", numhl = "DiagnosticsSignError"})
+                     {texthl = "DiagnosticsSignError", text = "", numhl = "DiagnosticsSignError"})
   vim.fn.sign_define("DiagnosticsSignWarning",
-                     {texthl = "DiagnosticsSignWarning", text = "!", numhl = "DiagnosticsSignWarning"})
+                     {texthl = "DiagnosticsSignWarning", text = "", numhl = "DiagnosticsSignWarning"})
   vim.fn.sign_define("DiagnosticsSignHint",
-                     {texthl = "DiagnosticsSignHint", text = "", numhl = "DiagnosticsSignHint"})
+                     {texthl = "DiagnosticsSignHint", text = "", numhl = "DiagnosticsSignHint"})
   vim.fn.sign_define("DiagnosticsSignInformation",
-                     {texthl = "DiagnosticsSignInformation", text = "", numhl = "DiagnosticsSignInformation"})
+                     {texthl = "DiagnosticsSignInformation", text = "", numhl = "DiagnosticsSignInformation"})
 
   vim.api.nvim_command('set omnifunc=v:lua.vim.lsp.omnifunc')
   utils.nnoremap('[d', '<CMD>lua vim.diagnostic.goto_prev()<CR>')
@@ -72,6 +72,7 @@ local function common_on_attach(client, bufnr)
   utils.nnoremap('gh', '<CMD>ClangdSwitchSourceHeader<CR>')
   utils.nnoremap('<LeftMouse>', '<LeftMouse><CMD>lua vim.lsp.buf.hover()<CR>')
   utils.nnoremap('<RightMouse>', '<LeftMouse><CMD>lua vim.lsp.buf.definition()<CR>')
+  utils.nnoremap('<MiddleMouse>', '<C-o>')
 
   require'lsp_signature'.on_attach()
   require 'illuminate'.on_attach(client)
@@ -112,6 +113,12 @@ local luadev = require("lua-dev").setup({
 })
 lspconfig.sumneko_lua.setup(luadev)
 
+-- golang
+lspconfig.gopls.setup{
+  capabilities = capabilities;
+  on_attach = common_on_attach;
+}
+
 -- tex
 lspconfig.texlab.setup{
   capabilities = capabilities;
@@ -120,6 +127,12 @@ lspconfig.texlab.setup{
 
 -- vim
 lspconfig.vimls.setup{
+  capabilities = capabilities;
+  on_attach = common_on_attach;
+}
+
+-- cmake
+lspconfig.cmake.setup{
   capabilities = capabilities;
   on_attach = common_on_attach;
 }
@@ -179,3 +192,24 @@ lspconfig.efm.setup{
     end
   end
 }
+
+local config = {
+  float = {
+    focusable = false,
+    style = "minimal",
+    border = "rounded",
+    source = "always",
+    header = "",
+    prefix = "",
+  },
+}
+
+vim.diagnostic.config(config)
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = "rounded",
+})
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+  border = "rounded",
+})

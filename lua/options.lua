@@ -56,7 +56,7 @@ local function load_options()
     expandtab      = true;
     shiftround      = true;
     list           = true;
-    listchars      = "tab:▸\\ ,trail:▫";
+    listchars      = "tab:▸ ,trail:▫";
     conceallevel   = 2;
     concealcursor  = "nc";
     scrolloff      = 6;
@@ -74,7 +74,7 @@ local function load_options()
     inccommand     = "split";
     showmode       = false;
     tags           = "./.tags;,.tags";
-    guifont        = "JetBrainsMono\\ Nerd\\ Font:h15";
+    guifont        = "JetBrainsMono Nerd Font";
     backup         = true;
     backupext      = ".bak";
     undofile       = true;
