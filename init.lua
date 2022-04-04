@@ -1,8 +1,9 @@
 vim.g.mapleader = ' '
 
-require('options')
-require('autocommand')
-require('plugins')
+require('user.options')
+require('user.autocommand')
+require('user.highlight')
+require('user.mapping')
+require('user.packer')
+require('colorschemes.nightfox')
 require('lsp')
-require('mapping')
-require('highlight')

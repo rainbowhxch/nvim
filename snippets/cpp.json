@@ -7,6 +7,18 @@
     "prefix": "ic",
     "body": "#include \"${1:config.h}\"${0}"
   },
+  "using namespace": {
+    "prefix": "un",
+    "body": "using namespace ${1:std};${0}"
+  },
+  "using std::": {
+    "prefix": "us",
+    "body": "using std::${1:cout};${0}"
+  },
+  "using custom::": {
+    "prefix": "uc",
+    "body": "using ${1:std}::${2:cout};${0}"
+  },
   "struct": {
     "prefix": "struct",
     "body": [ "struct ${1:name} {", "\t${0}", "};" ]
@@ -39,7 +51,7 @@
   },
   "for": {
     "prefix": "for",
-    "body": [ "for (${1:int i = 0}; ${2:i < n}; ${3:++i}) {", "\t${0}", "}" ]
+    "body": [ "for (${1:auto i = 0}; ${2:i < n}; ${3:++i}) {", "\t${0}", "}" ]
   },
   "main": {
     "prefix": "main",

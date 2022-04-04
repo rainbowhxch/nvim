@@ -1,0 +1,2 @@
+-- lualine.nvim
+-- require('bubbles')

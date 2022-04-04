@@ -1,0 +1,2 @@
+-- neogen
+require('neogen').setup{}

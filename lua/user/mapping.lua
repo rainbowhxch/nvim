@@ -102,3 +102,6 @@ utils.tnoremap('<ESC>', '<C-\\><C-n>')
 
 -- goto url
 utils.nnoremap('gx', '<CMD>!xdg-open <cfile><CR>')
+
+-- custom file_run function
+utils.nnoremap('<F7>', '<CMD>lua require(\'utils\').file_run()<CR>')
