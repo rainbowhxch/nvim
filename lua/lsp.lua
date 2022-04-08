@@ -1,20 +1,13 @@
 local utils = require('utils')
 local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+capabilities.offsetEncoding = { "utf-16" }
 
 local function common_on_attach(client, bufnr)
-  if (client.name ~= 'clangd') then
+  if (client.name == 'clangd') then
     client.resolved_capabilities.document_formatting = false
     client.resolved_capabilities.document_range_formatting = false
   end
-
-  if client.resolved_capabilities.document_formatting then
-    vim.api.nvim_command [[augroup Format]]
-    vim.api.nvim_command [[autocmd! * <buffer>]]
-    vim.api.nvim_command [[autocmd BufWritePost <buffer> lua vim.lsp.buf.formatting()]]
-    vim.api.nvim_command [[augroup END]]
-  end
-
   vim.fn.sign_define("DiagnosticsSignError",
                      {texthl = "DiagnosticsSignError", text = "", numhl = "DiagnosticsSignError"})
   vim.fn.sign_define("DiagnosticsSignWarning",
@@ -32,9 +25,10 @@ local function common_on_attach(client, bufnr)
   utils.nnoremap('gD', '<CMD>lua vim.lsp.buf.declaration()<CR>')
   utils.nnoremap('gd', '<CMD>lua vim.lsp.buf.definition()<CR>')
   utils.nnoremap('gr', '<CMD>lua vim.lsp.buf.rename()<CR>')
-  utils.nnoremap('gR', '<CMD>Telescope lsp_references<CR>')
+  utils.nnoremap('gR', '<CMD>TroubleToggle lsp_references<CR>')
   utils.nnoremap('gi', '<CMD>lua vim.lsp.buf.implementation()<CR>')
-  utils.nnoremap('ga', '<CMD>lua vim.lsp.buf.code_action()<CR>')
+  utils.nnoremap('ga', '<CMD>Telescope lsp_code_actions<CR>')
+  utils.vnoremap('ga', ':Telescope lsp_range_code_actions<CR>')
   utils.nnoremap('g;', '<CMD>lua vim.lsp.buf.hover()<CR>')
   utils.nnoremap('gI', '<CMD>lua vim.lsp.buf.signature_help()<CR>')
   utils.nnoremap('gh', '<CMD>ClangdSwitchSourceHeader<CR>')
@@ -44,6 +38,7 @@ local function common_on_attach(client, bufnr)
 
   require'lsp_signature'.on_attach()
   require 'illuminate'.on_attach(client)
+  require("aerial").on_attach(client, bufnr)
 end
 
 -- c/cpp
@@ -128,43 +123,6 @@ lspconfig.lemminx.setup{
   cmd = { "/usr/bin/lemminx" };
   capabilities = capabilities;
   on_attach = common_on_attach;
-}
-
--- emf
-lspconfig.efm.setup{
-  filetypes = { 'python' };
-  init_options = {documentFormatting = true},
-  settings = {
-    rootMarkers = {".git/"},
-    languages = {
-      c = {
-        {formatCommand = "clang-format --style=Google", formatStdin = true}
-      };
-      cpp = {
-        {formatCommand = "clang-format --style=Google", formatStdin = true}
-      };
-      python = {
-        {formatCommand = "autopep8", formatStdin = true}
-      };
-      json = {
-        {formatCommand = "prettier", formatStdin = true}
-      };
-      markdown = {
-        {formatCommand = "prettier", formatStdin = true}
-      };
-      yaml = {
-        {formatCommand = "prettier", formatStdin = true}
-      };
-    }
-  };
-  on_attach = function(client)
-    if client.resolved_capabilities.document_formatting then
-      vim.api.nvim_command [[augroup Format]]
-      vim.api.nvim_command [[autocmd! * <buffer>]]
-      vim.api.nvim_command [[autocmd BufWritePost <buffer> lua vim.lsp.buf.formatting()]]
-      vim.api.nvim_command [[augroup END]]
-    end
-  end
 }
 
 local config = {

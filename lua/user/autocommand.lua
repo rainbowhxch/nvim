@@ -31,8 +31,11 @@ local function load_autocmds()
       { [[ WinLeave,BufLeave * setlocal nocursorline ]] };
     };
     AutoPackerInstall = {
-      { [[ BufWritePost plugins.lua source <afile> | PackerCompile ]] };
+      { [[ BufWritePost packer.lua source <afile> | PackerCompile ]] };
     };
+    AutoNvimTreeClose = {
+      { [[ BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif ]] }
+    }
   }
 
   create_augroups(autocmds)
