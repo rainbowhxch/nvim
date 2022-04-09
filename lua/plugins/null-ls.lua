@@ -8,7 +8,6 @@ null_ls.setup({
     -- formator
     null_ls.builtins.formatting.clang_format.with({
         filetypes = { "c", "cpp" },
-        extra_args = { "--style=Google" }
     }),
     null_ls.builtins.formatting.gofmt,
     null_ls.builtins.formatting.prettier,
