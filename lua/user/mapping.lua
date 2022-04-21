@@ -58,7 +58,7 @@ utils.xnoremap('<CR>', '%')
 
 -- Use sys-clipboard
 utils.nnoremap('<C-y>', '"+yy')
-utils.nnoremap('<C-p>', 'o<ESC>"+p')
+utils.nnoremap('<C-p>', '"+p')
 utils.xnoremap('<C-y>', '"+y')
 utils.xnoremap('<C-p>', '"+p')
 

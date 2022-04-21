@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>🌈Rainbow Nvim🌈</h1>
+    <h1>Rainbowhxch's Nvim</h1>
 </div>
 
 ![screenshot-1](./screenshot-1.png)

@@ -22,14 +22,14 @@ require('packer').startup(function(use)
   use { 'JoosepAlviste/nvim-ts-context-commentstring', requires = {'nvim-treesitter/nvim-treesitter'}, config = function() require('plugins.nvim-ts-context-commentstring') end }
   use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = {'nvim-treesitter/nvim-treesitter'}, config = function() require('plugins.nvim-treesitter-textobjects') end }
   use { 'RRethy/nvim-treesitter-endwise', requires = {'nvim-treesitter/nvim-treesitter'}, config = function() require('plugins.nvim-treesitter-endwise') end }
-  -- use { 'romgrk/nvim-treesitter-context', requires = {'nvim-treesitter/nvim-treesitter'} }
+  use { 'lewis6991/nvim-treesitter-context', requires = {'nvim-treesitter/nvim-treesitter'}, config = function() require('plugins.nvim-treesitter-context') end }
   use { 'norcalli/nvim-colorizer.lua', config = function() require('plugins.nvim-colorizer') end }
   use { 'wfxr/minimap.vim', cmd = {'MinimapToggle'} }
   use { 'karb94/neoscroll.nvim', config = function() require('plugins.neoscroll') end }
   use { 'kevinhwang91/nvim-hlslens' }
   use { 'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'}, config = function() require('plugins.gitsigns') end }
   use { 'stevearc/dressing.nvim' }
-  -- use { 'danilamihailov/beacon.nvim' }
+  use { 'rainbowhxch/beacon.nvim' }
 
   -- reading mode
   use { 'folke/zen-mode.nvim', requires = {'folke/twilight.nvim'}, config = function() require('plugins.zen-mode') end }
@@ -49,7 +49,7 @@ require('packer').startup(function(use)
   use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons', }, config = function() require'plugins.nvim-tree' end}
   use { 'drmikehenry/vim-headerguard', ft = {'c', 'cpp'}, cmd = {'HeaderguardAdd'}, config = function() require('plugins.vim-headerguard') end }
   use { 'mbbill/undotree', cmd = {'UndotreeToggle'}, config = function() require('plugins.undotree') end }
-  use { 'rhysd/accelerated-jk', config = function() require('plugins.accelerated-jk') end }
+  use { 'rainbowhxch/accelerated-jk.nvim', config = function() require('plugins.accelerated-jk') end }
   use { 'metakirby5/codi.vim' }
   use { 'mfussenegger/nvim-dap', config = function() require'plugins.nvim-dap' end }
   use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}, confit = function() require'pligins.nvim-dap-ui' end }
@@ -77,10 +77,13 @@ require('packer').startup(function(use)
   use { "Badhi/nvim-treesitter-cpp-tools", requires = {{"nvim-treesitter/nvim-treesitter"}}, config = function() require'plugins.nvim-treesitter-cpp-tools' end }
   use { 'ray-x/go.nvim', config = function() require'plugins.go' end }
   use { 'natecraddock/workspaces.nvim', config = function() require'plugins.workspaces' end }
-  use { 'natecraddock/sessions.nvim', config = function() require'plugins.sessions' end }
   use { "SmiteshP/nvim-gps", requires = {"nvim-treesitter/nvim-treesitter"}, config = function() require'plugins.nvim-gps' end }
   use { "axieax/urlview.nvim" }
   use { 'ekickx/clipboard-image.nvim' }
+  use { 'edluffy/hologram.nvim' }
+
+  -- lua dev
+  use { "rafcamlet/nvim-luapad" }
 
   -- autocompletor
   use {
@@ -96,7 +99,7 @@ require('packer').startup(function(use)
       { "hrsh7th/cmp-cmdline", config = function() require('plugins.cmp-cmdline') end },
       { 'uga-rosa/cmp-dictionary' },
       { "tzachar/cmp-tabnine", run = "./install.sh", config = function() require'plugins.cmp-tabnine' end },
-      { 'andersevenrud/cmp-tmux' },
+      { "kdheepak/cmp-latex-symbols" },
     },
     config = function() require('plugins.nvim-cmp') end
   }

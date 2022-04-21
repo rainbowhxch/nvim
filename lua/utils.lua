@@ -1,19 +1,19 @@
 local M = {}
 
 function M.map(mode, lhs, rhs)
-  vim.api.nvim_set_keymap(mode, lhs, rhs, {})
+  vim.keymap.set(mode, lhs, rhs, { remap = true })
 end
 
 function M.map_with_expr(mode, lhs, rhs)
-  vim.api.nvim_set_keymap(mode, lhs, rhs, { expr = true })
+  vim.keymap.set(mode, lhs, rhs, { expr = true, remap = true })
 end
 
 function M.noremap(mode, lhs, rhs)
-  vim.api.nvim_set_keymap(mode, lhs, rhs, { noremap = true })
+  vim.keymap.set(mode, lhs, rhs, { noremap = true })
 end
 
 function M.noremap_with_expr(mode, lhs, rhs)
-  vim.api.nvim_set_keymap(mode, lhs, rhs, { noremap = true, expr = true })
+  vim.keymap.set(mode, lhs, rhs, { noremap = true, expr = true })
 end
 
 function M.nmap(lhs, rhs)

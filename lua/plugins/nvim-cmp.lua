@@ -20,13 +20,12 @@ cmp.setup({
       vim.fn["vsnip#anonymous"](args.body)
     end,
   },
-  mapping = {
+  mapping = cmp.mapping.preset.insert({
     ['<CR>'] = cmp.mapping.confirm({
       select = true,
-      behavior = cmp.ConfirmBehavior.Replace,
     }),
-    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -52,36 +51,35 @@ cmp.setup({
         fallback()
       end
     end, { "i", "s" }),
-  },
-  sources = cmp.config.sources({
-    {name = "buffer"},
-    {name = "path"},
-    {name = "nvim_lsp"},
-    {name = "nvim_lua"},
-    {name = "vsnip"},
-    {name = "emoji"},
-    {name = "cmp_tabnine"},
-    {
-      name = "dictionary",
-      keyword_length = 2,
-    },
-    {name = 'copilot'},
-    {name = 'tmux'},
-    {max_item_count = 5},
   }),
+  sources = cmp.config.sources(
+    { {name = "vsnip", max_item_count = 5}, },
+    { {name = "nvim_lsp", max_item_count = 5}, },
+    { {name = "nvim_lua", max_item_count = 5}, },
+    { {name = "buffer"}, },
+    { {name = "path"}, },
+    { {name = "emoji"}, },
+    { {name = "latex_symbols"}, },
+    { {name = 'copilot'}, },
+    { {name = "cmp_tabnine", max_item_count = 5}, },
+    { {name = "dictionary", keyword_length = 2, max_item_count = 5}, }
+  ),
   formatting = {
     format = require("lspkind").cmp_format({with_text = true, menu = ({
-        buffer = "[Buffer]",
-        path = "[Path]",
-        nvim_lsp = "[LSP]",
-        nvim_lua = "[Lua]",
-        vsnip = "[Vsnip]",
-        emoji = "[Emoji]",
-        cmp_tabnine = "[TabNine]",
-        latex_symbols = "[Latex]",
-        dictionary = "[Dictionary]",
-        copilot = "[Copilot]",
-        tmux = "[Tmux]",
-      })}),
+      vsnip = "[Vsnip]",
+      nvim_lsp = "[LSP]",
+      nvim_lua = "[Lua]",
+      buffer = "[Buffer]",
+      path = "[Path]",
+      emoji = "[Emoji]",
+      latex_symbols = "[LaTeX]",
+      copilot = "[Copilot]",
+      cmp_tabnine = "[TabNine]",
+      dictionary = "[Dictionary]",
+    })}),
+  },
+  window = {
+    -- completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
   },
 })

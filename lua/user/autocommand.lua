@@ -1,40 +1,103 @@
 local function create_augroups(groups)
   for group, cmds in pairs(groups) do
-    vim.api.nvim_command('augroup ' .. group)
-    vim.api.nvim_command('autocmd!')
+    vim.api.nvim_create_augroup(group, { clear = true })
     for _, cmd in ipairs(cmds) do
-      local cmd_content = table.concat(vim.tbl_flatten{'autocmd', cmd}, ' ')
-      vim.api.nvim_command(cmd_content)
+      vim.api.nvim_create_autocmd(cmd.event, {
+        pattern = cmd.pattern,
+        callback = cmd.callback,
+        nested = cmd.nested,
+        group = group
+      })
     end
-    vim.api.nvim_command('augroup END')
   end
 end
 
 local function load_autocmds()
   local autocmds = {
     AutoLastLine = {
-      { [[ BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit' |   exe "normal! g`\"" | endif ]] };
+      {
+        event = { "BufReadPost" },
+        pattern = "*",
+        callback = function()
+          vim.cmd [[if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit' |   exe "normal! g`\"" | endif]]
+        end
+      }
     };
     AutoTrailWhitespace = {
-      { [[ BufWritePre * %s/\s\+$//e ]] };
-      { [[ BufWritePre * %s/\n\+\%$//e ]] };
+      {
+        event = { "BufWritePre" },
+        pattern = "*",
+        callback = function()
+          vim.cmd [[%s/\s\+$//e]]
+        end
+      },
+      {
+        event = { "BufWritePre" },
+        pattern = "*",
+        callback = function()
+          vim.cmd [[%s/\n\+\%$//e]]
+        end
+      }
     };
     AutoRelativeLineNums = {
-      { [[ BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set relativenumber | endif ]] };
-      { [[ BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu          | endif ]] };
+      {
+        event = { "BufEnter", "FocusGained", "InsertLeave", "WinEnter" },
+        pattern = "*",
+        callback = function()
+          vim.cmd [[if &nu && mode() != "i" | set relativenumber | endif]]
+        end
+      },
+      {
+        event = { "BufLeave", "FocusLost", "InsertEnter", "WinLeave" },
+        pattern = "*",
+        callback = function()
+          vim.cmd [[if &nu                  | set nornu          | endif]]
+        end
+      }
     };
     AutoTextYank = {
-      { [[ TextYankPost * silent! lua vim.highlight.on_yank{ timeout=100 } ]] };
+      {
+        event = { "TextYankPost" },
+        pattern = "*",
+        callback = function()
+          vim.highlight.on_yank{ timeout=100 }
+        end
+      }
     };
     AutoCursorLine = {
-      { [[ WinEnter,BufEnter * setlocal cursorline ]] };
-      { [[ WinLeave,BufLeave * setlocal nocursorline ]] };
+      {
+        event = { "WinEnter", "BufEnter" },
+        pattern = "*",
+        callback = function()
+          vim.cmd [[setlocal cursorline]]
+        end
+      },
+      {
+        event = { "WinLeave", "BufLeave" },
+        pattern = "*",
+        callback = function()
+          vim.cmd [[setlocal nocursorline]]
+        end
+      }
     };
     AutoPackerInstall = {
-      { [[ BufWritePost packer.lua source <afile> | PackerCompile ]] };
+      {
+        event = { "BufWritePost" },
+        pattern = "packer.lua",
+        callback = function()
+          vim.cmd [[source <afile> | PackerCompile]]
+        end
+      }
     };
     AutoNvimTreeClose = {
-      { [[ BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif ]] }
+      {
+        event = { "BufEnter" },
+        pattern = "*",
+        nested = true,
+        callback = function()
+          vim.cmd [[if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif]]
+        end
+      }
     }
   }
 

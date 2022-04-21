@@ -1,11 +1,14 @@
 local cmp = require('cmp')
 cmp.setup.cmdline('/', {
-  sources = {
-    { name = 'buffer' }
-  }
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources(
+    { {name = 'buffer'} }
+  )
 })
 cmp.setup.cmdline(':', {
-  sources = {
-    { name = 'cmdline' }
-  }
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources(
+    { {name = 'cmdline'} },
+    { {name = 'path'} }
+  )
 })
