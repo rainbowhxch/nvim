@@ -11,7 +11,7 @@ require('telescope').setup {
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
-        ["<esc>"] = actions.close,
+        ["<ESC>"] = actions.close,
         ["<CR>"] = actions.select_default + actions.center
       },
       n = {
@@ -19,6 +19,7 @@ require('telescope').setup {
         ["<C-k>"] = actions.move_selection_previous,
         ["<space>"] = actions.toggle_selection,
         ["<V>"] = actions.toggle_all,
+        ["<ESC>"] = actions.close,
         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
       }
     }
@@ -30,7 +31,6 @@ utils.nnoremap('<LEADER>fb', '<CMD>Telescope buffers<CR>')
 utils.nnoremap('<LEADER>fc', '<CMD>Telescope colorscheme<CR>')
 utils.nnoremap('<LEADER>fs', '<CMD>Telescope current_buffer_fuzzy_find<CR>')
 utils.nnoremap('<LEADER>fS', '<CMD>Telescope grep_string<CR>')
-utils.nnoremap('<LEADER>fw', '<CMD>Telescope workspaces<CR>')
 utils.nnoremap('<LEADER>ft', '<CMD>Telescope tags<CR>')
 utils.nnoremap('<LEADER>fm', '<CMD>Telescope marks<CR>')
 utils.nnoremap('<LEADER>fo', '<CMD>Telescope oldfiles<CR>')

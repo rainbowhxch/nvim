@@ -77,8 +77,8 @@ utils.nnoremap('Q', '<CMD>q<CR>')
 -- Split windows
 utils.nnoremap('<LEADER>L', '<CMD>set splitright<CR><CMD>vsplit<CR>')
 utils.nnoremap('<LEADER>H', '<CMD>set nosplitright<CR><CMD>vsplit<CR>')
-utils.nnoremap('<LEADER>K', '<CMD>set splitbelow<CR><CMD>split<CR>')
-utils.nnoremap('<LEADER>J', '<CMD>set nosplitbelow<CR><CMD>split<CR>')
+utils.nnoremap('<LEADER>J', '<CMD>set splitbelow<CR><CMD>split<CR>')
+utils.nnoremap('<LEADER>K', '<CMD>set nosplitbelow<CR><CMD>split<CR>')
 
 -- Change size of the current window
 utils.nnoremap('<UP>', '<CMD>resize +5<CR>')

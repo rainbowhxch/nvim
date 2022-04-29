@@ -67,7 +67,7 @@ local function load_options()
     foldmethod     = "indent";
     foldlevel      = 99;
     mouse          = "a";
-    laststatus     = 2;
+    laststatus     = 3;
     autochdir      = true;
     lazyredraw     = true;
     termguicolors  = true;

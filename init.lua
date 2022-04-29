@@ -5,10 +5,5 @@ require('user.autocommand')
 require('user.highlight')
 require('user.mapping')
 require('user.packer')
-require('colorschemes.nightfox')
+require('colorschemes.onedarkpro')
 require('lsp')
-
-require('beacon').setup({
-    ignore_buffers = {'init.lua'},
-    ignore_filetypes = {'cpp'},
-})

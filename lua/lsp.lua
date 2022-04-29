@@ -39,7 +39,7 @@ local function common_on_attach(client, bufnr)
 
   require'lsp_signature'.on_attach()
   require 'illuminate'.on_attach(client)
-  -- require("aerial").on_attach(client, bufnr)
+  require("aerial").on_attach(client, bufnr)
 end
 
 -- c/cpp
