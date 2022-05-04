@@ -9,6 +9,9 @@ require('packer').startup(function(use)
   -- packer.nvim itself
   use { 'wbthomason/packer.nvim' }
 
+  -- improve performance
+  use { 'lewis6991/impatient.nvim', config = function() require'plugins.impatient' end }
+
   -- decoration
   use { 'windwp/nvim-autopairs', config = function() require('plugins.nvim-autopairs') end }
   use { 'lukas-reineke/indent-blankline.nvim', config = function() require('plugins.indent-blankline') end }
@@ -30,6 +33,7 @@ require('packer').startup(function(use)
   use { 'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'}, config = function() require('plugins.gitsigns') end }
   use { 'stevearc/dressing.nvim' }
   use { 'rainbowhxch/beacon.nvim' }
+  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
 
   -- reading mode
   use { 'folke/zen-mode.nvim', requires = {'folke/twilight.nvim'}, config = function() require('plugins.zen-mode') end }
@@ -38,7 +42,6 @@ require('packer').startup(function(use)
   use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}}, config = function() require('plugins.nvim-telescope') end }
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', config = function() require('plugins.telescope-fzf-native') end }
   use { 'nvim-telescope/telescope-symbols.nvim', requires = {{'nvim-telescope/telescope.nvim'}} }
-  use { 'nvim-telescope/telescope-project.nvim', requires = {{'nvim-telescope/telescope.nvim'}}, config = function() require('plugins.telescope-project') end }
   use { 'iamcco/markdown-preview.nvim', ft = {'markdown'}, run = 'cd app && yarn install', cmd = 'MarkdownPreview', config = function() require('plugins.markdown-preview') end }
   use { 'mzlogin/vim-markdown-toc', ft = {'markdown'}, cmd = {'GenTocGFM'}, config = function() require('plugins.vim-markdown-toc') end }
   use { 'dhruvasagar/vim-table-mode', ft = {'markdown'}, config = function() require('plugins.vim-table-mode') end }
@@ -57,8 +60,7 @@ require('packer').startup(function(use)
   use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}, confit = function() require'pligins.nvim-dap-ui' end }
   use { 'theHamsta/nvim-dap-virtual-text', requires = {'mfussenegger/nvim-dap'}, config = function() require'plugins.nvim-dap-virtual-text' end }
   use { 'folke/trouble.nvim', config = function() require'plugins.trouble' end }
-  use { 'michaeljsmith/vim-indent-object' }
-  use { 'alpertuna/vim-header', config = function() require'plugins.vim-header' end }
+  use { 'alpertuna/vim-header', ft = {'cpp'}, config = function() require'plugins.vim-header' end }
   use { 'windwp/nvim-spectre', config = function() require'plugins.nvim-spectre' end }
   use { 'marcushwz/nvim-workbench', config = function() require'plugins.nvim-workbench' end }
   use { 'dkarter/bullets.vim', config = function() require'plugins.bullets' end }
@@ -74,18 +76,30 @@ require('packer').startup(function(use)
   use { "danymat/neogen", requires = "nvim-treesitter/nvim-treesitter", config = function() require'plugins.neogen' end }
   use { "ThePrimeagen/refactoring.nvim", requires = {{"nvim-lua/plenary.nvim"}, {"nvim-treesitter/nvim-treesitter"}}, config = function() require'plugins.refactoring' end }
   use { "Julian/vim-textobj-variable-segment", requires = {"kana/vim-textobj-user"} }
+  use { "kana/vim-textobj-entire", requires = {"kana/vim-textobj-user"} }
+  use { "kana/vim-textobj-indent", requires = {"kana/vim-textobj-user"} }
   use { 'ggandor/lightspeed.nvim', config = function() require'plugins.lightspeed' end }
   use { 'akinsho/toggleterm.nvim', config = function() require'plugins.toggleterm' end }
-  use { "Badhi/nvim-treesitter-cpp-tools", requires = {{"nvim-treesitter/nvim-treesitter"}}, config = function() require'plugins.nvim-treesitter-cpp-tools' end }
-  use { 'ray-x/go.nvim', config = function() require'plugins.go' end }
+  use { "Badhi/nvim-treesitter-cpp-tools", ft = {'cpp'}, requires = {{"nvim-treesitter/nvim-treesitter"}}, config = function() require'plugins.nvim-treesitter-cpp-tools' end }
+  use { 'ray-x/go.nvim', ft = {'go'}, config = function() require'plugins.go' end }
   use { "SmiteshP/nvim-gps", requires = {"nvim-treesitter/nvim-treesitter"}, config = function() require'plugins.nvim-gps' end }
   use { "axieax/urlview.nvim" }
   use { 'ekickx/clipboard-image.nvim' }
-  use { 'edluffy/hologram.nvim' }
-  use { 'lewis6991/impatient.nvim', config = function() require'plugins.impatient' end }
+  use { 'j-hui/fidget.nvim', config = function() require'plugins.fidget' end }
+  use { 'echasnovski/mini.nvim' }
+  use { "Pocco81/HighStr.nvim", config = function() require'plugins.highstr' end }
+  use { 'sindrets/winshift.nvim', config = function() require'plugins.winshift' end }
+  use { "askfiy/nvim-picgo", config = function() require'plugins.picgo' end }
+  use {
+    'rmagatti/session-lens',
+    requires = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
+    config = function()
+      require('plugins.session-lens')
+    end
+  }
 
   -- lua dev
-  use { "rafcamlet/nvim-luapad" }
+  use { "rafcamlet/nvim-luapad", ft = {'lua'} }
 
   -- autocompletor
   use {
@@ -112,12 +126,12 @@ require('packer').startup(function(use)
 
   -- lsp
   use { 'neovim/nvim-lspconfig' }
+  use { 'williamboman/nvim-lsp-installer' }
   use { 'onsails/lspkind-nvim' }
   use { 'ray-x/lsp_signature.nvim' }
   use { 'RRethy/vim-illuminate' }
   use { "folke/lua-dev.nvim" }
   use { "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" }, config = function() require'plugins.null-ls' end }
-
 
   -- themes
   use { 'olimorris/onedarkpro.nvim' }
@@ -129,6 +143,7 @@ require('packer').startup(function(use)
   use { 'rainbowhxch/nvim-deus' }
   use { 'mhdahmad/gruvbox.lua' }
   use { 'rebelot/kanagawa.nvim' }
+  use { 'luisiacc/gruvbox-baby' }
 
   if PackerBootstrap then
     require('packer').sync()

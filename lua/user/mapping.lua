@@ -3,11 +3,6 @@ local utils = require('utils')
 -- Shut down the hightlight of last search
 utils.nnoremap('<LEADER><CR>', '<CMD>nohlsearch<CR>')
 
-utils.nnoremap('<LEADER>h', '<C-w>h')
-utils.nnoremap('<LEADER>j', '<C-w>j')
-utils.nnoremap('<LEADER>k', '<C-w>k')
-utils.nnoremap('<LEADER>l', '<C-w>l')
-
 -- Substitute
 utils.nnoremap('<LEADER>s', ':%s///g<LEFT><LEFT><LEFT>')
 utils.vnoremap('<LEADER>s', ':s///g<LEFT><LEFT><LEFT>')
@@ -73,12 +68,6 @@ utils.nnoremap('S', '<CMD>w<CR>')
 
 -- Quit
 utils.nnoremap('Q', '<CMD>q<CR>')
-
--- Split windows
-utils.nnoremap('<LEADER>L', '<CMD>set splitright<CR><CMD>vsplit<CR>')
-utils.nnoremap('<LEADER>H', '<CMD>set nosplitright<CR><CMD>vsplit<CR>')
-utils.nnoremap('<LEADER>J', '<CMD>set splitbelow<CR><CMD>split<CR>')
-utils.nnoremap('<LEADER>K', '<CMD>set nosplitbelow<CR><CMD>split<CR>')
 
 -- Change size of the current window
 utils.nnoremap('<UP>', '<CMD>resize +5<CR>')

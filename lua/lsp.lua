@@ -1,13 +1,12 @@
+require("nvim-lsp-installer").setup({
+  install_root_dir = "~/.local/bin",
+})
 local utils = require('utils')
 local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.offsetEncoding = { "utf-16" }
 
 local function common_on_attach(client, bufnr)
-  if (client.name == 'clangd') then
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
-  end
   vim.fn.sign_define("DiagnosticsSignError",
                      {texthl = "DiagnosticsSignError", text = "", numhl = "DiagnosticsSignError"})
   vim.fn.sign_define("DiagnosticsSignWarning",
@@ -39,7 +38,7 @@ local function common_on_attach(client, bufnr)
 
   require'lsp_signature'.on_attach()
   require 'illuminate'.on_attach(client)
-  require("aerial").on_attach(client, bufnr)
+  -- require("aerial").on_attach(client, bufnr)
 end
 
 -- c/cpp
@@ -121,7 +120,6 @@ lspconfig.yamlls.setup{
 
 -- xml
 lspconfig.lemminx.setup{
-  cmd = { "/usr/bin/lemminx" };
   capabilities = capabilities;
   on_attach = common_on_attach;
 }

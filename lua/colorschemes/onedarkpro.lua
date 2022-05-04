@@ -2,11 +2,7 @@ local onedarkpro = require("onedarkpro")
 onedarkpro.setup({
   -- Theme can be overwritten with 'onedark' or 'onelight' as a string
   theme = function()
-    if vim.o.background == "dark" then
-      return "onedark"
-    else
-      return "onelight"
-    end
+    return "onedark"
   end,
   colors = {}, -- Override default colors by specifying colors for 'onelight' or 'onedark' themes
   hlgroups = {}, -- Override default highlight groups
