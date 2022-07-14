@@ -26,7 +26,7 @@ require('packer').startup(function(use)
   use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = {'nvim-treesitter/nvim-treesitter'}, config = function() require('plugins.nvim-treesitter-textobjects') end }
   use { 'RRethy/nvim-treesitter-endwise', requires = {'nvim-treesitter/nvim-treesitter'}, config = function() require('plugins.nvim-treesitter-endwise') end }
   use { 'lewis6991/nvim-treesitter-context', requires = {'nvim-treesitter/nvim-treesitter'}, config = function() require('plugins.nvim-treesitter-context') end }
-  use { 'norcalli/nvim-colorizer.lua', config = function() require('plugins.nvim-colorizer') end }
+  use { 'NvChad/nvim-colorizer.lua', config = function() require('plugins.nvim-colorizer') end }
   use { 'wfxr/minimap.vim', cmd = {'MinimapToggle'} }
   use { 'karb94/neoscroll.nvim', config = function() require('plugins.neoscroll') end }
   use { 'kevinhwang91/nvim-hlslens' }
@@ -68,7 +68,7 @@ require('packer').startup(function(use)
   use { 'mg979/vim-visual-multi' }
   use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim", config = function() require'plugins.todo-comments' end }
   use { 's1n7ax/nvim-comment-frame', config = function() require'plugins.nvim-comment-frame' end }
-  use { "chentau/marks.nvim", config = function() require'plugins.marks' end }
+  use { "chentoast/marks.nvim", config = function() require'plugins.marks' end }
   use { "AckslD/nvim-neoclip.lua", requires = {'tami5/sqlite.lua', module = 'sqlite'}, config = function() require'plugins.nvim-neoclip' end }
   use { "junegunn/vim-peekaboo" }
   use { "rcarriga/nvim-notify", config = function() require'plugins.nvim-notify' end }
@@ -90,16 +90,35 @@ require('packer').startup(function(use)
   use { "Pocco81/HighStr.nvim", config = function() require'plugins.highstr' end }
   use { 'sindrets/winshift.nvim', config = function() require'plugins.winshift' end }
   use { "askfiy/nvim-picgo", config = function() require'plugins.picgo' end }
+  use { 'Shatur/neovim-session-manager', config = function() require'plugins.neovim-session-manager' end }
+  use { 'lewis6991/satellite.nvim', config = function() require'plugins.satellite' end }
   use {
-    'rmagatti/session-lens',
-    requires = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
+    "nvim-neorg/neorg",
     config = function()
-      require('plugins.session-lens')
-    end
+        require('neorg').setup {
+        load = {
+        ["core.defaults"] = {},
+        ["core.norg.dirman"] = {
+            config = {
+                workspaces = {
+                    test = "~/test",
+                }
+            }
+        },
+        ["core.gtd.base"] = {
+          config = { -- Note that this table is optional and doesn't need to be provided
+              workspace = "test"
+          }
+        }
+      }
+    }
+    end,
+    requires = "nvim-lua/plenary.nvim"
   }
 
   -- lua dev
   use { "rafcamlet/nvim-luapad", ft = {'lua'} }
+  use { "nanotee/luv-vimdocs" }
 
   -- autocompletor
   use {

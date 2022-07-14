@@ -48,8 +48,8 @@ utils.xnoremap('<C-h>', '^')
 -- Move cusor to end of current line
 utils.nnoremap('<C-l>', '$')
 utils.xnoremap('<C-l>', 'g_')
-utils.nnoremap('<CR>', '%')
-utils.xnoremap('<CR>', '%')
+utils.nnoremap(';', '%')
+utils.xnoremap(';', '%')
 
 -- Use sys-clipboard
 utils.nnoremap('<C-y>', '"+yy')

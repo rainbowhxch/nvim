@@ -60,7 +60,7 @@ cmp.setup({
     { {name = "path"}, },
     { {name = "emoji"}, },
     { {name = "latex_symbols"}, },
-    { {name = 'copilot'}, },
+    -- { {name = 'copilot'}, },
     { {name = "cmp_tabnine", max_item_count = 5}, },
     { {name = "dictionary", keyword_length = 2, max_item_count = 5}, }
   ),

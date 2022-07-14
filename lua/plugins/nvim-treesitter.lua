@@ -8,4 +8,12 @@ require'nvim-treesitter.configs'.setup {
   matchup = {
     enable = true;
   },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "<CR>",
+      node_incremental = "<TAB>",
+      node_decremental = "<S-TAB>",
+    },
+  },
 }

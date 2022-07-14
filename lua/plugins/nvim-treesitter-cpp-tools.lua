@@ -7,7 +7,7 @@ require'nvim-treesitter.configs'.setup {
         },
   }
 }
-function nt_cpp_tools_select()
+function _G.nt_cpp_tools_select()
   local items = { 'TSCppDefineClassFunc', 'TSCppMakeConcreteClass', 'TSCppRuleOf3', 'TSCppRuleOf5' }
   local opts = { prompt = 'TSCpp> ' }
   local function actions(choice)
@@ -24,4 +24,4 @@ function nt_cpp_tools_select()
   vim.ui.select(items, opts, actions)
 end
 local utils = require'utils'
-utils.vnoremap('<leader>cg', ':lua nt_cpp_tools_select()<CR>')
+utils.vnoremap('<leader>cg', _G.nt_cpp_tools_select)
