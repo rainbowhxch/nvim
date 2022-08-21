@@ -50,9 +50,9 @@ local function load_options()
     ignorecase     = true;
     smartcase      = true;
     whichwrap      = "b,s";
-    shiftwidth     = 4;
-    tabstop        = 4;
-    softtabstop    = 4;
+    shiftwidth     = 2;
+    tabstop        = 2;
+    softtabstop    = 2;
     expandtab      = true;
     shiftround      = true;
     list           = true;
@@ -65,7 +65,11 @@ local function load_options()
     backspace      = "indent,eol,start";
     sessionoptions = "blank,buffers,curdir,folds,help,options,tabpages,winsize,resize,winpos,terminal";
     foldmethod     = "indent";
+    -- foldcolumn     = '1',
+    fillchars      = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]],
+    foldlevelstart = -1,
     foldlevel      = 99;
+    foldenable     = true,
     mouse          = "a";
     laststatus     = 3;
     autochdir      = true;

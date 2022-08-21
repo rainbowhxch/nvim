@@ -72,7 +72,7 @@ require('packer').startup(function(use)
   use { "AckslD/nvim-neoclip.lua", requires = {'tami5/sqlite.lua', module = 'sqlite'}, config = function() require'plugins.nvim-neoclip' end }
   use { "junegunn/vim-peekaboo" }
   use { "rcarriga/nvim-notify", config = function() require'plugins.nvim-notify' end }
-  use { "rcarriga/vim-ultest", requires = {"vim-test/vim-test"}, run = ":UpdateRemotePlugins" }
+  use { "nvim-neotest/neotest", requires = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "antoinemadec/FixCursorHold.nvim" } }
   use { "danymat/neogen", requires = "nvim-treesitter/nvim-treesitter", config = function() require'plugins.neogen' end }
   use { "ThePrimeagen/refactoring.nvim", requires = {{"nvim-lua/plenary.nvim"}, {"nvim-treesitter/nvim-treesitter"}}, config = function() require'plugins.refactoring' end }
   use { "Julian/vim-textobj-variable-segment", requires = {"kana/vim-textobj-user"} }
@@ -92,6 +92,7 @@ require('packer').startup(function(use)
   use { "askfiy/nvim-picgo", config = function() require'plugins.picgo' end }
   use { 'Shatur/neovim-session-manager', config = function() require'plugins.neovim-session-manager' end }
   use { 'lewis6991/satellite.nvim', config = function() require'plugins.satellite' end }
+  use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async', config = function() require'plugins.nvim-ufo' end }
   use {
     "nvim-neorg/neorg",
     config = function()
