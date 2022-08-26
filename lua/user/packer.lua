@@ -82,7 +82,7 @@ require('packer').startup(function(use)
   use { 'akinsho/toggleterm.nvim', config = function() require'plugins.toggleterm' end }
   use { "Badhi/nvim-treesitter-cpp-tools", ft = {'cpp'}, requires = {{"nvim-treesitter/nvim-treesitter"}}, config = function() require'plugins.nvim-treesitter-cpp-tools' end }
   use { 'ray-x/go.nvim', ft = {'go'}, config = function() require'plugins.go' end }
-  use { "SmiteshP/nvim-gps", requires = {"nvim-treesitter/nvim-treesitter"}, config = function() require'plugins.nvim-gps' end }
+  use { "SmiteshP/nvim-navic", requires = "neovim/nvim-lspconfig", config = function() require'plugins.navic' end }
   use { "axieax/urlview.nvim" }
   use { 'ekickx/clipboard-image.nvim' }
   use { 'j-hui/fidget.nvim', config = function() require'plugins.fidget' end }
@@ -93,29 +93,6 @@ require('packer').startup(function(use)
   use { 'Shatur/neovim-session-manager', config = function() require'plugins.neovim-session-manager' end }
   use { 'lewis6991/satellite.nvim', config = function() require'plugins.satellite' end }
   use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async', config = function() require'plugins.nvim-ufo' end }
-  use {
-    "nvim-neorg/neorg",
-    config = function()
-        require('neorg').setup {
-        load = {
-        ["core.defaults"] = {},
-        ["core.norg.dirman"] = {
-            config = {
-                workspaces = {
-                    test = "~/test",
-                }
-            }
-        },
-        ["core.gtd.base"] = {
-          config = { -- Note that this table is optional and doesn't need to be provided
-              workspace = "test"
-          }
-        }
-      }
-    }
-    end,
-    requires = "nvim-lua/plenary.nvim"
-  }
 
   -- lua dev
   use { "rafcamlet/nvim-luapad", ft = {'lua'} }
@@ -134,7 +111,7 @@ require('packer').startup(function(use)
       { "hrsh7th/cmp-copilot" },
       { "hrsh7th/cmp-cmdline", config = function() require('plugins.cmp-cmdline') end },
       { 'uga-rosa/cmp-dictionary' },
-      { "tzachar/cmp-tabnine", run = "./install.sh", config = function() require'plugins.cmp-tabnine' end },
+      -- { "tzachar/cmp-tabnine", run = "./install.sh", config = function() require'plugins.cmp-tabnine' end },
       { "kdheepak/cmp-latex-symbols" },
     },
     config = function() require('plugins.nvim-cmp') end
@@ -164,6 +141,7 @@ require('packer').startup(function(use)
   use { 'mhdahmad/gruvbox.lua' }
   use { 'rebelot/kanagawa.nvim' }
   use { 'luisiacc/gruvbox-baby' }
+  use { 'tanvirtin/monokai.nvim' }
 
   if PackerBootstrap then
     require('packer').sync()

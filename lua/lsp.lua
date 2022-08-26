@@ -36,9 +36,14 @@ local function common_on_attach(client, bufnr)
   utils.nnoremap('<RightMouse>', '<LeftMouse><CMD>lua vim.lsp.buf.definition()<CR>')
   utils.nnoremap('<MiddleMouse>', '<C-o>')
 
-  require'lsp_signature'.on_attach()
-  require 'illuminate'.on_attach(client)
-  -- require("aerial").on_attach(client, bufnr)
+  require "lsp_signature".on_attach({
+    bind = true, -- This is mandatory, otherwise border config won't get registered.
+    handler_opts = {
+      border = "rounded"
+    },
+    select_signature_key = '<C-\'>',
+  }, bufnr)
+  require("nvim-navic").attach(client, bufnr)
 end
 
 -- c/cpp
@@ -138,9 +143,5 @@ local config = {
 vim.diagnostic.config(config)
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "rounded",
-})
-
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
   border = "rounded",
 })

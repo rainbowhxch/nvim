@@ -10,6 +10,9 @@ local function load_highlights()
     -- ColorColumn                          = 'bg=#504945 ctermbg=NONE';
     -- CursorLineNr                         = 'bg=NONE ctermbg=NONE';
     -- TabLineFill                          = 'bg=#504945 ctermbg=NONE';
+    illuminatedWord = {
+      underline = true;
+    },
     LspDiagnosticsSignError = {
       fg = '#cc241d',
       bg = '#3c3836'
