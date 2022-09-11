@@ -122,5 +122,7 @@ end
 
 vim.api.nvim_command('filetype plugin indent on')
 vim.api.nvim_command('syntax enable')
+vim.g.do_filetype_lua = true
+vim.g.did_load_filetypes = false
 load_options();
 disable_buildin_plugins();

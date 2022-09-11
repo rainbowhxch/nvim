@@ -1,12 +1,7 @@
 local onedarkpro = require("onedarkpro")
 onedarkpro.setup({
-  -- Theme can be overwritten with 'onedark' or 'onelight' as a string
-  theme = function()
-    return "onedark"
-  end,
-  colors = {}, -- Override default colors by specifying colors for 'onelight' or 'onedark' themes
-  hlgroups = {}, -- Override default highlight groups
-  filetype_hlgroups = {}, -- Override default highlight groups for specific filetypes
+  dark_theme = "onedark", -- The default dark theme
+  light_theme = "onelight", -- The default light theme
   plugins = { -- Override which plugins highlight groups are loaded
       native_lsp = true,
       treesitter = true,
@@ -26,7 +21,7 @@ onedarkpro.setup({
       cursorline = true, -- Use cursorline highlighting?
       transparency = false, -- Use a transparent background?
       terminal_colors = true, -- Use the theme's colors for Neovim's :terminal?
-      window_unfocussed_color = true, -- When the window is out of focus, change the normal background?
+      window_unfocused_color = true, -- When the window is out of focus, change the normal background?
   }
 })
 onedarkpro.load()
