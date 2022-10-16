@@ -1,5 +1,5 @@
 -- VimTex
-local cache_dir = os.getenv("HOME") .. '/.cache/nvim/'
+local cache_dir = vim.env.HOME .. '/.cache/nvim/'
 vim.g.vimtex_mappings_enabled = 0
 vim.g.vimtex_cache_root = cache_dir .. 'vimtex'
 vim.g.tex_flavor = 'latex'

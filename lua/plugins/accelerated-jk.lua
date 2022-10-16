@@ -1,7 +1,7 @@
 -- accelerated-jk
 require("accelerated-jk").setup({
 	mode = "time_driven",
-	acceleration_motions = { "j", "k", "gj", "gk", "h", "l", "w", "b", "e", "ge" },
+	acceleration_motions = { "j", "k", "gj", "gk", "w", "b", "e", "ge" },
 	acceleration_limit = 150,
 	-- acceleration_table = { 0 },
 	acceleration_table = { 7, 12, 17, 21, 24, 26, 28, 30 },

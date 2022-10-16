@@ -3,7 +3,7 @@ require("nvim-lsp-installer").setup({
 })
 local utils = require('utils')
 local lspconfig = require('lspconfig')
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.offsetEncoding = { "utf-16" }
 
 local function common_on_attach(client, bufnr)
@@ -30,7 +30,7 @@ local function common_on_attach(client, bufnr)
   utils.vnoremap('ga', ':Telescope lsp_range_code_actions<CR>')
   utils.nnoremap('g;', vim.lsp.buf.hover)
   utils.nnoremap('gI', vim.lsp.buf.signature_help)
-  utils.nnoremap('gF', vim.lsp.buf.formatting_sync)
+  utils.nnoremap('gF', vim.lsp.buf.format)
   utils.nnoremap('gh', '<CMD>ClangdSwitchSourceHeader<CR>')
   utils.nnoremap('<LeftMouse>', '<LeftMouse><CMD>lua vim.lsp.buf.hover()<CR>')
   utils.nnoremap('<RightMouse>', '<LeftMouse><CMD>lua vim.lsp.buf.definition()<CR>')
@@ -70,22 +70,8 @@ lspconfig.asm_lsp.setup{
 }
 
 -- lua
-local luadev = require("lua-dev").setup({
-  library = {
-    vimruntime = true, -- runtime path
-    types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
-    plugins = true, -- installed opt or start plugins in packpath
-    -- you can also specify the list of plugins to make available as a workspace library
-    -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
-  },
-  runtime_path = false,
-  lspconfig = {
-    cmd = {"lua-language-server"};
-    capabilities = capabilities;
-    on_attach = common_on_attach;
-  },
-})
-lspconfig.sumneko_lua.setup(luadev)
+require("neodev").setup{}
+lspconfig.sumneko_lua.setup{}
 
 -- golang
 lspconfig.gopls.setup{

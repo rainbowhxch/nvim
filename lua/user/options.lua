@@ -1,11 +1,9 @@
-local cache_dir = os.getenv("HOME") .. '/.cache/nvim/'
+local cache_dir = vim.env.HOME .. '/.cache/nvim/'
 
 local function createdir()
   local data_dir = {
     cache_dir..'vimtex',
   }
-  -- There only check once that If cache_dir exists
-  -- Then i don't want to check subs dir exists
   if vim.fn.isdirectory(cache_dir) == 0 then
     os.execute("mkdir -p " .. cache_dir)
     for _,v in pairs(data_dir) do
@@ -72,8 +70,9 @@ local function load_options()
     foldenable     = true,
     mouse          = "a";
     laststatus     = 3;
+    cmdheight      = 0;
     autochdir      = true;
-    lazyredraw     = true;
+    lazyredraw     = false;
     termguicolors  = true;
     inccommand     = "split";
     showmode       = false;
@@ -122,7 +121,5 @@ end
 
 vim.api.nvim_command('filetype plugin indent on')
 vim.api.nvim_command('syntax enable')
-vim.g.do_filetype_lua = true
-vim.g.did_load_filetypes = false
 load_options();
 disable_buildin_plugins();

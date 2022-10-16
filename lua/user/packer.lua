@@ -62,7 +62,7 @@ require('packer').startup(function(use)
   use { 'folke/trouble.nvim', config = function() require'plugins.trouble' end }
   use { 'alpertuna/vim-header', ft = {'cpp'}, config = function() require'plugins.vim-header' end }
   use { 'windwp/nvim-spectre', config = function() require'plugins.nvim-spectre' end }
-  use { 'marcushwz/nvim-workbench', config = function() require'plugins.nvim-workbench' end }
+  use { 'weizheheng/nvim-workbench', config = function() require'plugins.nvim-workbench' end }
   use { 'dkarter/bullets.vim', config = function() require'plugins.bullets' end }
   use { 'triglav/vim-visual-increment' }
   use { 'mg979/vim-visual-multi' }
@@ -93,6 +93,7 @@ require('packer').startup(function(use)
   use { 'Shatur/neovim-session-manager', config = function() require'plugins.neovim-session-manager' end }
   use { 'lewis6991/satellite.nvim', config = function() require'plugins.satellite' end }
   use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async', config = function() require'plugins.nvim-ufo' end }
+  use { "folke/noice.nvim", event = "VimEnter", config = function() require("noice").setup() end, requires = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify", } }
 
   -- lua dev
   use { "rafcamlet/nvim-luapad", ft = {'lua'} }
@@ -127,7 +128,7 @@ require('packer').startup(function(use)
   use { 'onsails/lspkind-nvim' }
   use { 'ray-x/lsp_signature.nvim' }
   use { 'RRethy/vim-illuminate' }
-  use { "folke/lua-dev.nvim" }
+  use { "folke/neodev.nvim" }
   use { "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" }, config = function() require'plugins.null-ls' end }
 
   -- themes
