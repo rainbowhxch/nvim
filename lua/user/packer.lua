@@ -130,6 +130,7 @@ require('packer').startup(function(use)
   use { 'RRethy/vim-illuminate' }
   use { "folke/neodev.nvim" }
   use { "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" }, config = function() require'plugins.null-ls' end }
+  use { 'simrat39/rust-tools.nvim' }
 
   -- themes
   use { 'olimorris/onedarkpro.nvim' }

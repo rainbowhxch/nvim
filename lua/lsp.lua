@@ -52,6 +52,9 @@ lspconfig.clangd.setup{
   on_attach = common_on_attach;
 }
 
+-- rust
+require("rust-tools").setup{}
+
 -- python
 lspconfig.jedi_language_server.setup{
   capabilities = capabilities;
