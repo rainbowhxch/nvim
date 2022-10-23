@@ -29,7 +29,7 @@ require('packer').startup(function(use)
   use { 'NvChad/nvim-colorizer.lua', config = function() require('plugins.nvim-colorizer') end }
   use { 'wfxr/minimap.vim', cmd = {'MinimapToggle'} }
   use { 'karb94/neoscroll.nvim', config = function() require('plugins.neoscroll') end }
-  use { 'kevinhwang91/nvim-hlslens' }
+  use { 'kevinhwang91/nvim-hlslens', config = function() require('plugins.nvim-hlslens') end }
   use { 'lewis6991/gitsigns.nvim', requires = {'nvim-lua/plenary.nvim'}, config = function() require('plugins.gitsigns') end }
   use { 'stevearc/dressing.nvim' }
   use { 'rainbowhxch/beacon.nvim' }
@@ -71,7 +71,6 @@ require('packer').startup(function(use)
   use { "chentoast/marks.nvim", config = function() require'plugins.marks' end }
   use { "AckslD/nvim-neoclip.lua", requires = {'tami5/sqlite.lua', module = 'sqlite'}, config = function() require'plugins.nvim-neoclip' end }
   use { "junegunn/vim-peekaboo" }
-  use { "rcarriga/nvim-notify", config = function() require'plugins.nvim-notify' end }
   use { "nvim-neotest/neotest", requires = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "antoinemadec/FixCursorHold.nvim" } }
   use { "danymat/neogen", requires = "nvim-treesitter/nvim-treesitter", config = function() require'plugins.neogen' end }
   use { "ThePrimeagen/refactoring.nvim", requires = {{"nvim-lua/plenary.nvim"}, {"nvim-treesitter/nvim-treesitter"}}, config = function() require'plugins.refactoring' end }
@@ -85,7 +84,6 @@ require('packer').startup(function(use)
   use { "SmiteshP/nvim-navic", requires = "neovim/nvim-lspconfig", config = function() require'plugins.navic' end }
   use { "axieax/urlview.nvim" }
   use { 'ekickx/clipboard-image.nvim' }
-  use { 'j-hui/fidget.nvim', config = function() require'plugins.fidget' end }
   use { 'echasnovski/mini.nvim' }
   use { "Pocco81/HighStr.nvim", config = function() require'plugins.highstr' end }
   use { 'sindrets/winshift.nvim', config = function() require'plugins.winshift' end }
@@ -96,6 +94,7 @@ require('packer').startup(function(use)
   use { "folke/noice.nvim", event = "VimEnter", config = function() require("noice").setup() end, requires = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify", } }
 
   -- lua dev
+  use { "folke/neodev.nvim" }
   use { "rafcamlet/nvim-luapad", ft = {'lua'} }
   use { "nanotee/luv-vimdocs" }
 
@@ -109,18 +108,14 @@ require('packer').startup(function(use)
       { "hrsh7th/cmp-nvim-lua" },
       { "hrsh7th/cmp-vsnip" },
       { "hrsh7th/cmp-emoji" },
-      { "hrsh7th/cmp-copilot" },
       { "hrsh7th/cmp-cmdline", config = function() require('plugins.cmp-cmdline') end },
       { 'uga-rosa/cmp-dictionary' },
-      -- { "tzachar/cmp-tabnine", run = "./install.sh", config = function() require'plugins.cmp-tabnine' end },
       { "kdheepak/cmp-latex-symbols" },
     },
     config = function() require('plugins.nvim-cmp') end
   }
-  use { "github/copilot.vim", requires = {'hrsh7th/nvim-cmp'}, config = function() require('plugins.copilot') end }
   use { 'hrsh7th/vim-vsnip', requires = {'hrsh7th/nvim-cmp'}, config = function() require('plugins.vim-vsnip') end }
   use { "rafamadriz/friendly-snippets" }
-  use { 'stevearc/aerial.nvim', config = function() require('plugins.aerial') end }
 
   -- lsp
   use { 'neovim/nvim-lspconfig' }
@@ -128,9 +123,9 @@ require('packer').startup(function(use)
   use { 'onsails/lspkind-nvim' }
   use { 'ray-x/lsp_signature.nvim' }
   use { 'RRethy/vim-illuminate' }
-  use { "folke/neodev.nvim" }
   use { "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" }, config = function() require'plugins.null-ls' end }
   use { 'simrat39/rust-tools.nvim' }
+  use { 'stevearc/aerial.nvim', config = function() require('plugins.aerial') end }
 
   -- themes
   use { 'olimorris/onedarkpro.nvim' }
