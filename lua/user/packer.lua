@@ -139,6 +139,7 @@ require('packer').startup(function(use)
   use { 'rebelot/kanagawa.nvim' }
   use { 'luisiacc/gruvbox-baby' }
   use { 'tanvirtin/monokai.nvim' }
+  use { 'sainnhe/gruvbox-material' }
 
   if PackerBootstrap then
     require('packer').sync()
