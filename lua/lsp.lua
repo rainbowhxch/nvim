@@ -43,7 +43,9 @@ local function common_on_attach(client, bufnr)
     },
     select_signature_key = '<C-\'>',
   }, bufnr)
-  require("nvim-navic").attach(client, bufnr)
+  if client.server_capabilities.documentSymbolProvider then
+    require("nvim-navic").attach(client, bufnr)
+  end
 end
 
 -- c/cpp
