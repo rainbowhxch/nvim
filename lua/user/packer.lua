@@ -91,7 +91,7 @@ require('packer').startup(function(use)
   use { 'Shatur/neovim-session-manager', config = function() require'plugins.neovim-session-manager' end }
   use { 'lewis6991/satellite.nvim', config = function() require'plugins.satellite' end }
   use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async', config = function() require'plugins.nvim-ufo' end }
-  use { "folke/noice.nvim", event = "VimEnter", config = function() require("noice").setup() end, requires = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify", } }
+  use { "folke/noice.nvim", event = "VimEnter", config = function() require'plugins.noice' end, requires = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify", } }
   use { "utilyre/barbecue.nvim", requires = { "neovim/nvim-lspconfig", "smiteshp/nvim-navic", "kyazdani42/nvim-web-devicons" }, config = function() require("barbecue").setup() end }
 
   -- lua dev
