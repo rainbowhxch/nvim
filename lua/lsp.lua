@@ -81,7 +81,10 @@ lspconfig.asm_lsp.setup{
 
 -- lua
 require("neodev").setup{}
-lspconfig.sumneko_lua.setup{}
+lspconfig.sumneko_lua.setup{
+  capabilities = capabilities;
+  on_attach = common_on_attach;
+}
 
 -- golang
 lspconfig.gopls.setup{
