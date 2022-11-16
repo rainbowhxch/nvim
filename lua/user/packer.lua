@@ -77,7 +77,7 @@ require('packer').startup(function(use)
   use { "Julian/vim-textobj-variable-segment", requires = {"kana/vim-textobj-user"} }
   use { "kana/vim-textobj-entire", requires = {"kana/vim-textobj-user"} }
   use { "kana/vim-textobj-indent", requires = {"kana/vim-textobj-user"} }
-  use { 'ggandor/lightspeed.nvim', config = function() require'plugins.lightspeed' end }
+  use { 'ggandor/leap.nvim', config = function() require'plugins.leap' end }
   use { 'akinsho/toggleterm.nvim', config = function() require'plugins.toggleterm' end }
   use { "Badhi/nvim-treesitter-cpp-tools", ft = {'cpp'}, requires = {{"nvim-treesitter/nvim-treesitter"}}, config = function() require'plugins.nvim-treesitter-cpp-tools' end }
   use { 'ray-x/go.nvim', ft = {'go'}, config = function() require'plugins.go' end }
