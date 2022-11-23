@@ -49,7 +49,6 @@ require('packer').startup(function(use)
   use { 'junegunn/vim-easy-align', config = function() require('plugins.vim-easy-align') end }
   use { 'MattesGroeger/vim-bookmarks', config = function() require('plugins.vim-bookmarks') end }
   use { 'lambdalisue/suda.vim', config = function() require('plugins.suda') end }
-  use { 'tpope/vim-surround', config = function() require('plugins.vim-surround') end }
   use { 'terrortylor/nvim-comment', config = function() require'plugins.nvim-comment' end }
   use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons', }, config = function() require'plugins.nvim-tree' end}
   use { 'drmikehenry/vim-headerguard', ft = {'c', 'cpp'}, cmd = {'HeaderguardAdd'}, config = function() require('plugins.vim-headerguard') end }
@@ -95,6 +94,7 @@ require('packer').startup(function(use)
   use { "utilyre/barbecue.nvim", requires = { "neovim/nvim-lspconfig", "smiteshp/nvim-navic", "kyazdani42/nvim-web-devicons" }, config = function() require("barbecue").setup{} end }
   use { 'smjonas/live-command.nvim', config = function() require'plugins.live-command' end }
   use { "https://git.sr.ht/~whynothugo/lsp_lines.nvim", config = function() require'plugins.lsp-lines' end }
+  use { "kylechui/nvim-surround", config = function() require("nvim-surround").setup({}) end }
 
   -- lua dev
   use { "folke/neodev.nvim" }
