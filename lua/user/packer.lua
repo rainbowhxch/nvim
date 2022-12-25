@@ -34,6 +34,7 @@ require('packer').startup(function(use)
   use { 'stevearc/dressing.nvim' }
   use { 'rainbowhxch/beacon.nvim' }
   use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
+  use { 'nvim-treesitter/playground', config = function() require('plugins.playground') end }
 
   -- reading mode
   use { 'folke/zen-mode.nvim', requires = {'folke/twilight.nvim'}, config = function() require('plugins.zen-mode') end }
