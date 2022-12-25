@@ -92,10 +92,11 @@ require('packer').startup(function(use)
   use { 'lewis6991/satellite.nvim', config = function() require'plugins.satellite' end }
   use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async', config = function() require'plugins.nvim-ufo' end }
   use { "folke/noice.nvim", event = "VimEnter", config = function() require'plugins.noice' end, requires = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify", } }
-  use { "utilyre/barbecue.nvim", requires = { "neovim/nvim-lspconfig", "smiteshp/nvim-navic", "kyazdani42/nvim-web-devicons" }, config = function() require("barbecue").setup{} end }
+  use { "utilyre/barbecue.nvim", requires = { "neovim/nvim-lspconfig", "smiteshp/nvim-navic", "kyazdani42/nvim-web-devicons" }, config = function() require("barbecue").setup() end }
   use { 'smjonas/live-command.nvim', config = function() require'plugins.live-command' end }
   use { "https://git.sr.ht/~whynothugo/lsp_lines.nvim", config = function() require'plugins.lsp-lines' end }
   use { "kylechui/nvim-surround", config = function() require("nvim-surround").setup({}) end }
+  use({ "jackMort/ChatGPT.nvim", config = function() require("chatgpt").setup({}) end, requires = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" } })
 
   -- lua dev
   use { "folke/neodev.nvim" }
