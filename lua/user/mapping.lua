@@ -37,11 +37,11 @@ utils.xnoremap('J', '5j')
 utils.nnoremap('K', '5k')
 utils.xnoremap('K', '5k')
 -- Move current line up
-utils.nnoremap('<C-k>', '<CMD>move -2<CR>')
-utils.xnoremap('<C-k>', '<CMD>move -2<CR>gv')
+utils.nnoremap('<C-k>', "<CMD>move -2<CR>")
+utils.xnoremap('<C-k>', "<CMD>move -2<CR>gv")
 -- Move current line down
-utils.nnoremap('<C-j>', '<CMD>move +1<CR>')
-utils.xnoremap('<C-j>', '<CMD>move +1<CR>gv')
+utils.nnoremap('<C-j>', "<CMD>move +1<CR>")
+utils.xnoremap('<C-j>', "<CMD>move +1<CR>gv")
 -- Move cusor to head of current line
 utils.nnoremap('<C-h>', '^')
 utils.xnoremap('<C-h>', '^')

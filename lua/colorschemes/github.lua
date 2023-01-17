@@ -1,3 +1,1 @@
-require("github-theme").setup({
-  theme_style = "dark",
-})
+require("github-theme").setup()

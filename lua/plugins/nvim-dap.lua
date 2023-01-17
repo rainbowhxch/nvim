@@ -1,37 +1,28 @@
 -- nvim-dap
 local dap = require('dap')
-dap.adapters.cpp = {
+dap.adapters.lldb = {
   type = 'executable',
-  attach = {
-    pidProperty = 'pid',
-    pidSelect = 'ask'
-  },
   command = 'lldb-vscode',
-  env = {
-    LLDB_LAUNCH_FLAG_LAUNCH_IN_TTY = 'YES'
-  },
   name = 'lldb'
 }
 dap.configurations.cpp = {
   {
-    type = 'cpp';
+    name = 'Launch';
+    type = 'lldb';
     request = 'launch';
-    name = 'Launch file';
     program = vim.fn.expand('%:p:r');
     cwd = vim.fn.getcwd();
   },
   {
-    type = 'cpp';
+    type = 'lldb';
     request = 'attach';
-    name = "Attach File";
+    name = "Attach";
     program = vim.fn.expand('%:p:r');
     cwd = vim.fn.getcwd();
   }
 }
-dap.defaults.fallback.external_terminal = {
-  command = '/usr/local/bin/st';
-  args = {'-e'};
-}
+dap.configurations.c = dap.configurations.cpp
+dap.configurations.rust = dap.configurations.cpp
 vim.fn.sign_define('DapBreakpoint', {text='', texthl='DapBreakpointHL', linehl='DapBreakpointHL', numhl='DapBreakpointHL'})
 vim.fn.sign_define('DapLogPoint', {text='', texthl='DapLogPointHL', linehl='DapLogPointHL', numhl='DapLogPointHL'})
 vim.fn.sign_define('DapStopped', {text='', texthl='DapStoppedHL', linehl='DapStoppedHL', numhl='DapStoppedHL'})

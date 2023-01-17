@@ -70,6 +70,7 @@ local function load_options()
     foldenable     = true,
     mouse          = "a";
     laststatus     = 3;
+    clipboard      = 'unnamedplus';
     cmdheight      = 0;
     autochdir      = true;
     lazyredraw     = false;
@@ -119,7 +120,5 @@ local function disable_buildin_plugins()
   end
 end
 
-vim.api.nvim_command('filetype plugin indent on')
-vim.api.nvim_command('syntax enable')
 load_options();
 disable_buildin_plugins();

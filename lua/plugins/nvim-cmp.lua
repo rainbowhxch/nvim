@@ -13,11 +13,12 @@ end
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local cmp = require('cmp')
 local neogen = require('neogen')
+local luasnip = require("luasnip")
 cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
 cmp.setup({
   snippet = {
     expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
+      require'luasnip'.lsp_expand(args.body)
     end,
   },
   mapping = cmp.mapping.preset.insert({
@@ -31,8 +32,8 @@ cmp.setup({
         cmp.select_next_item()
       elseif neogen.jumpable() then
         require('neogen').jump_next()
-      elseif vim.fn["vsnip#available"]() == 1 then
-        feedkey("<Plug>(vsnip-expand-or-jump)", "")
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
       elseif has_words_before() then
         cmp.complete()
       else
@@ -45,36 +46,32 @@ cmp.setup({
         cmp.select_prev_item()
       elseif neogen.jumpable(true) then
         require('neogen').jump_prev()
-      elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-        feedkey("<Plug>(vsnip-jump-prev)", "")
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
       else
         fallback()
       end
     end, { "i", "s" }),
   }),
   sources = cmp.config.sources(
-    { {name = "vsnip", max_item_count = 5}, },
+    { {name = "luasnip", option = { use_show_condition = true }}, },
     { {name = "nvim_lsp", max_item_count = 5}, },
     { {name = "nvim_lua", max_item_count = 5}, },
     { {name = "buffer"}, },
     { {name = "path"}, },
     { {name = "emoji"}, },
     { {name = "latex_symbols"}, },
-    -- { {name = 'copilot'}, },
-    { {name = "cmp_tabnine", max_item_count = 5}, },
     { {name = "dictionary", keyword_length = 2, max_item_count = 5}, }
   ),
   formatting = {
     format = require("lspkind").cmp_format({with_text = true, menu = ({
-      vsnip = "[Vsnip]",
+      luasnip = "[LuaSnip]",
       nvim_lsp = "[LSP]",
       nvim_lua = "[Lua]",
       buffer = "[Buffer]",
       path = "[Path]",
       emoji = "[Emoji]",
       latex_symbols = "[LaTeX]",
-      copilot = "[Copilot]",
-      cmp_tabnine = "[TabNine]",
       dictionary = "[Dictionary]",
     })}),
   },
