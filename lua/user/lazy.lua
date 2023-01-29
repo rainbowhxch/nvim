@@ -126,13 +126,16 @@ require('lazy').setup({
 
   -- lsp
   { 'neovim/nvim-lspconfig' },
-  { 'williamboman/nvim-lsp-installer' },
   { 'onsails/lspkind-nvim' },
   { 'ray-x/lsp_signature.nvim' },
   { 'RRethy/vim-illuminate' },
   { "jose-elias-alvarez/null-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" }, config = function() require'plugins.null-ls' end },
   { 'simrat39/rust-tools.nvim' },
   { 'stevearc/aerial.nvim', config = function() require('plugins.aerial') end },
+  { 'williamboman/mason.nvim', config = function() require("mason").setup() end },
+  { 'williamboman/mason-lspconfig.nvim', dependencies = { {"williamboman/mason.nvim"}, {'neovim/nvim-lspconfig'} }, config = function() require("mason-lspconfig").setup() end },
+  { 'jay-babu/mason-null-ls.nvim', dependencies = { {"williamboman/mason.nvim"}, {'jose-elias-alvarez/null-ls.nvim'} }, config = function() require("mason-null-ls").setup() end },
+  { 'jayp0521/mason-nvim-dap.nvim', dependencies = { {"williamboman/mason.nvim"}, {'mfussenegger/nvim-dap'} }, config = function() require("mason-nvim-dap").setup() end },
 
   -- themes
   { 'olimorris/onedarkpro.nvim' },
