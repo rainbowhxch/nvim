@@ -11,7 +11,9 @@ local nvim_tree_shift =  {
 
 require("lualine").setup({
   options = {
-    theme = 'auto'
+    theme = 'auto',
+    section_separators = '',
+    component_separators = ''
   },
   sections = {
     lualine_a = { nvim_tree_shift, "mode" },
