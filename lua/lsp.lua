@@ -81,6 +81,13 @@ require("neodev").setup{}
 lspconfig.sumneko_lua.setup{
   capabilities = capabilities;
   on_attach = common_on_attach;
+  settings = {
+    Lua = {
+      workspace = {
+        checkThirdParty = false, -- THIS IS THE IMPORTANT LINE TO ADD
+      },
+    },
+  },
 }
 
 -- golang
