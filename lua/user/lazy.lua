@@ -78,6 +78,7 @@ require('lazy').setup({
   { "kana/vim-textobj-entire", dependencies = {"kana/vim-textobj-user"} },
   { "kana/vim-textobj-indent", dependencies = {"kana/vim-textobj-user"} },
   { 'ggandor/leap.nvim', config = function() require'plugins.leap' end },
+  { 'ggandor/flit.nvim', config = function() require'plugins.flit' end },
   { 'akinsho/toggleterm.nvim', config = function() require'plugins.toggleterm' end },
   { "Badhi/nvim-treesitter-cpp-tools", ft = {'cpp'}, dependencies = {{"nvim-treesitter/nvim-treesitter"}}, config = function() require'plugins.nvim-treesitter-cpp-tools' end },
   { 'ray-x/go.nvim', ft = {'go'}, config = function() require'plugins.go' end },
