@@ -71,6 +71,7 @@ lspconfig.bashls.setup{
   on_attach = common_on_attach;
 }
 
+-- asm
 lspconfig.asm_lsp.setup{
   capabilities = capabilities;
   on_attach = common_on_attach;
@@ -78,13 +79,13 @@ lspconfig.asm_lsp.setup{
 
 -- lua
 require("neodev").setup{}
-lspconfig.sumneko_lua.setup{
+lspconfig.lua_ls.setup{
   capabilities = capabilities;
   on_attach = common_on_attach;
   settings = {
     Lua = {
       workspace = {
-        checkThirdParty = false, -- THIS IS THE IMPORTANT LINE TO ADD
+        checkThirdParty = false,
       },
     },
   },

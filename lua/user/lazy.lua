@@ -151,4 +151,5 @@ require('lazy').setup({
   { 'luisiacc/gruvbox-baby' },
   { 'tanvirtin/monokai.nvim' },
   { 'sainnhe/gruvbox-material' },
+  { "arturgoms/moonbow.nvim" },
 })

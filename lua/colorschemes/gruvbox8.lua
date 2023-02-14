@@ -1,1 +1,1 @@
-vim.cmd [[colorscheme gruvbox8]]
+vim.cmd.colorscheme("gruvbox8")
