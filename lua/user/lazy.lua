@@ -97,6 +97,7 @@ require('lazy').setup({
   { "kylechui/nvim-surround", config = function() require("nvim-surround").setup({}) end },
   { "jackMort/ChatGPT.nvim", config = function() require("chatgpt").setup({}) end, dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" } },
   { "chrisgrieser/nvim-recorder", config = function() require"plugins.nvim-recorder" end,},
+  { 'bennypowers/nvim-regexplainer', dependencies = { 'nvim-treesitter/nvim-treesitter', 'MunifTanjim/nui.nvim' }, config = function() require('plugins.regexplainer') end },
 
   -- lua dev
   { "folke/neodev.nvim" },
@@ -137,6 +138,7 @@ require('lazy').setup({
   { 'williamboman/mason-lspconfig.nvim', dependencies = { {"williamboman/mason.nvim"}, {'neovim/nvim-lspconfig'} }, config = function() require("mason-lspconfig").setup() end },
   { 'jay-babu/mason-null-ls.nvim', dependencies = { {"williamboman/mason.nvim"}, {'jose-elias-alvarez/null-ls.nvim'} }, config = function() require("mason-null-ls").setup() end },
   { 'jayp0521/mason-nvim-dap.nvim', dependencies = { {"williamboman/mason.nvim"}, {'mfussenegger/nvim-dap'} }, config = function() require("mason-nvim-dap").setup() end },
+  { 'smjonas/inc-rename.nvim', config = function() require("inc_rename").setup() end },
 
   -- themes
   { 'olimorris/onedarkpro.nvim' },
