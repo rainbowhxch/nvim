@@ -97,6 +97,12 @@ lspconfig.gopls.setup{
   on_attach = common_on_attach;
 }
 
+-- markdown
+lspconfig.marksman.setup{
+  capabilities = capabilities;
+  on_attach = common_on_attach;
+}
+
 -- tex
 lspconfig.texlab.setup{
   capabilities = capabilities;

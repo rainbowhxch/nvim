@@ -86,9 +86,6 @@ utils.nnoremap(']t', '<CMD>+tabnext<CR>')
 utils.nnoremap('<LEADER>th', '<CMD>-tabmove<CR>')
 utils.nnoremap('<LEADER>tl', '<CMD>+tabmove<CR>')
 
--- Make terminal exiting easy
-utils.tnoremap('<ESC>', '<C-\\><C-n>')
-
 -- goto url
 utils.nnoremap('gx', '<CMD>!xdg-open <cfile><CR>')
 

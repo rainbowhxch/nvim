@@ -159,5 +159,5 @@ local function statuscolumn()
 end
 
 load_options()
-statuscolumn()
+-- statuscolumn()
 disable_buildin_plugins()
