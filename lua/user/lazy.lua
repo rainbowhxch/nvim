@@ -36,7 +36,7 @@ require('lazy').setup({
   { 'sindrets/diffview.nvim', dependencies = 'nvim-lua/plenary.nvim' },
   { 'nvim-treesitter/playground', config = function() require('plugins.playground') end },
   { 'anuvyklack/hydra.nvim' },
-  { 'huy-hng/anyline.nvim', dependencies = { 'nvim-treesitter/nvim-treesitter' }, config = true, event = 'VeryLazy' },
+  -- { 'huy-hng/anyline.nvim', dependencies = { 'nvim-treesitter/nvim-treesitter' }, config = true, event = 'VeryLazy' },
 
   -- reading mode
   { 'folke/zen-mode.nvim', dependencies = {'folke/twilight.nvim'}, config = function() require('plugins.zen-mode') end },
