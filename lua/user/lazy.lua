@@ -36,6 +36,7 @@ require('lazy').setup({
   { 'sindrets/diffview.nvim', dependencies = 'nvim-lua/plenary.nvim' },
   { 'nvim-treesitter/playground', config = function() require('plugins.playground') end },
   { 'anuvyklack/hydra.nvim' },
+  { 'Bekaboo/dropbar.nvim' },
   -- { 'huy-hng/anyline.nvim', dependencies = { 'nvim-treesitter/nvim-treesitter' }, config = true, event = 'VeryLazy' },
 
   -- reading mode
@@ -94,7 +95,6 @@ require('lazy').setup({
   { 'lewis6991/satellite.nvim', config = function() require'plugins.satellite' end },
   {'kevinhwang91/nvim-ufo', dependencies = 'kevinhwang91/promise-async', config = function() require'plugins.nvim-ufo' end },
   { "folke/noice.nvim", event = "VimEnter", config = function() require'plugins.noice' end, dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify", } },
-  { "utilyre/barbecue.nvim", dependencies = { "neovim/nvim-lspconfig", "smiteshp/nvim-navic", "kyazdani42/nvim-web-devicons" }, config = function() require("barbecue").setup() end },
   { 'smjonas/live-command.nvim', config = function() require'plugins.live-command' end },
   { "kylechui/nvim-surround", config = function() require("nvim-surround").setup({}) end },
   { "jackMort/ChatGPT.nvim", config = function() require("chatgpt").setup({}) end, dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" } },
