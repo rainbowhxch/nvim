@@ -56,7 +56,7 @@ local function load_options()
     list           = true;
     listchars      = "tab:▸ ,trail:▫";
     conceallevel   = 2;
-    concealcursor  = "nc";
+    concealcursor  = "";
     scrolloff      = 6;
     autoindent     = true;
     smartindent    = true;

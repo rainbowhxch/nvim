@@ -18,6 +18,7 @@ local function common_on_attach(client, bufnr)
   utils.nnoremap(']d', vim.diagnostic.goto_next)
   utils.nnoremap('gt', vim.lsp.buf.type_definition)
   utils.nnoremap('gT', '<CMD>Telescope lsp_workspace_symbols<CR>')
+  utils.nnoremap('gm', '<CMD>Telescope lsp_document_symbols<CR>')
   utils.nnoremap('gD', vim.lsp.buf.declaration)
   utils.nnoremap('gd', '<CMD>Telescope lsp_definitions<CR>')
   utils.nnoremap('gr', ':IncRename ')
@@ -135,6 +136,12 @@ lspconfig.yamlls.setup{
 
 -- xml
 lspconfig.lemminx.setup{
+  capabilities = capabilities;
+  on_attach = common_on_attach;
+}
+
+-- javascript
+lspconfig.tsserver.setup{
   capabilities = capabilities;
   on_attach = common_on_attach;
 }
