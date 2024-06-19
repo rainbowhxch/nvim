@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- decoration
   { 'windwp/nvim-autopairs', config = function() require('plugins.nvim-autopairs') end },
-  { 'lukas-reineke/indent-blankline.nvim', config = function() require('plugins.indent-blankline') end },
+  { 'lukas-reineke/indent-blankline.nvim', main = "ibl", config = function() require('plugins.indent-blankline') end },
   { 'goolord/alpha-nvim', dependencies = { 'kyazdani42/nvim-web-devicons' }, config = function() require('plugins.alpha-nvim') end },
   { 'nvim-lualine/lualine.nvim', dependencies = { 'kyazdani42/nvim-web-devicons'}, config = function() require('plugins.lualine') end },
   { 'romgrk/barbar.nvim', dependencies = {'kyazdani42/nvim-web-devicons'}, config = function() require('plugins.barbar') end },
@@ -73,7 +73,7 @@ require('lazy').setup({
   { "folke/todo-comments.nvim", dependencies = "nvim-lua/plenary.nvim", config = function() require'plugins.todo-comments' end },
   { 's1n7ax/nvim-comment-frame', config = function() require'plugins.nvim-comment-frame' end },
   { "chentoast/marks.nvim", config = function() require'plugins.marks' end },
-  { "AckslD/nvim-neoclip.lua", dependencies = {'tami5/sqlite.lua', module = 'sqlite'}, config = function() require'plugins.nvim-neoclip' end },
+  { "AckslD/nvim-neoclip.lua", dependencies = {{ 'tami5/sqlite.lua', module = 'sqlite' }, {'nvim-telescope/telescope.nvim'}}, config = function() require'plugins.nvim-neoclip' end },
   { "junegunn/vim-peekaboo" },
   { "nvim-neotest/neotest", dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" } },
   { "danymat/neogen", dependencies = "nvim-treesitter/nvim-treesitter", config = function() require'plugins.neogen' end },
@@ -95,7 +95,7 @@ require('lazy').setup({
   { 'Shatur/neovim-session-manager', config = function() require'plugins.neovim-session-manager' end },
   -- { 'lewis6991/satellite.nvim', config = function() require'plugins.satellite' end },
   {'kevinhwang91/nvim-ufo', dependencies = 'kevinhwang91/promise-async', config = function() require'plugins.nvim-ufo' end },
-  { "folke/noice.nvim", event = "VimEnter", config = function() require'plugins.noice' end, dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify", } },
+  { "folke/noice.nvim", event = "VeryLazy", config = function() require'plugins.noice' end, dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify", } },
   { 'smjonas/live-command.nvim', config = function() require'plugins.live-command' end },
   { "kylechui/nvim-surround", config = function() require("nvim-surround").setup({}) end },
   -- { "jackMort/ChatGPT.nvim", config = function() require("chatgpt").setup({}) end, dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" } },

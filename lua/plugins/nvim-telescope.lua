@@ -3,7 +3,6 @@ local utils = require('utils')
 local actions = require('telescope.actions')
 require('telescope').setup {
   defaults = {
-    prompt_prefix = " ",
     selection_caret = " ",
     -- set_env = {['COLORTERM'] = 'truecolor'}, -- default = nil,
     mappings = {

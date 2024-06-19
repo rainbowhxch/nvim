@@ -41,8 +41,6 @@ local function load_options()
     ruler          = true;
     wildmenu       = true;
     history        = 100;
-    timeout        = false;
-    ttimeout       = false;
     hlsearch       = true;
     incsearch      = true;
     ignorecase     = true;
