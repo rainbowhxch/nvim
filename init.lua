@@ -1,5 +1,6 @@
 vim.g.mapleader = ' '
 
+vim.deprecate = function() end
 require('user.options')
 require('user.autocommand')
 require('user.highlight')

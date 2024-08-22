@@ -89,6 +89,25 @@ local function load_autocmds()
           vim.cmd [[if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif]]
         end
       }
+    },
+    AutoChangeRoot = {
+      {
+        event = { "BufEnter" },
+        pattern = "*",
+        callback = function(ctx)
+          local root = vim.fs.root(ctx.buf, { ".git", "Makefile" })
+          if root then vim.uv.chdir(root) end
+        end,
+      }
+    },
+    AutoFormatGoFile = {
+      {
+        event = { "BufWritePre" },
+        pattern = "*.go",
+        callback = function()
+          require('go.format').goimports()
+        end
+      }
     }
   }
 

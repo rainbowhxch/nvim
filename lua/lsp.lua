@@ -14,8 +14,6 @@ local function common_on_attach(client, bufnr)
                      {texthl = "DiagnosticsSignInformation", text = "", numhl = "DiagnosticsSignInformation"})
 
   vim.api.nvim_command('set omnifunc=v:lua.vim.lsp.omnifunc')
-  utils.nnoremap('[d', vim.diagnostic.goto_prev)
-  utils.nnoremap(']d', vim.diagnostic.goto_next)
   utils.nnoremap('gt', vim.lsp.buf.type_definition)
   utils.nnoremap('gT', '<CMD>Telescope lsp_workspace_symbols<CR>')
   utils.nnoremap('gm', '<CMD>Telescope lsp_document_symbols<CR>')
@@ -50,6 +48,17 @@ end
 lspconfig.clangd.setup{
   capabilities = capabilities;
   on_attach = common_on_attach;
+  settings = {
+    clangd = {
+      InlayHints = {
+        Designators = true,
+        Enabled = true,
+        ParameterNames = true,
+        DeducedTypes = true,
+      },
+      fallbackFlags = { "-std=c++20" },
+    },
+  },
 }
 
 -- rust
@@ -88,15 +97,28 @@ lspconfig.lua_ls.setup{
       workspace = {
         checkThirdParty = false,
       },
+      hint = {
+        enable = true
+      },
     },
   },
 }
 
 -- golang
-lspconfig.gopls.setup{
-  capabilities = capabilities;
-  on_attach = common_on_attach;
-}
+require('go').setup({
+  lsp_cfg = {
+    capabilities = capabilities;
+    on_attach = common_on_attach;
+    settings = {
+      gopls = {
+        hints = {
+          parameterNames = true,
+          functionTypeParameters = true,
+        },
+      }
+    }
+  },
+})
 
 -- markdown
 lspconfig.marksman.setup{
@@ -144,6 +166,32 @@ lspconfig.lemminx.setup{
 lspconfig.tsserver.setup{
   capabilities = capabilities;
   on_attach = common_on_attach;
+  settings = {
+    typescript = {
+      inlayHints = {
+        includeInlayParameterNameHints = "all",
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
+      },
+    },
+    javascript = {
+      inlayHints = {
+        includeInlayParameterNameHints = "all",
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
+      },
+    },
+  }
 }
 
 local config = {

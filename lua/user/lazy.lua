@@ -38,7 +38,6 @@ require('lazy').setup({
   { 'anuvyklack/hydra.nvim' },
   { 'Bekaboo/dropbar.nvim' },
   -- {'edluffy/hologram.nvim', config = function() require('hologram').setup{ auto_display = true } end },
-  -- { 'huy-hng/anyline.nvim', dependencies = { 'nvim-treesitter/nvim-treesitter' }, config = true, event = 'VeryLazy' },
 
   -- reading mode
   { 'folke/zen-mode.nvim', dependencies = {'folke/twilight.nvim'}, config = function() require('plugins.zen-mode') end },
@@ -49,6 +48,7 @@ require('lazy').setup({
   { 'nvim-telescope/telescope-symbols.nvim', dependencies = {{'nvim-telescope/telescope.nvim'}} },
   { 'iamcco/markdown-preview.nvim', ft = {'markdown'}, build = 'cd app && yarn install', cmd = 'MarkdownPreview', config = function() require('plugins.markdown-preview') end },
   { 'mzlogin/vim-markdown-toc', ft = {'markdown'}, cmd = {'GenTocGFM'}, config = function() require('plugins.vim-markdown-toc') end },
+  { "OXY2DEV/markview.nvim", ft = "markdown", dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" } },
   { 'dhruvasagar/vim-table-mode', ft = {'markdown'}, config = function() require('plugins.vim-table-mode') end },
   { 'lervag/vimtex', ft = {'tex'}, config = function() require('plugins.vimtex') end },
   { 'junegunn/vim-easy-align', config = function() require('plugins.vim-easy-align') end },
@@ -85,7 +85,7 @@ require('lazy').setup({
   { 'ggandor/flit.nvim', config = function() require'plugins.flit' end },
   { 'akinsho/toggleterm.nvim', config = function() require'plugins.toggleterm' end },
   { "Badhi/nvim-treesitter-cpp-tools", ft = {'cpp'}, dependencies = {{"nvim-treesitter/nvim-treesitter"}}, config = function() require'plugins.nvim-treesitter-cpp-tools' end },
-  { 'ray-x/go.nvim', ft = {'go'}, config = function() require'plugins.go' end },
+  { "ray-x/go.nvim", dependencies = { "ray-x/guihua.lua", "neovim/nvim-lspconfig", "nvim-treesitter/nvim-treesitter" }, config = function() require'plugins.go' end, event = { "CmdlineEnter" }, ft = { "go", 'gomod' }, build = ':lua require("go.install").update_all_sync()' },
   { "axieax/urlview.nvim" },
   { 'ekickx/clipboard-image.nvim' },
   { 'echasnovski/mini.nvim' },
@@ -93,7 +93,7 @@ require('lazy').setup({
   { 'sindrets/winshift.nvim', config = function() require'plugins.winshift' end },
   { "askfiy/nvim-picgo", config = function() require'plugins.picgo' end },
   { 'Shatur/neovim-session-manager', config = function() require'plugins.neovim-session-manager' end },
-  -- { 'lewis6991/satellite.nvim', config = function() require'plugins.satellite' end },
+  { 'lewis6991/satellite.nvim', config = function() require'plugins.satellite' end },
   {'kevinhwang91/nvim-ufo', dependencies = 'kevinhwang91/promise-async', config = function() require'plugins.nvim-ufo' end },
   { "folke/noice.nvim", event = "VeryLazy", config = function() require'plugins.noice' end, dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify", } },
   { 'smjonas/live-command.nvim', config = function() require'plugins.live-command' end },
@@ -103,7 +103,7 @@ require('lazy').setup({
   { 'bennypowers/nvim-regexplainer', dependencies = { 'nvim-treesitter/nvim-treesitter', 'MunifTanjim/nui.nvim' }, config = function() require('plugins.regexplainer') end },
   { 'Wansmer/treesj', dependencies = { 'nvim-treesitter/nvim-treesitter' }, config = function() require('plugins.treesj') end },
   { 'chomosuke/term-edit.nvim', config = function() require('term-edit').setup{ prompt_end = '%$ ' } end },
-  -- { 'VidocqH/lsp-lens.nvim', config = function() require'lsp-lens'.setup() end },
+  { 'VidocqH/lsp-lens.nvim', config = function() require'lsp-lens'.setup() end },
   { 'nullchilly/fsread.nvim' },
   { "johmsalas/text-case.nvim", config = function() require('textcase').setup{ prefix = "gn" } end},
 
@@ -139,7 +139,7 @@ require('lazy').setup({
   { 'onsails/lspkind-nvim' },
   { 'ray-x/lsp_signature.nvim' },
   { 'RRethy/vim-illuminate' },
-  -- { "jose-elias-alvarez/null-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" }, config = function() require'plugins.null-ls' end },
+  { "jose-elias-alvarez/null-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" }, config = function() require'plugins.null-ls' end },
   { 'simrat39/rust-tools.nvim' },
   { 'stevearc/aerial.nvim', config = function() require('plugins.aerial') end },
   { 'williamboman/mason.nvim', config = function() require("mason").setup() end },
@@ -148,6 +148,7 @@ require('lazy').setup({
   { 'jayp0521/mason-nvim-dap.nvim', dependencies = { {"williamboman/mason.nvim"}, {'mfussenegger/nvim-dap'} }, config = function() require("mason-nvim-dap").setup() end },
   { 'smjonas/inc-rename.nvim', config = function() require("inc_rename").setup() end },
   { "SmiteshP/nvim-navic", dependencies = { {"neovim/nvim-lspconfig" } } },
+  { "MysticalDevil/inlay-hints.nvim", event = "LspAttach", dependencies = { "neovim/nvim-lspconfig" }, config = function() require("inlay-hints").setup() end },
 
   -- themes
   { 'olimorris/onedarkpro.nvim' },
