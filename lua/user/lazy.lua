@@ -13,8 +13,8 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
   -- decoration
-  { 'windwp/nvim-autopairs', config = function() require('plugins.nvim-autopairs') end },
-  { 'lukas-reineke/indent-blankline.nvim', main = "ibl", config = function() require('plugins.indent-blankline') end },
+  { 'windwp/nvim-autopairs', event = "InsertEnter", config = function() require('plugins.nvim-autopairs') end },
+  { 'lukas-reineke/indent-blankline.nvim', main = "ibl", opts = {} },
   { 'goolord/alpha-nvim', dependencies = { 'kyazdani42/nvim-web-devicons' }, config = function() require('plugins.alpha-nvim') end },
   { 'nvim-lualine/lualine.nvim', dependencies = { 'kyazdani42/nvim-web-devicons'}, config = function() require('plugins.lualine') end },
   { 'romgrk/barbar.nvim', dependencies = {'kyazdani42/nvim-web-devicons'}, config = function() require('plugins.barbar') end },
@@ -31,24 +31,23 @@ require('lazy').setup({
   { 'karb94/neoscroll.nvim', config = function() require('plugins.neoscroll') end },
   { 'kevinhwang91/nvim-hlslens', config = function() require('plugins.nvim-hlslens') end },
   { 'lewis6991/gitsigns.nvim', dependencies = { 'nvim-lua/plenary.nvim' }, config = function() require('plugins.gitsigns') end },
-  { 'stevearc/dressing.nvim' },
   { 'rainbowhxch/beacon.nvim' },
   { 'sindrets/diffview.nvim', dependencies = 'nvim-lua/plenary.nvim' },
   { 'nvim-treesitter/playground', config = function() require('plugins.playground') end },
-  { 'anuvyklack/hydra.nvim' },
-  { 'Bekaboo/dropbar.nvim' },
-  -- {'edluffy/hologram.nvim', config = function() require('hologram').setup{ auto_display = true } end },
+  { "OXY2DEV/helpview.nvim", lazy = false, dependencies = { "nvim-treesitter/nvim-treesitter" } },
+  { 'mcauley-penney/visual-whitespace.nvim', config = true },
+  { "folke/snacks.nvim", opts = {image = {}, bigfile = {}} },
 
   -- reading mode
   { 'folke/zen-mode.nvim', dependencies = {'folke/twilight.nvim'}, config = function() require('plugins.zen-mode') end },
 
   -- functional
-  { 'nvim-telescope/telescope.nvim', dependencies = {{'nvim-lua/plenary.nvim'}}, config = function() require('plugins.nvim-telescope') end },
+  { 'nvim-telescope/telescope.nvim', tag = '0.1.7', dependencies = {{'nvim-lua/plenary.nvim'}}, config = function() require('plugins.nvim-telescope') end },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make', config = function() require('plugins.telescope-fzf-native') end },
   { 'nvim-telescope/telescope-symbols.nvim', dependencies = {{'nvim-telescope/telescope.nvim'}} },
   { 'iamcco/markdown-preview.nvim', ft = {'markdown'}, build = 'cd app && yarn install', cmd = 'MarkdownPreview', config = function() require('plugins.markdown-preview') end },
   { 'mzlogin/vim-markdown-toc', ft = {'markdown'}, cmd = {'GenTocGFM'}, config = function() require('plugins.vim-markdown-toc') end },
-  { "OXY2DEV/markview.nvim", ft = "markdown", dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" } },
+  { "OXY2DEV/markview.nvim", lazy = false, dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" } },
   { 'dhruvasagar/vim-table-mode', ft = {'markdown'}, config = function() require('plugins.vim-table-mode') end },
   { 'lervag/vimtex', ft = {'tex'}, config = function() require('plugins.vimtex') end },
   { 'junegunn/vim-easy-align', config = function() require('plugins.vim-easy-align') end },
@@ -61,7 +60,7 @@ require('lazy').setup({
   { 'rainbowhxch/accelerated-jk.nvim', config = function() require('plugins.accelerated-jk') end },
   { 'metakirby5/codi.vim' },
   { 'mfussenegger/nvim-dap', config = function() require'plugins.nvim-dap' end },
-  { "rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap"} },
+  { "rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"} },
   { 'theHamsta/nvim-dap-virtual-text', dependencies = {'mfussenegger/nvim-dap'}, config = function() require'plugins.nvim-dap-virtual-text' end },
   { 'folke/trouble.nvim', config = function() require'plugins.trouble' end },
   { 'alpertuna/vim-header', ft = {'cpp'}, config = function() require'plugins.vim-header' end },
@@ -73,7 +72,7 @@ require('lazy').setup({
   { "folke/todo-comments.nvim", dependencies = "nvim-lua/plenary.nvim", config = function() require'plugins.todo-comments' end },
   { 's1n7ax/nvim-comment-frame', config = function() require'plugins.nvim-comment-frame' end },
   { "chentoast/marks.nvim", config = function() require'plugins.marks' end },
-  { "AckslD/nvim-neoclip.lua", dependencies = {{ 'tami5/sqlite.lua', module = 'sqlite' }, {'nvim-telescope/telescope.nvim'}}, config = function() require'plugins.nvim-neoclip' end },
+  { "AckslD/nvim-neoclip.lua", dependencies = {{'nvim-telescope/telescope.nvim'}, {'kkharji/sqlite.lua', module = 'sqlite'}}, config = function() require'plugins.nvim-neoclip' end },
   { "junegunn/vim-peekaboo" },
   { "nvim-neotest/neotest", dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" } },
   { "danymat/neogen", dependencies = "nvim-treesitter/nvim-treesitter", config = function() require'plugins.neogen' end },
@@ -86,7 +85,7 @@ require('lazy').setup({
   { 'akinsho/toggleterm.nvim', config = function() require'plugins.toggleterm' end },
   { "Badhi/nvim-treesitter-cpp-tools", ft = {'cpp'}, dependencies = {{"nvim-treesitter/nvim-treesitter"}}, config = function() require'plugins.nvim-treesitter-cpp-tools' end },
   { "ray-x/go.nvim", dependencies = { "ray-x/guihua.lua", "neovim/nvim-lspconfig", "nvim-treesitter/nvim-treesitter" }, config = function() require'plugins.go' end, event = { "CmdlineEnter" }, ft = { "go", 'gomod' }, build = ':lua require("go.install").update_all_sync()' },
-  { "axieax/urlview.nvim" },
+  { "axieax/urlview.nvim", opts = {} },
   { 'ekickx/clipboard-image.nvim' },
   { 'echasnovski/mini.nvim' },
   { "Pocco81/HighStr.nvim", config = function() require'plugins.highstr' end },
@@ -106,6 +105,11 @@ require('lazy').setup({
   { 'VidocqH/lsp-lens.nvim', config = function() require'lsp-lens'.setup() end },
   { 'nullchilly/fsread.nvim' },
   { "johmsalas/text-case.nvim", config = function() require('textcase').setup{ prefix = "gn" } end},
+  { "rmagatti/goto-preview", event = "BufEnter", config = function() require('goto-preview').setup{ default_mappings = true } end },
+  { "t-troebst/perfanno.nvim", config = function() require('perfanno').setup() end },
+  { "meznaric/key-analyzer.nvim", opts = {} },
+  { "Goose97/timber.nvim", event = "VeryLazy", config = function() require("timber").setup({}) end },
+  { 'kevinhwang91/nvim-fundo', requires = 'kevinhwang91/promise-async', run = function() require('fundo').install() end },
 
   -- lua dev
   { "folke/neodev.nvim" },
@@ -125,10 +129,11 @@ require('lazy').setup({
       { "hrsh7th/cmp-cmdline", config = function() require('plugins.cmp-cmdline') end },
       { 'uga-rosa/cmp-dictionary' },
       { "kdheepak/cmp-latex-symbols" },
+      {"lukas-reineke/cmp-rg"},
     },
     config = function() require('plugins.nvim-cmp') end
   },
-  {"L3MON4D3/LuaSnip", config = function()
+  {"L3MON4D3/LuaSnip", tag = "v2.3.0", run = "make install_jsregexp", config = function()
     require("luasnip.loaders.from_vscode").lazy_load()
     require("luasnip.loaders.from_vscode").lazy_load({ paths = {"./snippets" } })
   end },
@@ -146,16 +151,18 @@ require('lazy').setup({
   { 'williamboman/mason-lspconfig.nvim', dependencies = { {"williamboman/mason.nvim"}, {'neovim/nvim-lspconfig'} }, config = function() require("mason-lspconfig").setup() end },
   { 'jay-babu/mason-null-ls.nvim', dependencies = { {"williamboman/mason.nvim"}, {'jose-elias-alvarez/null-ls.nvim'} }, config = function() require("mason-null-ls").setup() end },
   { 'jayp0521/mason-nvim-dap.nvim', dependencies = { {"williamboman/mason.nvim"}, {'mfussenegger/nvim-dap'} }, config = function() require("mason-nvim-dap").setup() end },
-  { 'smjonas/inc-rename.nvim', config = function() require("inc_rename").setup() end },
+  { 'smjonas/inc-rename.nvim', config = function() require("inc_rename").setup{} end },
   { "SmiteshP/nvim-navic", dependencies = { {"neovim/nvim-lspconfig" } } },
   { "MysticalDevil/inlay-hints.nvim", event = "LspAttach", dependencies = { "neovim/nvim-lspconfig" }, config = function() require("inlay-hints").setup() end },
+  { "rachartier/tiny-inline-diagnostic.nvim", event = "VeryLazy", priority = 1000, config = function() require('tiny-inline-diagnostic').setup() end },
+  { "dstein64/vim-startuptime" },
 
   -- themes
   { 'olimorris/onedarkpro.nvim' },
   { 'EdenEast/nightfox.nvim' },
   { 'monsonjeremy/onedark.nvim' },
   { "lifepillar/vim-gruvbox8" },
-  { "projekt0n/github-nvim-theme" },
+  -- { "projekt0n/github-nvim-theme" },
   { 'folke/tokyonight.nvim' },
   { 'rainbowhxch/nvim-deus' },
   { 'mhdahmad/gruvbox.lua' },

@@ -54,17 +54,21 @@ cmp.setup({
     end, { "i", "s" }),
   }),
   sources = cmp.config.sources(
-    { {name = "luasnip", option = { use_show_condition = true }}, },
-    { {name = "nvim_lsp", max_item_count = 5}, },
-    { {name = "nvim_lua", max_item_count = 5}, },
-    { {name = "buffer"}, },
-    { {name = "path"}, },
-    { {name = "emoji"}, },
-    { {name = "latex_symbols"}, },
-    { {name = "dictionary", keyword_length = 2, max_item_count = 5}, }
+    {
+      {name = "Lingma", max_item_count = 5},
+      {name = "luasnip", max_item_count = 5, option = { use_show_condition = true }},
+      {name = "nvim_lsp", max_item_count = 5},
+      {name = "nvim_lua", max_item_count = 5},
+      {name = "buffer", max_item_count = 5},
+      {name = "path", max_item_count = 5},
+      {name = "emoji", max_item_count = 5},
+      {name = "latex_symbols", max_item_count = 5},
+      {name = "dictionary", keyword_length = 2, max_item_count = 5}
+    }
   ),
   formatting = {
     format = require("lspkind").cmp_format({with_text = true, menu = ({
+      Lingma = "[Lingma]",
       luasnip = "[LuaSnip]",
       nvim_lsp = "[LSP]",
       nvim_lua = "[Lua]",

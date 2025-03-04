@@ -3,15 +3,17 @@ null_ls.setup({
   sources = {
     -- refactor
     null_ls.builtins.code_actions.refactoring.with({
-        filetypes = { "c", "cpp" },
+        filetypes = { "c", "cpp", "go", "python" },
     }),
     -- formator
     null_ls.builtins.formatting.clang_format.with({
         filetypes = { "c", "cpp" },
     }),
     null_ls.builtins.formatting.gofmt,
-    null_ls.builtins.formatting.prettier,
-    null_ls.builtins.formatting.autopep8
+    null_ls.builtins.diagnostics.golangci_lint,
+    null_ls.builtins.code_actions.gomodifytags,
+    null_ls.builtins.diagnostics.flake8,
+    null_ls.builtins.formatting.isort,
   },
   -- on_attach = function(client)
   --     if client.resolved_capabilities.document_formatting then

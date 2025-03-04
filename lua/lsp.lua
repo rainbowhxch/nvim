@@ -20,17 +20,14 @@ local function common_on_attach(client, bufnr)
   utils.nnoremap('gD', vim.lsp.buf.declaration)
   utils.nnoremap('gd', '<CMD>Telescope lsp_definitions<CR>')
   utils.nnoremap('gr', ':IncRename ')
-  utils.nnoremap('gR', '<CMD>TroubleToggle lsp_references<CR>')
+  utils.nnoremap('gR', '<CMD>Trouble lsp_references<CR>')
   utils.nnoremap('gi', vim.lsp.buf.implementation)
   utils.nnoremap('ga', '<CMD>Telescope lsp_code_actions<CR>')
-  utils.vnoremap('ga', ':Telescope lsp_range_code_actions<CR>')
+  utils.vnoremap('ga', '<CMD>Telescope lsp_range_code_actions<CR>')
   utils.nnoremap('g;', vim.lsp.buf.hover)
   utils.nnoremap('gI', vim.lsp.buf.signature_help)
   utils.nnoremap('gF', vim.lsp.buf.format)
   utils.nnoremap('gh', '<CMD>ClangdSwitchSourceHeader<CR>')
-  utils.nnoremap('<LeftMouse>', '<LeftMouse><CMD>lua vim.lsp.buf.hover()<CR>')
-  utils.nnoremap('<RightMouse>', '<LeftMouse><CMD>lua vim.lsp.buf.definition()<CR>')
-  utils.nnoremap('<MiddleMouse>', '<C-o>')
 
   require "lsp_signature".on_attach({
     bind = true, -- This is mandatory, otherwise border config won't get registered.
@@ -112,8 +109,11 @@ require('go').setup({
     settings = {
       gopls = {
         hints = {
-          parameterNames = true,
-          functionTypeParameters = true,
+          rangeVariableTypes = false,
+          parameterNames = false,
+          constantValues = false,
+          assignVariableTypes = false,
+          functionTypeParameters = false,
         },
       }
     }
@@ -195,6 +195,7 @@ lspconfig.tsserver.setup{
 }
 
 local config = {
+  virtual_text = false,
   float = {
     focusable = false,
     style = "minimal",

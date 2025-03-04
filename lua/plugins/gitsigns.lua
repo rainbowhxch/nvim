@@ -1,6 +1,11 @@
 -- gitsigns.nvim
 local utils = require('utils')
 require('gitsigns').setup {
+  signcolumn = true,
+  numhl      = true,
+  linehl     = true,
+  word_diff  = false,
+  current_line_blame = true,
   on_attach = function(bufnr)
     local gitsigns = require('gitsigns')
     local function map(mode, l, r, opts)

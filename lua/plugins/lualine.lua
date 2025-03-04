@@ -8,6 +8,16 @@ local nvim_tree_shift =  {
   cond = require('nvim-tree.view').is_visible,
   color = 'NvimTreeNormal'
 }
+local function diff_source()
+  local gitsigns = vim.b.gitsigns_status_dict
+  if gitsigns then
+    return {
+      added = gitsigns.added,
+      modified = gitsigns.changed,
+      removed = gitsigns.removed
+    }
+  end
+end
 
 require("lualine").setup({
   options = {
@@ -17,5 +27,6 @@ require("lualine").setup({
   },
   sections = {
     lualine_a = { nvim_tree_shift, "mode" },
+    lualine_b = { {'diff', source = diff_source}, },
   },
 })
