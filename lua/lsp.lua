@@ -1,7 +1,5 @@
 local utils = require('utils')
 local lspconfig = require('lspconfig')
-local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-capabilities.offsetEncoding = { "utf-16" }
 
 local function common_on_attach(client, bufnr)
   vim.fn.sign_define("DiagnosticsSignError",
@@ -19,14 +17,14 @@ local function common_on_attach(client, bufnr)
   utils.nnoremap('gm', '<CMD>Telescope lsp_document_symbols<CR>')
   utils.nnoremap('gD', vim.lsp.buf.declaration)
   utils.nnoremap('gd', '<CMD>Telescope lsp_definitions<CR>')
-  utils.nnoremap('gr', ':IncRename ')
+  utils.nnoremap_with_expr('gr', function() return ":IncRename " .. vim.fn.expand("<cword>") end)
   utils.nnoremap('gR', '<CMD>Trouble lsp_references<CR>')
   utils.nnoremap('gi', vim.lsp.buf.implementation)
   utils.nnoremap('ga', '<CMD>Telescope lsp_code_actions<CR>')
   utils.vnoremap('ga', '<CMD>Telescope lsp_range_code_actions<CR>')
   utils.nnoremap('g;', vim.lsp.buf.hover)
   utils.nnoremap('gI', vim.lsp.buf.signature_help)
-  utils.nnoremap('gF', vim.lsp.buf.format)
+  utils.nnoremap('gF', function() require("conform").format({ bufnr = bufnr, timeout_ms = 3000, lsp_format = "fallback" }) end)
   utils.nnoremap('gh', '<CMD>ClangdSwitchSourceHeader<CR>')
 
   require "lsp_signature".on_attach({
@@ -43,7 +41,6 @@ end
 
 -- c/cpp
 lspconfig.clangd.setup{
-  capabilities = capabilities;
   on_attach = common_on_attach;
   settings = {
     clangd = {
@@ -61,33 +58,30 @@ lspconfig.clangd.setup{
 -- rust
 require("rust-tools").setup{
   server = {
-    capabilities = capabilities;
     on_attach = common_on_attach;
   }
 }
 
 -- python
 lspconfig.jedi_language_server.setup{
-  capabilities = capabilities;
+  on_attach = common_on_attach;
+}
+lspconfig.ruff.setup{
   on_attach = common_on_attach;
 }
 
 -- bash
 lspconfig.bashls.setup{
-  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- asm
 lspconfig.asm_lsp.setup{
-  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- lua
-require("neodev").setup{}
 lspconfig.lua_ls.setup{
-  capabilities = capabilities;
   on_attach = common_on_attach;
   settings = {
     Lua = {
@@ -104,7 +98,6 @@ lspconfig.lua_ls.setup{
 -- golang
 require('go').setup({
   lsp_cfg = {
-    capabilities = capabilities;
     on_attach = common_on_attach;
     settings = {
       gopls = {
@@ -122,76 +115,37 @@ require('go').setup({
 
 -- markdown
 lspconfig.marksman.setup{
-  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- tex
 lspconfig.texlab.setup{
-  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- vim
 lspconfig.vimls.setup{
-  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- cmake
 lspconfig.cmake.setup{
-  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- json
 lspconfig.jsonls.setup{
-  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- yaml
 lspconfig.yamlls.setup{
-  capabilities = capabilities;
   on_attach = common_on_attach;
 }
 
 -- xml
 lspconfig.lemminx.setup{
-  capabilities = capabilities;
   on_attach = common_on_attach;
-}
-
--- javascript
-lspconfig.tsserver.setup{
-  capabilities = capabilities;
-  on_attach = common_on_attach;
-  settings = {
-    typescript = {
-      inlayHints = {
-        includeInlayParameterNameHints = "all",
-        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-        includeInlayFunctionParameterTypeHints = true,
-        includeInlayVariableTypeHints = true,
-        includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-        includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
-        includeInlayEnumMemberValueHints = true,
-      },
-    },
-    javascript = {
-      inlayHints = {
-        includeInlayParameterNameHints = "all",
-        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-        includeInlayFunctionParameterTypeHints = true,
-        includeInlayVariableTypeHints = true,
-        includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-        includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
-        includeInlayEnumMemberValueHints = true,
-      },
-    },
-  }
 }
 
 local config = {
